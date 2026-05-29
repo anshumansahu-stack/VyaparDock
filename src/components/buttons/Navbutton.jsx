@@ -2,8 +2,8 @@ import React from 'react'
 
 const Navbutton = (props) => {
   return (
-    <div className='bg-yellow-100 '>
-      <button>{props.name}</button>
+    <div >
+      <button className='font-[Quicksand] text-[21.5px] font-bold text-indigo-100 hover:text-indigo-600'>{props.name}</button>
     </div>
   )
 }
