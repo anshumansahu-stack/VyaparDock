@@ -3,7 +3,7 @@ import React from 'react'
 const Navbutton = (props) => {
   return (
     <div >
-      <button className='font-[Quicksand] text-[21.5px] font-bold text-indigo-100 hover:text-indigo-600'>{props.name}</button>
+      <button className={'font-[Braah_One] text-[18px] text-indigo-100 hover:text-fuchsia-600 ' + props.className}>{props.name}</button>
     </div>
   )
 }

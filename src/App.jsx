@@ -8,7 +8,7 @@ import Ender from './components/Ender'
 function App() {
 
   return (
-    <div style={{background: 'linear-gradient(135deg,rgba(2, 0, 36, 1) 0%, rgba(8, 8, 153, 1) 47%, rgba(2, 142, 163, 1) 100%)'}}className=' flex flex-col items-center gap-2'>
+    <div className='bg-purple-950 flex flex-col items-center gap-2'>
       <Navbar></Navbar>
       <Hero></Hero>
       <MainContent></MainContent>
