@@ -23,8 +23,8 @@ const CompanyTierList = () => {
 
   return (
     <div style={{ backgroundImage: `url(${currBack})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'background-image 1s ease-in-out'}} className=' flex flex-col justify-center items-center gap-5 h-full w-4/5 rounded-[15px]'>
-      <p style={{ textShadow: '4px 4px 4px black' }} className='text-[80px] font-bold text-center text-white font-[Lobster_Two]'>Having a hard time Looking for jobs?</p>
-      <CTA1 className=" w-210!" name='Check out Top Hiring Companies in your Skill Domain →'></CTA1>
+      <p style={{ textShadow: '4px 4px 4px black' }} className='text-[70px] font-bold text-center text-white font-[Lobster_Two]'>Having a hard time Looking for jobs?</p>
+      <CTA1 className=" w-210! text-[24px]" name='Check out Top Hiring Companies in your Skill Domain →'></CTA1>
     </div>
   )
 }
