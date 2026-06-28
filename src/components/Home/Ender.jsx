@@ -1,5 +1,5 @@
 import React from 'react'
-import Footerbutton from './buttons/Footerbutton'
+import Footerbutton from '../buttons/Footerbutton'
 
 const Ender = () => {
   return (

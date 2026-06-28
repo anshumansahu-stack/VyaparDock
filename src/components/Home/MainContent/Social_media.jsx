@@ -1,6 +1,6 @@
 import React from 'react'
-import CTA2 from '../buttons/CTA2'
-import resumebg from '../../assets/resume_review.jpg'
+import CTA2 from '../../buttons/CTA2'
+import resumebg from '../../../assets/resume_review.jpg'
 
 const Social_media = () => {
     return (

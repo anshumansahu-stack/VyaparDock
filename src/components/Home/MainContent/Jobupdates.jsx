@@ -1,5 +1,5 @@
 import React from 'react'
-import microsoftImg from '../../assets/microsoft.jpeg'
+import microsoftImg from '../../../assets/microsoft.jpeg'
 
 const Jobupdates = () => {
   return (

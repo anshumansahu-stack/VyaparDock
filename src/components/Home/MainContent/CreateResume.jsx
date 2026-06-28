@@ -1,6 +1,6 @@
 import React from 'react'
-import CTA2 from '../buttons/CTA2'
-import resumemakebg from '../../assets/resume_making.jpg'
+import CTA2 from '../../buttons/CTA2'
+import resumemakebg from '../../../assets/resume_making.jpg'
 const CreateResume = () => {
     return (
         <div style={{ backgroundImage: `url(${resumemakebg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}  className='bg-purple-300 flex flex-col justify-center items-center h-1/2 w-full gap-5 rounded-[15px]'>

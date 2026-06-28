@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import CTA1 from '../buttons/CTA1'
-import accentureBG from '../../assets/Top_Hiring_Companies/accenture.jpg'
-import deloitteBG from '../../assets/Top_Hiring_Companies/deloitte.jpg'
-import goldmansachsBG from '../../assets/Top_Hiring_Companies/goldman_sachs.jpg'
-import googleBG from '../../assets/Top_Hiring_Companies/google.jpg'
-import oracleBG from '../../assets/Top_Hiring_Companies/oracle.jpg'
+import CTA1 from '../../buttons/CTA1'
+import accentureBG from '../../../assets/Top_Hiring_Companies/accenture.jpg'
+import deloitteBG from '../../../assets/Top_Hiring_Companies/deloitte.jpg'
+import goldmansachsBG from '../../../assets/Top_Hiring_Companies/goldman_sachs.jpg'
+import googleBG from '../../../assets/Top_Hiring_Companies/google.jpg'
+import oracleBG from '../../../assets/Top_Hiring_Companies/oracle.jpg'
 import { useEffect } from 'react'
 
 const CompanyTierList = () => {
