@@ -3,7 +3,8 @@ import Page from './Page'
 
 const PagePreview = () => {
   return (
-    <div className="bg-blue-600 w-1/3 flex justify-center items-center">
+    <div className="w-1/3 min-h-full flex flex-col justify-center items-center gap-3 font-[Braah_One] text-[30px] text-white">
+        Preview:
         <Page></Page>
     </div>
   )

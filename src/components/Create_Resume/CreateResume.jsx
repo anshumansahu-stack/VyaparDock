@@ -6,7 +6,7 @@ import PagePreview from './PagePreview/PagePreview'
 // Another div containing page Preview
 const CreateResume = () => {
   return (
-    <div className="w-full h-163 flex justify-between p-5 gap-5">
+    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className="w-full h-9/10 flex justify-between box-border p-5 gap-5">
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>
     </div>

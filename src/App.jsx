@@ -9,7 +9,7 @@ const router = createBrowserRouter([
   {
     path:"/",
     element:
-    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='flex flex-col items-center'>
+    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='h-screen flex flex-col items-center'>
       <Navbar></Navbar>
       <Home></Home>
     </div>
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
   {
     path:"/create_resume",
     element:
-    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='flex flex-col items-center'>
+    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='h-screen flex flex-col items-center'>
       <Navbar></Navbar>
       <CreateResume></CreateResume>
     </div>

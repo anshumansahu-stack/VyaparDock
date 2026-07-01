@@ -1,15 +1,15 @@
 import React from 'react'
 import LiveScore from './LiveScore'
-import ActiveForm from './ActiveForm'
+import PersonalDetails from './PersonalDetails'
 import Stepper from './Stepper'
 
 // HAs 3 components- Live score, the form where data needs to be entered, and a stepper scrollbar.
 
 const FormEntry = () => {
   return (
-    <div className="bg-amber-600 w-2/3 flex flex-col justify-center items-center p-3 gap-2">
+    <div className="w-2/3 max-h-160 flex flex-col justify-center items-center p-3">
         <LiveScore></LiveScore>
-        <ActiveForm></ActiveForm>
+        <PersonalDetails></PersonalDetails>
         <Stepper></Stepper>
     </div>
   )
