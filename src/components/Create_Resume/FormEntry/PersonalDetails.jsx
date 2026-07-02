@@ -13,7 +13,8 @@ const PersonalDetails = () => {
   const {Data, setData, liveData, methods, onSubmit, }=useContext(DataContext)
 
   return (
-      <MainForm onSubmit={methods.handleSubmit(onSubmit)}> //FormProvider is imported here itself
+      <MainForm onSubmit={methods.handleSubmit(onSubmit)}> 
+      {/* //FormProvider is imported here itself */}
         <FormTitle title="Personal Details"></FormTitle>
         <div className='flex justify-between gap-15'>
           <FormDiv>
