@@ -23,20 +23,16 @@ const PersonalDetails = () => {
               <TextEntry item='firstname' placeholder='Enter First Name' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
-              <FormLabel label="Job target:"></FormLabel>
-              <TextEntry item='jobtarget' placeholder='Enter Job Target' register={methods.register}></TextEntry>
+              <FormLabel label="Phone:"></FormLabel>
+              <TextEntry item='phone' placeholder='+91-1234567890' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
               <FormLabel label="Email:"></FormLabel>
               <TextEntry item='email' placeholder='abc@dmail.com' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
-              <FormLabel label="Address Line 1:" ></FormLabel>
-              <TextEntry item='address1' placeholder='Cake House' register={methods.register}></TextEntry>
-            </FormSubDiv>
-            <FormSubDiv>
-              <FormLabel label="Address Line 3:" ></FormLabel>
-              <TextEntry item='address3' placeholder='State of excitement' register={methods.register}></TextEntry>
+              <FormLabel label="LinkedIn:" ></FormLabel>
+              <TextEntry item='linkedin' placeholder='linkedin.com/' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
               <FormLabel label="State:" ></FormLabel>
@@ -53,15 +49,12 @@ const PersonalDetails = () => {
               <TextEntry item='lastname' placeholder='Enter Last Name' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
-              {/* Empty */}
+              <FormLabel label="Alt. Phone:"> </FormLabel>
+              <TextEntry item='altphone' placeholder='+91-0987654321' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
-              <FormLabel label="Phone:"></FormLabel>
-              <TextEntry item='phone' placeholder='+91-1234567890' register={methods.register}></TextEntry>
-            </FormSubDiv>
-            <FormSubDiv>
-              <FormLabel label="Address Line 2:"> </FormLabel>
-              <TextEntry item='address2' placeholder='Bakers Street' register={methods.register}></TextEntry>
+              <FormLabel label="Github Link:" ></FormLabel>
+              <TextEntry item='github' placeholder='github.com/' register={methods.register}></TextEntry>
             </FormSubDiv>
             <FormSubDiv>
               <FormLabel label="City:" ></FormLabel>
@@ -71,10 +64,10 @@ const PersonalDetails = () => {
               <FormLabel label="Country:" ></FormLabel>
               <TextEntry item='country' placeholder='Country' register={methods.register}></TextEntry>
             </FormSubDiv>
-            <FormSubDiv>
+            {/* <FormSubDiv>
               <FormLabel label="Date of Birth:" ></FormLabel>
               <DateEntry item='dob' placeholder='dd-mm-yyyy' register={methods.register}></DateEntry>
-            </FormSubDiv>
+            </FormSubDiv> */}
           </FormDiv>
         </div>
         <SubmitButton></SubmitButton>
