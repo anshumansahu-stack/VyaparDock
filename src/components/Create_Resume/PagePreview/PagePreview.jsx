@@ -3,7 +3,7 @@ import Page from './PageComponent/Page'
 
 const PagePreview = () => {
   return (
-    <div className="w-1/3 h-full flex flex-col justify-center items-center gap-3 font-[Braah_One] text-[30px] text-white">
+    <div className="w-1/3 h-full text-center items-center gap-3 font-[Braah_One] text-[30px] text-white">
         Preview:
         <Page></Page>
     </div>

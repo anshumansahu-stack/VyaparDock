@@ -2,25 +2,49 @@ import './App.css'
 import Home from './components/Home/Home';
 import Navbar from './components/Navbar'
 import CreateResume from './components/Create_Resume/CreateResume';
+import UniversalWrapper from './components/UniversalWrapper';
+import NotFound404 from './components/NotFound404';
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
+import PersonalDetails from './components/Create_Resume/FormEntry/FEComponents/PersonalDetails';
+import ProfessionalExperience from './components/Create_Resume/FormEntry/FEComponents/ProfessionalExperience'
 
 const router = createBrowserRouter([
   {
-    path:"/",
+    path: "/",
     element:
-    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='h-screen flex flex-col items-center'>
-      <Navbar></Navbar>
-      <Home></Home>
-    </div>
+      <UniversalWrapper>
+        <Navbar></Navbar>
+        <Home></Home>
+      </UniversalWrapper>
   },
   {
-    path:"/create_resume",
+    path: "/create_resume",
     element:
-    <div style={{background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)'}} className='h-screen flex flex-col items-center'>
+      <UniversalWrapper>
+        <Navbar></Navbar>
+        <CreateResume></CreateResume>
+      </UniversalWrapper>,
+    children:[
+      {
+        path:'personal_details',
+        element:
+        <PersonalDetails/>
+      },
+      {
+        path:'professional_experience',
+        element:
+        <ProfessionalExperience/>
+      }
+    ]
+  },
+  {
+    path: "/*",
+    element:
+    <UniversalWrapper>
       <Navbar></Navbar>
-      <CreateResume></CreateResume>
-    </div>
+      <NotFound404></NotFound404>
+    </UniversalWrapper>
   },
 ])
 function App() {

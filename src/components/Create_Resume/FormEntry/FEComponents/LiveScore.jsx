@@ -1,5 +1,5 @@
 import React from 'react'
-import ProgressionBar from './ProgressionBar'
+import ProgressionBar from './ProgressionBar/ProgressionBar'
 
 const LiveScore = () => {
   return (

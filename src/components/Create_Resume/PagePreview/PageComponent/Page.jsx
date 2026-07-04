@@ -1,9 +1,12 @@
 import React from 'react'
 import Header from './Header/Header'
+
 const Page = () => {
   return (
-    <div className="bg-white h-[300mm] w-230 scale-x-21 scale-y-21 flex flex-col items-center overflow-y-auto p-3">
-      <Header></Header>
+    <div className="w-146 h-135.75 overflow-hidden relative">
+      <div className="w-198.5 h-280.75 origin-top-left scale-[0.52] bg-white absolute left-8.5 top-2.5 p-5">
+        <Header />
+      </div>
     </div>
   )
 }

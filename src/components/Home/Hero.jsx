@@ -7,7 +7,7 @@ const Hero = () => {
       <p style={{ textShadow: '3px 3px 4px black', WebkitTextStroke: '1px black'}} className='text-white font-[Sedgwick_Ave] font-bold text-[65px] text-center w-11/12'>Kickstart your career in today's Corporate world!</p>
       <div className='flex justify-center gap-70'>
         <CTA1 name="Analyse my Resume →" className=" text-[23px]" path='/resume_o_meter'></CTA1>
-        <CTA1 name="Make a Resume →" className=" text-[23px]" path='/create_resume'></CTA1>
+        <CTA1 name="Make a Resume →" className=" text-[23px]" path='/create_resume/personal_details'></CTA1>
       </div>
     </div>
   )

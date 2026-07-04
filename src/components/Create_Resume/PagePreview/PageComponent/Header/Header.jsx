@@ -18,9 +18,9 @@ const Header = () => {
                 <Altphone></Altphone>
                 <Email></Email>
                 <Address></Address>
-                <div className='flex items-start justify-center'>
-                    <Github className='min-w-18.5!'></Github>
-                    <Linkedin className='min-w-18.5!'></Linkedin>
+                <div className='flex items-start justify-end'>
+                    <Github className='min-w-40!'></Github>
+                    <Linkedin className='min-w-40!'></Linkedin>
                 </div>
             </div>
         </div>

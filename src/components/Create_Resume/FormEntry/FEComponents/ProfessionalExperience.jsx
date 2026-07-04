@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
-import FormLabel from '../FormElements/FormLabel'
-import TextEntry from '../FormElements/TextEntry'
-import FormDiv from '../FormElements/FormDiv'
-import FormSubDiv from '../FormElements/FormSubDiv'
-import MainForm from '../FormElements/MainForm'
-import FormTitle from '../FormElements/FormTitle'
-import DateEntry from '../FormElements/DateEntry'
-import SubmitButton from '../FormElements/SubmitButton'
-import { DataContext } from './DataContext'
+import FormLabel from '../../FormElements/FormLabel'
+import TextEntry from '../../FormElements/TextEntry'
+import FormDiv from '../../FormElements/FormDiv'
+import FormSubDiv from '../../FormElements/FormSubDiv'
+import MainForm from '../../FormElements/MainForm'
+import FormTitle from '../../FormElements/FormTitle'
+import DateEntry from '../../FormElements/DateEntry'
+import { DataContext } from '../../DataContext'
 
 const PersonalDetails = () => {
   const {Data, setData, liveData, methods, onSubmit, }=useContext(DataContext)
@@ -15,7 +14,7 @@ const PersonalDetails = () => {
   return (
       <MainForm onSubmit={methods.handleSubmit(onSubmit)}> 
       {/* //FormProvider is imported here itself */}
-        <FormTitle title="Personal Details"></FormTitle>
+        <FormTitle title="Professional Experience"></FormTitle>
         <div className='flex justify-between gap-15'>
           <FormDiv>
             <FormSubDiv>
@@ -64,13 +63,8 @@ const PersonalDetails = () => {
               <FormLabel label="Country:" ></FormLabel>
               <TextEntry item='country' placeholder='Country' register={methods.register}></TextEntry>
             </FormSubDiv>
-            {/* <FormSubDiv>
-              <FormLabel label="Date of Birth:" ></FormLabel>
-              <DateEntry item='dob' placeholder='dd-mm-yyyy' register={methods.register}></DateEntry>
-            </FormSubDiv> */}
           </FormDiv>
         </div>
-        <SubmitButton></SubmitButton>
       </MainForm>
   )
 }
