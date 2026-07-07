@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import PersonalDetails from './components/Create_Resume/FormEntry/FEComponents/PersonalDetails';
 import ProfessionalExperience from './components/Create_Resume/FormEntry/FEComponents/ProfessionalExperience'
+import Education from './components/Create_Resume/FormEntry/FEComponents/Education';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
         path:'personal_details',
         element:
         <PersonalDetails/>
+      },
+      {
+        path:'education',
+        element:
+        <Education/>
       },
       {
         path:'professional_experience',

@@ -2,7 +2,7 @@ import React from 'react'
 
 const FormTitle = (props) => {
   return (
-    <p className='font-[Archivo_Black] text-[40px] text-white'>{props.title}</p>
+    <p className='font-[Archivo_Black] text-[35px] text-white'>{props.title}</p>
   )
 }
 

@@ -13,7 +13,7 @@ import ObjectContainer from '../../FormElements/ObjectContainer'
 import AddNewButton from './DynamicAdditionTools/AddNewButton'
 import RemoveButton from './DynamicAdditionTools/RemoveButton'
 
-const ProfessionalExperience = () => {
+const Education = () => {
   const { Data, setData, liveData, methods, onSubmit, } = useContext(DataContext)
 
   const { fields, append, remove } = useFieldArray({
@@ -40,7 +40,7 @@ const ProfessionalExperience = () => {
   return (
     <MainForm onSubmit={methods.handleSubmit(onSubmit)} className='w-250!'>
       {/* //FormProvider is imported here itself */}
-      <FormTitle title="Professional Experience"></FormTitle>
+      <FormTitle title="Education"></FormTitle>
       {fields.map((field, index) => (
         // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
         // Result: A completely blank form renders in the UI, We dont want that. We use useEffect to avoid that, as follows:
@@ -92,4 +92,4 @@ const ProfessionalExperience = () => {
   )
 }
 
-export default ProfessionalExperience
+export default Education

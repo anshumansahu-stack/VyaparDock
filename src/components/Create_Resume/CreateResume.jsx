@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useForm, FormProvider } from "react-hook-form"
+import { useForm, FormProvider} from "react-hook-form"
 import FormEntry from './FormEntry/FormEntry'
 import PagePreview from './PagePreview/PagePreview'
 import { DataContext } from './DataContext'
