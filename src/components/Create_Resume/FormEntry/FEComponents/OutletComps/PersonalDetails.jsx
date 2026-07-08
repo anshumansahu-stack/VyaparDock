@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import FormLabel from '../../FormElements/FormLabel'
-import TextEntry from '../../FormElements/TextEntry'
-import FormDiv from '../../FormElements/FormDiv'
-import FormSubDiv from '../../FormElements/FormSubDiv'
-import MainForm from '../../FormElements/MainForm'
-import FormTitle from '../../FormElements/FormTitle'
-import DateEntry from '../../FormElements/DateEntry'
-import { DataContext } from '../../DataContext'
-import ObjectContainer from '../../FormElements/ObjectContainer'
+import FormLabel from '../../../FormElements/FormLabel'
+import TextEntry from '../../../FormElements/TextEntry'
+import FormDiv from '../../../FormElements/FormDiv'
+import FormSubDiv from '../../../FormElements/FormSubDiv'
+import MainForm from '../../../FormElements/MainForm'
+import FormTitle from '../../../FormElements/FormTitle'
+import DateEntry from '../../../FormElements/DateEntry'
+import { DataContext } from '../../../DataContext'
+import ObjectContainer from '../../../FormElements/ObjectContainer'
 
 const PersonalDetails = () => {
   const { Data, setData, liveData, methods, onSubmit, } = useContext(DataContext)
@@ -21,6 +21,10 @@ const PersonalDetails = () => {
           <FormSubDiv>
             <FormLabel label="First name:"></FormLabel>
             <TextEntry item='firstname' placeholder='Enter First Name' register={methods.register}></TextEntry>
+          </FormSubDiv>
+          <FormSubDiv>
+            <FormLabel label="Role:"></FormLabel>
+            <TextEntry item='currRole' placeholder='Enter Current Role' register={methods.register}></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Phone:"></FormLabel>
@@ -47,6 +51,10 @@ const PersonalDetails = () => {
           <FormSubDiv>
             <FormLabel label="Last name:"></FormLabel>
             <TextEntry item='lastname' placeholder='Enter Last Name' register={methods.register}></TextEntry>
+          </FormSubDiv>
+          <FormSubDiv>
+            <FormLabel label="Organisation:"></FormLabel>
+            <TextEntry item='currOrg' placeholder='Current Organisation' register={methods.register}></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Alt. Phone:"> </FormLabel>

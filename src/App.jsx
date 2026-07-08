@@ -6,9 +6,12 @@ import UniversalWrapper from './components/UniversalWrapper';
 import NotFound404 from './components/NotFound404';
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import PersonalDetails from './components/Create_Resume/FormEntry/FEComponents/PersonalDetails';
-import ProfessionalExperience from './components/Create_Resume/FormEntry/FEComponents/ProfessionalExperience'
-import Education from './components/Create_Resume/FormEntry/FEComponents/Education';
+import PersonalDetails from './components/Create_Resume/FormEntry/FEComponents/OutletComps/PersonalDetails';
+import ProfessionalExperience from './components/Create_Resume/FormEntry/FEComponents/OutletComps/ProfessionalExperience'
+import Education from './components/Create_Resume/FormEntry/FEComponents/OutletComps/Education';
+import AreasOfExpertise from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AreasOfExpertise';
+import TechnicalProficiencies from './components/Create_Resume/FormEntry/FEComponents/OutletComps/TechnicalProficiencies';
+import Projects from './components/Create_Resume/FormEntry/FEComponents/OutletComps/Projects';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +44,21 @@ const router = createBrowserRouter([
         path:'professional_experience',
         element:
         <ProfessionalExperience/>
+      },
+      {
+        path:'areas_of_expertise',
+        element:
+        <AreasOfExpertise/>
+      },
+      {
+        path:'technical_proficiencies',
+        element:
+        <TechnicalProficiencies/>
+      },
+      {
+        path:'projects',
+        element:
+        <Projects/>
       }
     ]
   },

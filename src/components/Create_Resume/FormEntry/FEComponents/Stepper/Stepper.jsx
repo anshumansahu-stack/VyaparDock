@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { DataContext } from '../../../DataContext'
 import NextButton from './NextButton'
 import PrevButton from './PrevButton'
 import SubmitButton from './SubmitButton'
 
-const FORM_STEPS = ['personal_details','education', 'professional_experience']
+const FORM_STEPS = ['personal_details', 'education', 'professional_experience','areas_of_expertise','technical_proficiencies','projects']
 
 const Stepper = () => {
   const navigate = useNavigate()
@@ -21,13 +21,13 @@ const Stepper = () => {
   const isLastStep = currentIndex === FORM_STEPS.length - 1 // same but at last.
 
   const handleNext = () => {
-    if (!isLastStep && currentIndex+1<FORM_STEPS.length) { // modification: add an index guard
+    if (!isLastStep && currentIndex + 1 < FORM_STEPS.length) { // modification: add an index guard
       navigate(`/create_resume/${FORM_STEPS[currentIndex + 1]}`)
     }
   } // The next button will take you to the next url in the FORM_STEPS list.
 
   const handlePrev = () => {
-    if (!isFirstStep && currentIndex-1>-1) {
+    if (!isFirstStep && currentIndex - 1 > -1) {
       navigate(`/create_resume/${FORM_STEPS[currentIndex - 1]}`)
     }
   } // similar functionality.
@@ -37,27 +37,74 @@ const Stepper = () => {
     onSubmit(formData) // Triggers your parent state lock
   } //post an alert and submit form data.
 
+  const onKeyTap = (e) => {
+    if (e.key === 'ArrowRight') {
+      handleNext()
+    }
+    else if (e.key === 'ArrowLeft') {
+      handlePrev()
+    }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      methods.handleSubmit(handleFinalSubmit)()
+    }
+  }
+
+  // Button navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ignore arrow keys if the user is actively typing inside a text field/textarea
+      const activeTag = document.activeElement?.tagName;
+      if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') {
+        // Exception: Let 'Enter' still submit even if inside an input box
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          methods.handleSubmit(handleFinalSubmit)();
+        }
+        return;
+      }
+
+      // If not typing, navigate freely using arrow keys!
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        handleNext()
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        handlePrev()
+      }
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+        methods.handleSubmit(handleFinalSubmit)();
+      }
+    }
+
+    // Attach to window
+    window.addEventListener('keydown', handleKeyDown)
+
+    // CRITICAL CLEANUP: Removes listener when component unmounts to prevent memory leaks
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentIndex, isLastStep, isFirstStep, methods]) // Rebinds securely when step updates
   // Main Logic
 
-  if(isFirstStep){
+  if (isFirstStep) {
     return (
       <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-        <NextButton onClick={handleNext}/>
+        <NextButton onClick={handleNext} />
       </div>
     )
   }
-  else if(isLastStep){
+  else if (isLastStep) {
     return (
       <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-        <PrevButton onClick={handlePrev}/>
-        <SubmitButton onClick={methods.handleSubmit(handleFinalSubmit)}/>
+        <PrevButton onClick={handlePrev} />
+        <SubmitButton onClick={methods.handleSubmit(handleFinalSubmit)} />
       </div>
     )
   }
   return (
     <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-      <PrevButton onClick={handlePrev}/>
-      <NextButton onClick={handleNext}/>
+      <PrevButton onClick={handlePrev} />
+      <NextButton onClick={handleNext} />
     </div>
   )
 }
