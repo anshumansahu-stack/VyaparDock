@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { useFieldArray } from 'react-hook-form'
-import FormLabel from '../../../FormElements/FormLabel'
-import TextEntry from '../../../FormElements/TextEntry'
-import MainForm from '../../../FormElements/MainForm'
-import FormTitle from '../../../FormElements/FormTitle'
+import FormLabel from '../../../FormElements/FormAuxiliaries/FormLabel'
+import TextEntry from '../../../FormElements/EntryFields/TextEntry'
+import MainForm from '../../../FormElements/Containers/MainForm'
+import FormTitle from '../../../FormElements/FormAuxiliaries/FormTitle'
 import { DataContext } from '../../../DataContext'
-import ObjectContainer from '../../../FormElements/ObjectContainer'
+import ObjectContainer from '../../../FormElements/Containers/ObjectContainer'
 import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 
@@ -27,10 +27,10 @@ const AreasOfExpertise = () => {
       {fields.map((field, index) => {
 
         return ( // Main form logic
-          <ObjectContainer key={field.id} className='flex-row!'>
+          <ObjectContainer key={field.id} className='flex-row! justify-center items-center gap-4! min-w-7/10! mb-4 '>
             <TextEntry item={`areasofexpertise.${index}.title`} placeholder='Enter Your Skill:' register={methods.register}></TextEntry>
-            <TextEntry item={`areasofexpertise.${index}.skill`} placeholder='Skill level on a scale of 1 to 5' register={methods.register} className='w-80!'></TextEntry>
-            <RemoveButton remove={remove} index={index} className='max-h-8 p-1! text-[17px]'/>
+            <TextEntry item={`areasofexpertise.${index}.skill`} placeholder='Skill level on a scale of 1 to 5' register={methods.register} className='w-60!'></TextEntry>
+            <RemoveButton remove={remove} index={index} className='max-h-8 px-3 text-sm'/>
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}

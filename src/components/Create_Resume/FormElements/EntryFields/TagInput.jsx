@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 
-const TagInput = ({ item, methods, placeholder }) => {
+const TagInput = (props) => {
   // Live watch the existing array values, fallback to an empty array
-  const tags = methods.watch(item) || []
-  const [inputValue, setInputValue] = useState('')
+  const tags = props.methods.watch(props.item) || []
+  const [inputValue, setInputValue] = useState('') //Initial state blank 
 
   const handleKeyDown = (e) => {
-    // Intercept both Comma (,) and Enter keys
-    if (e.key === ',' || e.key === 'Enter') {
+    // Intercept Comma, Enter is for submission and is applied to the window object
+    if (e.key === ',') {
       e.preventDefault() // Stop character from printing inside input field
       
       const cleanValue = inputValue.trim().replace(/,$/, '') // Remove trailing comma if exists
       
       if (cleanValue) {
-        // ⚡ REGULATORY GUARD: Check if the user is attempting to add more than 5 elements
+        // Check if the user is attempting to add more than 5 elements
         if (tags.length >= 5) {
           alert("Maximum of 5 top skills allowed per project to optimize resume layout density.")
           setInputValue('') // Wipe out the text field
@@ -22,8 +22,10 @@ const TagInput = ({ item, methods, placeholder }) => {
 
         // Push the new chip directly into the React Hook Form data state registry array if unique
         if (!tags.includes(cleanValue)) {
-          methods.setValue(item, [...tags, cleanValue], { shouldValidate: true })
+          props.methods.setValue(props.item, [...tags, cleanValue], { shouldValidate: true })
         }
+        // Since the tags data are created here locally and managed and added here itself, useState hook as a blankarray is enough.
+        // useContext is to talk through children elements, thats not required here.
       }
       
       setInputValue('') // Reset text field blank
@@ -31,8 +33,8 @@ const TagInput = ({ item, methods, placeholder }) => {
   }
 
   const removeTag = (tagToRemove) => {
-    const updatedTags = tags.filter(tag => tag !== tagToRemove)
-    methods.setValue(item, updatedTags, { shouldValidate: true })
+    const updatedTags = tags.filter(tag => tag !== tagToRemove) // Keep only those tags those are not intended to be removed
+    props.methods.setValue(props.item, updatedTags, { shouldValidate: true }) // shouldValidate: true means that the validation checks are to be mandatorily run on the newly updated fields, if any.
   }
 
   return (
@@ -44,7 +46,7 @@ const TagInput = ({ item, methods, placeholder }) => {
         {tags.map((tag, tagIndex) => (
           <span 
             key={tagIndex} 
-            className="flex items-center gap-1.5 bg-white/10 border border-solid border-white/20 text-white font-[Freeman] text-md px-2.5 py-1 rounded-md transition-colors hover:bg-white/20"
+            className="flex items-center gap-1.5 bg-white/10 border border-solid border-white/20 text-white font-[Braah_One] text-md px-2.5 py-1 rounded-md transition-colors hover:bg-white/20"
           >
             {tag}
             <button
@@ -64,11 +66,11 @@ const TagInput = ({ item, methods, placeholder }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={tags.length === 0 ? placeholder : "Add more..."}
-            className="flex-1 bg-transparent text-white font-extralight font-[Braah_One] text-sm p-1 outline-none border-none placeholder:text-gray-400 min-w-30"
+            placeholder={tags.length === 0 ? props.placeholder : "Add more..."}
+            className="flex-1 bg-transparent text-white p-1 outline-none border-none placeholder:text-gray-400 min-w-30"
           />
         ) : (
-          <span className="text-gray-400 text-xs font-[Freeman] italic px-2">
+          <span className="text-gray-400 italic px-2">
             (5 skill limit reached)
           </span>
         )}

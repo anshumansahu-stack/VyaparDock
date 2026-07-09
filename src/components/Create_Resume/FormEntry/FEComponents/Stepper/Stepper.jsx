@@ -5,7 +5,7 @@ import NextButton from './NextButton'
 import PrevButton from './PrevButton'
 import SubmitButton from './SubmitButton'
 
-const FORM_STEPS = ['personal_details', 'education', 'professional_experience','areas_of_expertise','technical_proficiencies','projects']
+const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'areas_of_expertise', 'technical_proficiencies', 'projects']
 
 const Stepper = () => {
   const navigate = useNavigate()
@@ -45,8 +45,10 @@ const Stepper = () => {
       handlePrev()
     }
     else if (e.key === 'Enter') {
-      e.preventDefault();
-      methods.handleSubmit(handleFinalSubmit)()
+      if (currentIndex === FORM_STEPS.length - 1) {
+        e.preventDefault();
+        methods.handleSubmit(handleFinalSubmit)()
+      }
     }
   }
 
@@ -63,19 +65,8 @@ const Stepper = () => {
         }
         return;
       }
-
       // If not typing, navigate freely using arrow keys!
-      if (e.key === 'ArrowRight') {
-        e.preventDefault()
-        handleNext()
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault()
-        handlePrev()
-      }
-      else if (e.key === 'Enter') {
-        e.preventDefault();
-        methods.handleSubmit(handleFinalSubmit)();
-      }
+      onKeyTap(e)
     }
 
     // Attach to window

@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from 'react'
 import { useFieldArray, useWatch } from 'react-hook-form'
-import FormLabel from '../../../FormElements/FormLabel'
-import TextEntry from '../../../FormElements/TextEntry'
-import FormDiv from '../../../FormElements/FormDiv'
-import FormSubDiv from '../../../FormElements/FormSubDiv'
-import MainForm from '../../../FormElements/MainForm'
-import FormTitle from '../../../FormElements/FormTitle'
-import DateEntry from '../../../FormElements/DateEntry'
+import FormLabel from '../../../FormElements/FormAuxiliaries/FormLabel'
+import TextEntry from '../../../FormElements/EntryFields/TextEntry'
+import FormDiv from '../../../FormElements/Containers/FormDiv'
+import FormSubDiv from '../../../FormElements/Containers/FormSubDiv'
+import MainForm from '../../../FormElements/Containers/MainForm'
+import FormTitle from '../../../FormElements/FormAuxiliaries/FormTitle'
+import DateEntry from '../../../FormElements/EntryFields/DateEntry'
 import { DataContext } from '../../../DataContext'
-import TextAreaEntry from '../../../FormElements/TextAreaEntry'
-import ObjectContainer from '../../../FormElements/ObjectContainer'
+import TextAreaEntry from '../../../FormElements/EntryFields/TextAreaEntry'
+import ObjectContainer from '../../../FormElements/Containers/ObjectContainer'
 import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
-import IsCurrentCheckerButton from '../../../FormElements/IsCurrentCheckerButton'
+import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -133,7 +133,7 @@ const ProfessionalExperience = () => {
               </FormDiv>
             </div>
 
-            <FormSubDiv className='min-h-50! min-w-full flex-col items-start gap-4!'>
+            <FormSubDiv className='min-h-30! min-w-full flex-col items-start gap-4! justify-start! '>
               <FormLabel label="Job Description:" ></FormLabel>
               <TextAreaEntry item={`experiences.${index}.jobdescription`} placeholder='Describe your job achievements...' register={methods.register}></TextAreaEntry>
             </FormSubDiv>

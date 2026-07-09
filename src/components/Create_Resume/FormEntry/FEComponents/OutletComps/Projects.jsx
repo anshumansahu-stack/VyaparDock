@@ -1,19 +1,19 @@
 import React, { useContext, useEffect } from 'react'
 import { useFieldArray, useWatch } from 'react-hook-form'
-import FormLabel from '../../../FormElements/FormLabel'
-import TextEntry from '../../../FormElements/TextEntry'
-import FormDiv from '../../../FormElements/FormDiv'
-import FormSubDiv from '../../../FormElements/FormSubDiv'
-import MainForm from '../../../FormElements/MainForm'
-import FormTitle from '../../../FormElements/FormTitle'
-import DateEntry from '../../../FormElements/DateEntry'
+import FormLabel from '../../../FormElements/FormAuxiliaries/FormLabel'
+import TextEntry from '../../../FormElements/EntryFields/TextEntry'
+import FormDiv from '../../../FormElements/Containers/FormDiv'
+import FormSubDiv from '../../../FormElements/Containers/FormSubDiv'
+import MainForm from '../../../FormElements/Containers/MainForm'
+import FormTitle from '../../../FormElements/FormAuxiliaries/FormTitle'
+import DateEntry from '../../../FormElements/EntryFields/DateEntry'
 import { DataContext } from '../../../DataContext'
-import TextAreaEntry from '../../../FormElements/TextAreaEntry'
-import ObjectContainer from '../../../FormElements/ObjectContainer'
+import TextAreaEntry from '../../../FormElements/EntryFields/TextAreaEntry'
+import ObjectContainer from '../../../FormElements/Containers/ObjectContainer'
 import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
-import IsCurrentCheckerButton from '../../../FormElements/IsCurrentCheckerButton'
-import TagInput from '../../../FormElements/TagInput'
+import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
+import TagInput from '../../../FormElements/EntryFields/TagInput'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -90,8 +90,8 @@ const Projects = () => {
                     <ObjectContainer key={field.id}>
                         <div className='flex justify-between gap-15'>
                             <FormSubDiv className='flex-col! items-center justify-center'>
-                                <FormLabel label="Project Title:"></FormLabel>
-                                <TextEntry item={`projects.${index}.projecttitle`} placeholder='Enter Project Title' register={methods.register} className='min-w-70! min-h-30!'></TextEntry>
+                                <FormLabel label="Project Title:" className="justify-center!"></FormLabel>
+                                <TextEntry item={`projects.${index}.projecttitle`} placeholder='Enter Project Title' register={methods.register} childclassName='min-w-70! min-h-30!'></TextEntry>
                             </FormSubDiv>
                             <FormDiv>
                                 <FormSubDiv className='items-end! min-h-18!'>
