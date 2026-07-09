@@ -1,32 +1,69 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { DataContext } from '../../../DataContext'
-import NextButton from './NextButton'
-import PrevButton from './PrevButton'
-import SubmitButton from './SubmitButton'
-
-const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'areas_of_expertise', 'technical_proficiencies', 'projects']
+import NextButton from './Buttons/NextButton'
+import PrevButton from './Buttons/PrevButton'
+import SubmitButton from './Buttons/SubmitButton'
 
 const Stepper = () => {
   const navigate = useNavigate()
   const location = useLocation() // Retrieves the current URL Information as an object.
 
-  const { methods, onSubmit } = useContext(DataContext)
+  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS} = useContext(DataContext)
 
   const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
 
-  const currentIndex = FORM_STEPS.indexOf(currentPath) // Take the index of current path.
+  useEffect(() => {
+    const calculatedIndex = FORM_STEPS.indexOf(currentPath)
+    if (calculatedIndex !== -1) { // Guard clause, when partially rendered indexof() returns -1. Helps prevent infinite render-calculate loop cycle.
+      setCurrentIndex(calculatedIndex)
+    }
+  }, [currentPath, setCurrentIndex])
 
   const isFirstStep = currentIndex === 0 // Truth value of is the current index at index 1.
   const isLastStep = currentIndex === FORM_STEPS.length - 1 // same but at last.
 
-  const handleNext = () => {
-    if (!isLastStep && currentIndex + 1 < FORM_STEPS.length) { // modification: add an index guard
+  const getFieldsForStep = (stepName) => { // For current step, get all the concerned fields
+    switch (stepName) {
+      case 'personal_details':
+        // Explicitly lists all your top-level primitive strings from PersonalDetails
+        return ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode']
+      case 'areas_of_expertise':
+        // Targets your dynamic array tree block completely
+        return ['areasofexpertise']
+      case 'professional_experience':
+        return ['experiences']
+      case 'education':
+        return ['education']
+      case 'technical_proficiencies':
+        return ['technical_proficiencies']
+      case 'projects':
+        return ['projects']
+      default:
+        return []
+    }
+  }
+
+  const handleNext = async () => { //asynchronous function
+    // Get the validation targets for the active screen route
+    const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
+
+    // Instruct RHF to check only these fields. Returns true if they pass, false if they fail.
+    const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
+
+    // If validation fails, alert and halt navigation so errors stay visible on the screen
+    if (!isStepValid) {
+      alert("Invalid entries detected!!")
+      return
+    }
+
+    // 4. Proceed to the next step route safely if valid
+    if (!isLastStep && currentIndex + 1 < FORM_STEPS.length) {
       navigate(`/create_resume/${FORM_STEPS[currentIndex + 1]}`)
     }
-  } // The next button will take you to the next url in the FORM_STEPS list.
+  }
 
-  const handlePrev = () => {
+  const handlePrev = () => { // If the current step has invalid fields, You are allowed to go back, No issue.
     if (!isFirstStep && currentIndex - 1 > -1) {
       navigate(`/create_resume/${FORM_STEPS[currentIndex - 1]}`)
     }
@@ -74,7 +111,7 @@ const Stepper = () => {
 
     // CRITICAL CLEANUP: Removes listener when component unmounts to prevent memory leaks
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [currentIndex, isLastStep, isFirstStep, methods]) // Rebinds securely when step updates
+  }, [currentIndex, isLastStep, isFirstStep, methods, FORM_STEPS]) // Rebinds securely when step updates, added FORM_STEPS array so that handleNext doesnt freeze if(in future updates) FORM_STEPS becomes dynamic
   // Main Logic
 
   if (isFirstStep) {

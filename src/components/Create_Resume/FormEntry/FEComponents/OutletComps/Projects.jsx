@@ -14,6 +14,7 @@ import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
 import TagInput from '../../../FormElements/EntryFields/TagInput'
+import DescriptionContainer from '../../../FormElements/Containers/DescriptionContainer'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -100,12 +101,10 @@ const Projects = () => {
                                 </FormSubDiv>
 
                                 <FormSubDiv className='flex-col'>
-                                    {/* FIXED: Passed required attributes so the checkbox registers */}
                                     <IsCurrentCheckerButton item={`projects.${index}.isCurrent`} register={methods.register} value='I am Currently working on this project' className='min-w-80' />
 
                                     <FormSubDiv>
                                         <FormLabel label="End Date:" ></FormLabel>
-                                        {/* FIXED: Linked disabled={isCurrentJob} , if is current job is true then the value will be disabled else it will not be disabled. */}
                                         <DateEntry item={`projects.${index}.enddate`} placeholder='dd-mm-yyyy' register={methods.register} disabled={isCurrentJob} />
                                     </FormSubDiv>
                                 </FormSubDiv>
@@ -114,10 +113,11 @@ const Projects = () => {
                             </FormDiv>
                         </div>
 
-                        <FormSubDiv className='min-h-30! min-w-full flex-col items-start justify-start gap-4!'>
+                        <DescriptionContainer>
                             <FormLabel label="Project Description:" ></FormLabel>
                             <TextAreaEntry item={`projects.${index}.projectdescription`} placeholder='Describe your project in 1-2 lines...' register={methods.register} className='max-h-20'></TextAreaEntry>
-                        </FormSubDiv>
+                        </DescriptionContainer>
+                        
                         <FormSubDiv className='min-h-24! min-w-full flex-col items-start justify-start gap-3!'>
                             <FormLabel label="Skill Stack Used:" ></FormLabel>
 
@@ -130,10 +130,9 @@ const Projects = () => {
                         {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
                     </ObjectContainer>
                 ); // Clean return closure
-            })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
+            })} 
 
             <AddNewButton title='Add New Project →' className='self-start' onClick={() => append({ projecttitle: '', startDate: '', isCurrent: false, enddate: '', projectdescription: '', skillstack: [] })}></AddNewButton>
-            {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}
         </MainForm>
     )
 }

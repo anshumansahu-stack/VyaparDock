@@ -1,11 +1,11 @@
 import React from 'react'
-import Name from './Name'
-import Phone from './Phone'
-import Altphone from './Altphone'
-import Email from './Email'
-import Address from './Address'
-import Github from './Github'
-import Linkedin from './Linkedin'
+import Name from './HeaderComponents/Name'
+import Phone from './HeaderComponents/Phone'
+import Altphone from './HeaderComponents/Altphone'
+import Email from './HeaderComponents/Email'
+import Address from './HeaderComponents/Address'
+import Github from './HeaderComponents/Github'
+import Linkedin from './HeaderComponents/Linkedin'
 
 const Header = () => {
     return (

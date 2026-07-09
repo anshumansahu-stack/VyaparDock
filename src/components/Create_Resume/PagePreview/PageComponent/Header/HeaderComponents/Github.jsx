@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { DataContext } from '../../../DataContext'
-import github from '../../../../../assets/headericons/github.svg'
+import { DataContext } from '../../../../DataContext'
+import github from '../../../../../../assets/headericons/github.svg'
 const Github = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if (liveData?.github && liveData.github.trim() !== '') {

@@ -13,6 +13,7 @@ import ObjectContainer from '../../../FormElements/Containers/ObjectContainer'
 import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
+import DescriptionContainer from '../../../FormElements/Containers/DescriptionContainer'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -133,10 +134,11 @@ const ProfessionalExperience = () => {
               </FormDiv>
             </div>
 
-            <FormSubDiv className='min-h-30! min-w-full flex-col items-start gap-4! justify-start! '>
+            <DescriptionContainer>
               <FormLabel label="Job Description:" ></FormLabel>
               <TextAreaEntry item={`experiences.${index}.jobdescription`} placeholder='Describe your job achievements...' register={methods.register}></TextAreaEntry>
-            </FormSubDiv>
+            </DescriptionContainer>
+            
             {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
           </ObjectContainer>
         ); // Clean return closure

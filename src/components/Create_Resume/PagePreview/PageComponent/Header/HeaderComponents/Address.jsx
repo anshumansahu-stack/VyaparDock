@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { DataContext } from '../../../DataContext'
-import address from '../../../../../assets/headericons/address.svg'
+import { DataContext } from '../../../../DataContext'
+import address from '../../../../../../assets/headericons/address.svg'
 const Address = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if ((liveData?.city && liveData.city.trim() !== '') | (liveData?.state && liveData.state.trim() !== '') | (liveData?.altphone && liveData.country.trim() !== '') | (liveData?.postalcode && liveData.postalcode.trim() !== '')){

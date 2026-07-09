@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { DataContext } from '../../../DataContext'
-import call from '../../../../../assets/headericons/call.svg'
+import { DataContext } from '../../../../DataContext'
+import call from '../../../../../../assets/headericons/call.svg'
 const AltPhone = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if (liveData?.altphone && liveData.altphone.trim() !== '') {

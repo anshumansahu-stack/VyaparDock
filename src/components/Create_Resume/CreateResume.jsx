@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
-import { useForm, FormProvider} from "react-hook-form"
+import { useForm, FormProvider } from "react-hook-form"
 import FormEntry from './FormEntry/FormEntry'
 import PagePreview from './PagePreview/PagePreview'
 import { DataContext } from './DataContext'
 // Components:
 //One div containing Live resume score and form
 // Another div containing page Preview
+
 const CreateResume = () => {
+  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'areas_of_expertise', 'technical_proficiencies', 'projects']
+
   const [Data, setData] = useState({}) // These will be passed down as context.
-  
+
   const methods = useForm()
   const {
     register,
@@ -17,13 +20,25 @@ const CreateResume = () => {
     formState: { errors },
   } = methods
 
-  const liveData=methods.watch() //This will watch the livedata of the form
+  const liveData = methods.watch() //This will watch the livedata of the form
 
-  const onSubmit=(EnteredData)=>{
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const onSubmit = (EnteredData) => {
     setData(EnteredData)
+    console.log("Final payload dispatched:", EnteredData)
   }
   return (
-    <DataContext.Provider value={{ Data, setData, liveData, methods, onSubmit}}>
+    <DataContext.Provider value={{ 
+      Data, 
+      setData, 
+      liveData, 
+      methods, 
+      onSubmit, 
+      currentIndex, 
+      setCurrentIndex, 
+      FORM_STEPS, 
+      totalSteps: FORM_STEPS.length}}>
       <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-9/10 flex justify-between box-border p-5 gap-5">
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>

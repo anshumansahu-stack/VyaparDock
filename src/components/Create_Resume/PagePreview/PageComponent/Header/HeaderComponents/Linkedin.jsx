@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { DataContext } from '../../../DataContext'
-import linkedin from '../../../../../assets/headericons/linkedin.svg'
+import { DataContext } from '../../../../DataContext'
+import linkedin from '../../../../../../assets/headericons/linkedin.svg'
 const Linkedin = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if (liveData?.linkedin && liveData.linkedin.trim() !== '') {

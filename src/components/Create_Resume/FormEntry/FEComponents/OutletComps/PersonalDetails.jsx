@@ -20,57 +20,141 @@ const PersonalDetails = () => {
         <FormDiv>
           <FormSubDiv>
             <FormLabel label="First name:"></FormLabel>
-            <TextEntry item='firstname' placeholder='Enter First Name' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='firstname' 
+            placeholder='Enter First Name' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{
+              required: "First name is required",
+              minLength: { value: 2, message: "Must be at least 2 characters" }
+            }}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Role:"></FormLabel>
-            <TextEntry item='currRole' placeholder='Enter Current Role' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='currRole' 
+            placeholder='Enter Current Role' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{ required: "Current professional title is required" }}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Phone:"></FormLabel>
-            <TextEntry item='phone' placeholder='+91-1234567890' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='phone' 
+            placeholder='+91-1234567890' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{
+              required: "Phone number is required",
+              pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid phone format structure" }
+            }}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Email:"></FormLabel>
-            <TextEntry item='email' placeholder='abc@dmail.com' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='email' 
+            placeholder='abc@dmail.com' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{
+              required: "Email is required",
+              pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email format" }
+            }}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="LinkedIn:" ></FormLabel>
-            <TextEntry item='linkedin' placeholder='linkedin.com/' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='linkedin' 
+            placeholder='linkedin.com/' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="State:" ></FormLabel>
-            <TextEntry item='state' placeholder='State' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='state' 
+            placeholder='State' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Postal Code:"></FormLabel>
-            <TextEntry item='postalcode' placeholder='654321' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='postalcode' 
+            placeholder='654321' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{
+              pattern: { value: /^\d{4,10}$/, message: "Postal code must be 4 to 10 numerical digits" }
+            }}
+            ></TextEntry>
           </FormSubDiv>
         </FormDiv>
         <FormDiv>
           <FormSubDiv>
             <FormLabel label="Last name:"></FormLabel>
-            <TextEntry item='lastname' placeholder='Enter Last Name' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='lastname' 
+            placeholder='Enter Last Name' 
+            register={methods.register}
+            errors={methods.formState.errors}
+              validation={{ required: "Last name is required" }}></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Organisation:"></FormLabel>
-            <TextEntry item='currOrg' placeholder='Current Organisation' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='currOrg' 
+            placeholder='Current Organisation' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Alt. Phone:"> </FormLabel>
-            <TextEntry item='altphone' placeholder='+91-0987654321' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='altphone' 
+            placeholder='+91-0987654321' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            validation={{
+              pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid alternative phone format" }
+            }}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Github Link:" ></FormLabel>
-            <TextEntry item='github' placeholder='github.com/' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='github' 
+            placeholder='github.com/' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="City:" ></FormLabel>
-            <TextEntry item='city' placeholder='City' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='city' 
+            placeholder='City' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
             <FormLabel label="Country:" ></FormLabel>
-            <TextEntry item='country' placeholder='Country' register={methods.register}></TextEntry>
+            <TextEntry 
+            item='country' 
+            placeholder='Country' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
           </FormSubDiv>
         </FormDiv>
       </ObjectContainer>
