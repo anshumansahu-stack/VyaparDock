@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from "react-hook-form"
 import FormEntry from './FormEntry/FormEntry'
 import PagePreview from './PagePreview/PagePreview'
@@ -12,22 +12,46 @@ const CreateResume = () => {
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
-  const methods = useForm()
+  const getCachedData = () => {
+    try {
+      const saved = localStorage.getItem('vyapardock_resume_cache')
+      return saved ? JSON.parse(saved) : {}
+    } catch (e) {
+      console.error("Cache parsing anomaly, falling back to empty:", e)
+      return {}
+    }
+  } // For local reloads, globally backend is required
+
+  const methods = useForm({
+    defaultValues: getCachedData() 
+  })// Default values loaded from recent cached data
+
+  const liveData = methods.watch() //This will watch the livedata of the form
+
+  useEffect(() => {
+    // Only save if there is actually data populated to prevent overwriting with nothing
+    if (Object.keys(liveData).length > 0) {
+      localStorage.setItem('vyapardock_resume_cache', JSON.stringify(liveData))
+    }
+  }, [liveData]) // As a side effect of change the data will be written locally onto cache
+
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, touchedFields }, // added touchedFields to prevent new field addition error
+    clearErrors
   } = methods
 
-  const liveData = methods.watch() //This will watch the livedata of the form
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const onSubmit = (EnteredData) => {
     setData(EnteredData)
     console.log("Final payload dispatched:", EnteredData)
+    localStorage.removeItem('vyapardock_resume_cache')
   }
+
   return (
     <DataContext.Provider value={{ 
       Data, 

@@ -14,6 +14,8 @@ import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
 import DescriptionContainer from '../../../FormElements/Containers/DescriptionContainer'
+import SuggestionEntry from '../../../FormElements/TextFields/SuggestionText'
+import FormSubSubDiv from '../../../FormElements/Containers/FormSubSubDiv'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -26,12 +28,12 @@ const Education = () => {
   })
 
   // Whats a nested state and why it happened here?
-  // state updation: when i checked the box, useEffect set the enddate value to present.
+  // state updation: when i checked the box, useEffect set the endDate value to present.
   // after that as the value changes, methods.watch() creates a new array reference of the same because some data was changed.
   // useEffect runs again to evaluate the entire card layout.
-  // This process keeps going on again and again that disabling the enddate is not achieved. 
+  // This process keeps going on again and again that disabling the endDate is not achieved. 
   // useWatch() hook fixes the same.
- 
+
   const watchAllEducation = useWatch({ // handling nested states
     control: methods.control,
     name: "education"
@@ -45,35 +47,34 @@ const Education = () => {
     // Loop through your form entries in memory
     watchAllEducation.forEach((exp, index) => {
       if (!methods.getValues(`education.${index}`)) return; // If no indices found then return
-      
+
       if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
-        if (methods.getValues(`education.${index}.enddate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
-          methods.setValue(`education.${index}.enddate`, "Present");
+        if (methods.getValues(`education.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+          methods.setValue(`education.${index}.endDate`, "Present");
         }
       } else {
         // If unchecked, clear it back out
-        if (methods.getValues(`education.${index}.enddate`) === "Present") {
-          methods.setValue(`education.${index}.enddate`, "");
+        if (methods.getValues(`education.${index}.endDate`) === "Present") {
+          methods.setValue(`education.${index}.endDate`, "");
         }
       }
     });
   }, [watchAllEducation, methods]);
 
   useEffect(() => {
-      const currentEducation = methods.getValues("education"); // Temp variable for avoiding Strictmode.
-  
-      if (!currentEducation || currentEducation.length === 0) {
-        append({
-          organisation: '',
-          startDate: '',
-          studystate: '',
-          degree: '',
-          enddate: '',
-          studycity: '',
-          edudescription: ''
-        });
-      }
-    }, [fields, append, methods]);
+    const currentEducation = methods.getValues("education"); // Temp variable for avoiding Strictmode.
+
+    if (!currentEducation || currentEducation.length === 0) {
+      append({
+        organisation: '',
+        startDate: '',
+        studyboard: '',
+        degree: '',
+        endDate: '',
+        cgpa: ''
+      });
+    }
+  }, [fields, append, methods]);
 
 
   // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
@@ -98,53 +99,143 @@ const Education = () => {
               <FormDiv>
                 <FormSubDiv>
                   <FormLabel label="Organisation:"></FormLabel>
-                  <TextEntry item={`education.${index}.organisation`} placeholder='Enter Organisation' register={methods.register}></TextEntry>
+                  <TextEntry
+                    item={`education.${index}.organisation`}
+                    placeholder='Enter Organisation'
+                    register={methods.register}
+                    errors={methods.formState.errors}
+                    touchedFields={methods.formState.touchedFields} 
+                    validation={{ required: "School or University name is required" }}
+                  ></TextEntry>
                 </FormSubDiv>
                 <FormSubDiv className='items-end! min-h-18!'>
                   <FormLabel label="Start Date:"></FormLabel>
-                  <DateEntry item={`education.${index}.startDate`} placeholder='dd-mm-yyyy' register={methods.register}></DateEntry>
+                  <DateEntry
+                    item={`education.${index}.startDate`}
+                    placeholder='dd-mm-yyyy'
+                    register={methods.register}
+                    errors={methods.formState.errors}
+                    touchedFields={methods.formState.touchedFields} 
+                    validation={{
+                      required: "Start date is required",
+                      validate: (value) => {
+                        if (!value) return true;
+                        const selectedDate = new Date(value);
+                        const today = new Date();
+                        return selectedDate < today || "Start date cannot be in the future";
+                      }
+                    }}
+                  ></DateEntry>
                 </FormSubDiv>
                 <FormSubDiv>
-                  <FormLabel label="State:" ></FormLabel>
-                  <TextEntry item={`education.${index}.studystate`} placeholder='State' register={methods.register}></TextEntry>
+                  <FormSubSubDiv>
+                    <FormLabel label="Board:" ></FormLabel>
+                    <SuggestionEntry text='(Mention State if State Board)' />
+                  </FormSubSubDiv>
+                  <TextEntry
+                    item={`education.${index}.studyboard`}
+                    placeholder='e.g., CBSE'
+                    register={methods.register}
+                    errors={methods.formState.errors}
+                    touchedFields={methods.formState.touchedFields} 
+                    validation={{ required: "Board or Authority specification is required" }}
+                  ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
 
               <FormDiv>
                 <FormSubDiv>
                   <FormLabel label="Degree:"></FormLabel>
-                  <TextEntry item={`education.${index}.degree`} placeholder='eg., 10th,Bachelors' register={methods.register}></TextEntry>
+                  <TextEntry
+                    item={`education.${index}.degree`}
+                    placeholder='eg., 10th,Bachelors'
+                    register={methods.register}
+                    errors={methods.formState.errors}
+                    touchedFields={methods.formState.touchedFields} 
+                    validation={{ required: "Degree qualification type is required" }}
+                  ></TextEntry>
                 </FormSubDiv>
 
                 <FormSubDiv className='flex-col'>
-                  {/* FIXED: Passed required attributes so the checkbox registers */}
                   <IsCurrentCheckerButton item={`education.${index}.isCurrent`} register={methods.register} />
 
                   <FormSubDiv>
                     <FormLabel label="End Date:" ></FormLabel>
-                    {/* FIXED: Linked disabled={isCurrentJob} , if is current job is true then the value will be disabled else it will not be disabled. */}
-                    <DateEntry item={`education.${index}.enddate`} placeholder='dd-mm-yyyy' register={methods.register} disabled={isCurrentJob} />
+                    <DateEntry
+                      item={`education.${index}.endDate`}
+                      placeholder='dd-mm-yyyy'
+                      register={methods.register}
+                      disabled={isCurrentJob}
+                      errors={methods.formState.errors}
+                      touchedFields={methods.formState.touchedFields} 
+                      validation={{
+                        required: "End date/Present selection is required",
+                        validate: (value) => {
+                          if (value === "Present") return true;
+                          if (!value) return true;
+
+                          const startDateVal = methods.getValues(`education.${index}.startDate`);
+                          if (!startDateVal) return true;
+
+                          const start = new Date(startDateVal);
+                          const end = new Date(value);
+                          return end > start || "End date must be after the start date";
+                        }
+                      }}
+                    />
                   </FormSubDiv>
                 </FormSubDiv>
 
                 <FormSubDiv>
-                  <FormLabel label="City:" ></FormLabel>
-                  <TextEntry item={`education.${index}.studycity`} placeholder='City' register={methods.register}></TextEntry>
+                  <FormSubSubDiv>
+                    <FormLabel label="CGPA:" ></FormLabel>
+                    <SuggestionEntry text='(Percentage/9.5)=CGPA' />
+                  </FormSubSubDiv>
+                  <TextEntry
+                    item={`education.${index}.cgpa`}
+                    placeholder='eg.,7.65'
+                    register={methods.register}
+                    disabled={isCurrentJob}
+                    errors={methods.formState.errors}
+                    touchedFields={methods.formState.touchedFields} 
+                    validation={{
+                      required: !isCurrentJob ? "CGPA/Marks metric input is required" : false,
+
+                      pattern: !isCurrentJob ? {
+                        value: /^[0-9](\.[0-9]{1,2})?$|^10(\.0{1,2})?$/,
+                        message: "Invalid evaluation range (0.00 - 10.00)"
+                      } : undefined
+                    }}
+                  ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
             </div>
 
-            <DescriptionContainer>
-              <FormLabel label="Description:" ></FormLabel>
-              <TextAreaEntry item={`education.${index}.edudescription`} placeholder='Describe your education...' register={methods.register}></TextAreaEntry>
-            </DescriptionContainer>
-            
             {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
 
-      <AddNewButton title='Add New Education →' className='self-start' onClick={() => append({organisation: '', startDate: '', studystate: '', degree: '', enddate: '', studycity: '', edudescription: '' })}></AddNewButton>
+      <AddNewButton
+        title='Add New Education →'
+        className='self-start'
+        onClick={
+          // Auto error-trigger on new block prevention:
+          () => {
+            const nextIndex = fields.length; //Calculate the next index
+            append({
+              organisation: '',
+              startDate: '',
+              studyboard: '',
+              degree: '',
+              endDate: '',
+              cgpa: '',
+              edudescription: ''
+            });
+            // setTimeout(() => {
+            //   methods.clearErrors(`education.${nextIndex}`);
+            // }, 0)//clear all the errors in the next index
+          }}></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}
     </MainForm>
   )

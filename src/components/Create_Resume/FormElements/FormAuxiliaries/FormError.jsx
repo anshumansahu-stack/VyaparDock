@@ -20,9 +20,11 @@ const FormError = (props) => {
     */
     const error = props.name.split('.').reduce((obj, key) => obj?.[key], errors)
     // Else just display the error message from the live react component state, which was populated whan one of my type validations failed..
+    if (!error) return null
+
     return (
-        <span className="mt-1 block text-xs font-medium text-red-400">
-            ⚠️ {error.message}
+        <span className="mt-1 block text-xs italic text-red-400 ">
+            {error.message}
         </span>
     )
 }

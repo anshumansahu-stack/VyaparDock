@@ -68,15 +68,6 @@ const PersonalDetails = () => {
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
-            <FormLabel label="LinkedIn:" ></FormLabel>
-            <TextEntry 
-            item='linkedin' 
-            placeholder='linkedin.com/' 
-            register={methods.register}
-            errors={methods.formState.errors}
-            ></TextEntry>
-          </FormSubDiv>
-          <FormSubDiv>
             <FormLabel label="State:" ></FormLabel>
             <TextEntry 
             item='state' 
@@ -97,6 +88,15 @@ const PersonalDetails = () => {
             }}
             ></TextEntry>
           </FormSubDiv>
+          <FormSubDiv>
+            <FormLabel label="LinkedIn:" ></FormLabel>
+            <TextEntry 
+            item='linkedin' 
+            placeholder='linkedin.com/' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
+          </FormSubDiv>
         </FormDiv>
         <FormDiv>
           <FormSubDiv>
@@ -115,6 +115,10 @@ const PersonalDetails = () => {
             placeholder='Current Organisation' 
             register={methods.register}
             errors={methods.formState.errors}
+            validation={{
+              required: "Name of Current Organisation is required",
+              minLength: { value: 2, message: "Must be at least 2 characters" }
+            }}
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -127,15 +131,6 @@ const PersonalDetails = () => {
             validation={{
               pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid alternative phone format" }
             }}
-            ></TextEntry>
-          </FormSubDiv>
-          <FormSubDiv>
-            <FormLabel label="Github Link:" ></FormLabel>
-            <TextEntry 
-            item='github' 
-            placeholder='github.com/' 
-            register={methods.register}
-            errors={methods.formState.errors}
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -152,6 +147,15 @@ const PersonalDetails = () => {
             <TextEntry 
             item='country' 
             placeholder='Country' 
+            register={methods.register}
+            errors={methods.formState.errors}
+            ></TextEntry>
+          </FormSubDiv>
+          <FormSubDiv>
+            <FormLabel label="Github Link:" ></FormLabel>
+            <TextEntry 
+            item='github' 
+            placeholder='Paste link here' 
             register={methods.register}
             errors={methods.formState.errors}
             ></TextEntry>
