@@ -47,13 +47,13 @@ const ProfessionalExperience = () => {
       if (!methods.getValues(`experiences.${index}`)) return; // If no indices found then return
       
       if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
-        if (methods.getValues(`experiences.${index}.enddate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
-          methods.setValue(`experiences.${index}.enddate`, "Present");
+        if (methods.getValues(`experiences.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+          methods.setValue(`experiences.${index}.endDate`, "Present");
         }
       } else {
         // If unchecked, clear it back out
-        if (methods.getValues(`experiences.${index}.enddate`) === "Present") {
-          methods.setValue(`experiences.${index}.enddate`, "");
+        if (methods.getValues(`experiences.${index}.endDate`) === "Present") {
+          methods.setValue(`experiences.${index}.endDate`, "");
         }
       }
     });
@@ -93,7 +93,7 @@ const ProfessionalExperience = () => {
         const isCurrentJob = watchAllExperiences[index]?.isCurrent || false;
 
         return ( // Main form logic
-          <ObjectContainer key={field.id}>
+          <ObjectContainer key={field.id} >
             <div className='flex justify-between gap-15'>
               <FormDiv>
                 <FormSubDiv>
@@ -186,8 +186,8 @@ const ProfessionalExperience = () => {
               <FormLabel label="Job Description:" ></FormLabel>
               <TextAreaEntry 
               item={`experiences.${index}.jobdescription`} 
+              childclassName='h-30'
               placeholder='Describe your job achievements...' 
-              register={methods.register}
               register={methods.register}
               formState={methods.formState}
               ></TextAreaEntry>

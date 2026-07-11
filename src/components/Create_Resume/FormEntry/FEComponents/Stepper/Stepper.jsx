@@ -4,12 +4,13 @@ import { DataContext } from '../../../DataContext'
 import NextButton from './Buttons/NextButton'
 import PrevButton from './Buttons/PrevButton'
 import SubmitButton from './Buttons/SubmitButton'
+import ClearButton from './Buttons/ClearButton'
 
 const Stepper = () => {
   const navigate = useNavigate()
   const location = useLocation() // Retrieves the current URL Information as an object.
 
-  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS} = useContext(DataContext)
+  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData} = useContext(DataContext)
 
   const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
 
@@ -23,6 +24,8 @@ const Stepper = () => {
   const isFirstStep = currentIndex === 0 // Truth value of is the current index at index 1.
   const isLastStep = currentIndex === FORM_STEPS.length - 1 // same but at last.
 
+  const hasData = Object.keys(methods.watch()).length > 0
+
   const getFieldsForStep = (stepName) => { // For current step, get all the concerned fields
     switch (stepName) {
       case 'personal_details':
@@ -35,14 +38,27 @@ const Stepper = () => {
         return ['experiences']
       case 'education':
         return ['education']
-      case 'technical_proficiencies':
-        return ['technical_proficiencies']
+      case 'technical_skills':
+        return ['technicalskills']
+      case 'responsibilities':
+        return ['technical_skills']
+      case 'technical_skills':
+        return ['achievementsandcertifications']
       case 'projects':
         return ['projects']
       default:
         return []
     }
   }
+
+  const triggerResetPrompt = () => {
+    // A clean confirmation barrier protects users from accidentally nuking hours of resume typing work!
+    const confirmClear = window.confirm("Are you sure you want to delete all resume data? This action cannot be undone.");
+    if (confirmClear) {
+      handleResetAllData();
+      navigate('/create_resume/personal_details'); // Redirect back to page 1 automatically
+    }
+  };
 
   const handleNext = async () => { //asynchronous function
     // Get the validation targets for the active screen route
@@ -104,25 +120,24 @@ const Stepper = () => {
   }, [currentIndex, isLastStep, isFirstStep, methods, FORM_STEPS]) // Rebinds securely when step updates, added FORM_STEPS array so that handleNext doesnt freeze if(in future updates) FORM_STEPS becomes dynamic
   // Main Logic
 
-  if (isFirstStep) {
-    return (
-      <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-        <NextButton onClick={handleNext} />
-      </div>
-    )
-  }
-  else if (isLastStep) {
-    return (
-      <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-        <PrevButton onClick={handlePrev} />
-        <SubmitButton onClick={methods.handleSubmit(handleFinalSubmit)} />
-      </div>
-    )
-  }
   return (
-    <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center gap-3 p-2'>
-      <PrevButton onClick={handlePrev} />
-      <NextButton onClick={handleNext} />
+    <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center items-center gap-3 p-2 relative'>
+      
+      {/* Conditionally show Prev */}
+      {!isFirstStep && <PrevButton onClick={handlePrev} />}
+
+      {/* Toggle between Next and Submit */}
+      {!isLastStep ? (
+        <NextButton onClick={handleNext} />
+      ) : (
+        <SubmitButton onClick={methods.handleSubmit(onSubmit)} />
+      )}
+
+      {/* Absolute positioned Clear Button */}
+      {hasData && (
+           <ClearButton onClick={triggerResetPrompt} />
+      )}
+
     </div>
   )
 }

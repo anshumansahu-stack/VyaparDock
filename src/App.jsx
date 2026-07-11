@@ -10,8 +10,10 @@ import PersonalDetails from './components/Create_Resume/FormEntry/FEComponents/O
 import ProfessionalExperience from './components/Create_Resume/FormEntry/FEComponents/OutletComps/ProfessionalExperience'
 import Education from './components/Create_Resume/FormEntry/FEComponents/OutletComps/Education';
 import AreasOfExpertise from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AreasOfExpertise';
-import TechnicalProficiencies from './components/Create_Resume/FormEntry/FEComponents/OutletComps/TechnicalProficiencies';
 import Projects from './components/Create_Resume/FormEntry/FEComponents/OutletComps/Projects';
+import TechnicalSkills from './components/Create_Resume/FormEntry/FEComponents/OutletComps/TechnicalSkills';
+import PositionsOfResponsibility from './components/Create_Resume/FormEntry/FEComponents/OutletComps/PositionsOfResponsibility';
+import AchievementsAndCertifications from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AchievementsAndCertifications';
 
 const router = createBrowserRouter([
   {
@@ -51,14 +53,24 @@ const router = createBrowserRouter([
         <AreasOfExpertise/>
       },
       {
-        path:'technical_proficiencies',
+        path:'technical_skills',
         element:
-        <TechnicalProficiencies/>
+        <TechnicalSkills/>
       },
       {
         path:'projects',
         element:
         <Projects/>
+      },
+      {
+        path:'positions_of_responsibility',
+        element:
+        <PositionsOfResponsibility/>
+      },
+      {
+        path:'achievements_and_certifications',
+        element:
+        <AchievementsAndCertifications/>
       }
     ]
   },

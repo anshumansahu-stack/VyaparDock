@@ -22,15 +22,27 @@ const TextAreaEntry = (props) => {
       e.target.value = "– ";
     }
   };
+
+  const fieldError = props.formState?.errors && props.item.split('.').reduce((obj, key) => obj?.[key], props.formState.errors);
+  const isTouched = props.formState?.touchedFields && props.item.split('.').reduce((obj, key) => obj?.[key], props.formState.touchedFields);
+  const isSubmitted = props.formState?.isSubmitted;
+
+  // FIX APPLIED: Only show error if the field was touched OR the user tried to submit the whole form
+  const shouldShowError = !!fieldError && (isTouched || isSubmitted);
   return (
     <div className={'w-full flex flex-col ' + (props.className || "")}>
       <textarea
-        className="border-solid border-white border h-full w-full rounded-md placeholder:text-gray-400 p-2 text-white "
+        className={`border-solid border min-h-full overflow-y-scroll no-scrollbar w-full rounded-md p-2 text-white disabled:text-white/30 disabled:bg-transparent disabled:cursor-not-allowed disabled:placeholder:text-white/30
+  ${!shouldShowError
+            ? 'border-white bg-white/10 placeholder:text-gray-400'
+            : 'border-red-600 bg-red-400/10 placeholder:text-red-400 ring-1 ring-red-600'
+          } ${props.childclassName || ""}`}
         {...props.register(props.item, props.validation || {})}
-        placeholder={props.placeholder} 
+        placeholder={props.placeholder}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        />
+      />
+      {shouldShowError && <FormError name={props.item} errors={props.formState.errors} />}
     </div>
   )
 }

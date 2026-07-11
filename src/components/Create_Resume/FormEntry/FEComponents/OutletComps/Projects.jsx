@@ -48,13 +48,13 @@ const Projects = () => {
             if (!methods.getValues(`projects.${index}`)) return; // If no indices found then return
 
             if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
-                if (methods.getValues(`projects.${index}.enddate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
-                    methods.setValue(`projects.${index}.enddate`, "Present");
+                if (methods.getValues(`projects.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+                    methods.setValue(`projects.${index}.endDate`, "Present");
                 }
             } else {
                 // If unchecked, clear it back out
-                if (methods.getValues(`projects.${index}.enddate`) === "Present") {
-                    methods.setValue(`projects.${index}.enddate`, "");
+                if (methods.getValues(`projects.${index}.endDate`) === "Present") {
+                    methods.setValue(`projects.${index}.endDate`, "");
                 }
             }
         });
@@ -65,7 +65,13 @@ const Projects = () => {
 
         // ⚡ FIX: Sync the mount initialization schema keys
         if (!currentProjects || currentProjects.length === 0) {
-            append({ projecttitle: '', startDate: '', isCurrent: false, enddate: '', projectdescription: '', skillstack: [] });
+            append({ 
+                projecttitle: '', 
+                startDate: '', 
+                endDate: '', 
+                projectdescription: '', 
+                skillstack: [] 
+            });
         }
 
     }, [fields, append, methods]);
@@ -92,12 +98,28 @@ const Projects = () => {
                         <div className='flex justify-between gap-15'>
                             <FormSubDiv className='flex-col! items-center justify-center'>
                                 <FormLabel label="Project Title:" className="justify-center!"></FormLabel>
-                                <TextEntry item={`projects.${index}.projecttitle`} placeholder='Enter Project Title' register={methods.register} childclassName='min-w-70! min-h-30!'></TextEntry>
+                                <TextEntry
+                                    item={`projects.${index}.projecttitle`}
+                                    placeholder='Enter Project Title'
+                                    register={methods.register}
+                                    childclassName='min-w-70! min-h-30!'
+                                    formState={methods.formState} // Insulation
+                                    validation={{ required: "Project title is required" }}
+                                ></TextEntry>
                             </FormSubDiv>
                             <FormDiv>
                                 <FormSubDiv className='items-end! min-h-18!'>
                                     <FormLabel label="Start Date:"></FormLabel>
-                                    <DateEntry item={`projects.${index}.startDate`} placeholder='dd-mm-yyyy' register={methods.register}></DateEntry>
+                                    <DateEntry
+                                        item={`projects.${index}.startDate`}
+                                        placeholder='dd-mm-yyyy'
+                                        register={methods.register}
+                                        formState={methods.formState}
+                                        validation={{
+                                            required: "Start date is required",
+                                            validate: (val) => new Date(val) <= new Date() || "Date cannot be in future"
+                                        }}
+                                    ></DateEntry>
                                 </FormSubDiv>
 
                                 <FormSubDiv className='flex-col'>
@@ -105,7 +127,22 @@ const Projects = () => {
 
                                     <FormSubDiv>
                                         <FormLabel label="End Date:" ></FormLabel>
-                                        <DateEntry item={`projects.${index}.enddate`} placeholder='dd-mm-yyyy' register={methods.register} disabled={isCurrentJob} />
+                                        <DateEntry
+                                            item={`projects.${index}.endDate`}
+                                            placeholder='dd-mm-yyyy'
+                                            register={methods.register}
+                                            disabled={isCurrentJob}
+                                            formState={methods.formState}
+                                            validation={{
+                                                required: !isCurrentJob ? "End date is required" : false,
+                                                validate: (value) => {
+                                                    if (isCurrentJob || value === "Present" || !value) return true;
+                                                    const start = methods.getValues(`experiences.${index}.startDate`);
+                                                    if (!start) return true;
+                                                    return new Date(value) > new Date(start) || "Must be after start date";
+                                                }
+                                            }}
+                                        />
                                     </FormSubDiv>
                                 </FormSubDiv>
 
@@ -115,9 +152,15 @@ const Projects = () => {
 
                         <DescriptionContainer>
                             <FormLabel label="Project Description:" ></FormLabel>
-                            <TextAreaEntry item={`projects.${index}.projectdescription`} placeholder='Describe your project in 1-2 lines...' register={methods.register} className='max-h-20'></TextAreaEntry>
+                            <TextAreaEntry 
+                            item={`projects.${index}.projectdescription`} 
+                            placeholder='Describe your project in 1-2 lines...' 
+                            register={methods.register} 
+                            className='h-30'
+                            formState={methods.formState}
+                            ></TextAreaEntry>
                         </DescriptionContainer>
-                        
+
                         <FormSubDiv className='min-h-24! min-w-full flex-col items-start justify-start gap-3!'>
                             <FormLabel label="Skill Stack Used:" ></FormLabel>
 
@@ -130,9 +173,21 @@ const Projects = () => {
                         {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
                     </ObjectContainer>
                 ); // Clean return closure
-            })} 
+            })}
 
-            <AddNewButton title='Add New Project →' className='self-start' onClick={() => append({ projecttitle: '', startDate: '', isCurrent: false, enddate: '', projectdescription: '', skillstack: [] })}></AddNewButton>
+            <AddNewButton 
+            title='Add New Project →' 
+            className='self-start' 
+            onClick={
+                (e) => {
+                    e.preventDefault();
+                    append({ 
+                    projecttitle: '', 
+                    startDate: '', 
+                    endDate: '', 
+                    projectdescription: '', 
+                    skillstack: [] })}}
+                    ></AddNewButton>
         </MainForm>
     )
 }

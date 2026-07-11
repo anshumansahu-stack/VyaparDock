@@ -8,7 +8,7 @@ import { DataContext } from './DataContext'
 // Another div containing page Preview
 
 const CreateResume = () => {
-  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'projects', 'areas_of_expertise', 'technical_proficiencies']
+  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'projects', 'technical_skills', 'positions_of_responsibility', 'achievements_and_certifications']
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
@@ -22,9 +22,21 @@ const CreateResume = () => {
     }
   } // For local reloads, globally backend is required
 
+  const handleResetAllData = () => {
+    // 1. Wipe out your background browser memory storage
+    localStorage.removeItem('vyapardock_resume_cache');
+
+    // 2. Clear out the live React Hook Form state memory cache. 
+    // Passing an empty object {} clears out every array matrix, checkbox, and text field instantly!
+    methods.reset({});
+
+    // 3. Reset the wizard step index back to the beginning page lane coordinate
+    setCurrentIndex(0);
+  };
+
   const methods = useForm({
     defaultValues: getCachedData(),
-    mode:'onChange'
+    mode: 'onChange'
   })// Default values loaded from recent cached data
 
   const liveData = methods.watch() //This will watch the livedata of the form
@@ -54,16 +66,18 @@ const CreateResume = () => {
   }
 
   return (
-    <DataContext.Provider value={{ 
-      Data, 
-      setData, 
-      liveData, 
-      methods, 
-      onSubmit, 
-      currentIndex, 
-      setCurrentIndex, 
-      FORM_STEPS, 
-      totalSteps: FORM_STEPS.length}}>
+    <DataContext.Provider value={{
+      Data,
+      setData,
+      liveData,
+      methods,
+      onSubmit,
+      currentIndex,
+      setCurrentIndex,
+      FORM_STEPS,
+      totalSteps: FORM_STEPS.length,
+      handleResetAllData
+    }}>
       <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-9/10 flex justify-between box-border p-5 gap-5">
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>

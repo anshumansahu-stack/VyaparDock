@@ -11,7 +11,7 @@ const Experience = () => {
 
   if (currentIndex < 1 && experienceList.length === 0) return null; // If theres nothing to render then return null.
   return (
-    <div className='text-black flex flex-col items-start'>
+    <div className='text-black flex flex-col items-start break-inside-avoid'>
         <TitleField title='Experience'/>
         <Separator/>
         {experienceList.map((exp, index) => { // edu is basically the block to be rendered, We check if its empty and then put things on the screen.

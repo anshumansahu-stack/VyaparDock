@@ -40,7 +40,7 @@ const TagInput = (props) => {
   return (
     <div className="w-full flex flex-col gap-2">
       {/* Outer Border Display Container */}
-      <div className="w-full min-h-12.5 border border-solid border-white/40 p-2 rounded-md bg-transparent flex flex-wrap gap-2 items-center">
+      <div className={"w-full min-h-12.5 border border-solid border-white/40 p-2 rounded-md bg-transparent flex flex-wrap gap-2 items-center "+(props.childclassName || "")}>
         
         {/* Render Active Skill Chips List */}
         {tags.map((tag, tagIndex) => (
