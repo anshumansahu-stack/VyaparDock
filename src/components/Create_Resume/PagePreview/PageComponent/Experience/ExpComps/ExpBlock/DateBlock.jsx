@@ -1,5 +1,5 @@
 import React from 'react'
-import EduContainer from '../EduContainers/EduContainer';
+import ExpContainer from '../ExpContainers/ExpContainer';
 
 const formatResumeDate = (dateString) => { // Converts YYYY-MM-DD to month-YYYY
     if (!dateString) return '';
@@ -22,14 +22,14 @@ const formatResumeDate = (dateString) => { // Converts YYYY-MM-DD to month-YYYY
     }
 }
 const DateBlock = (props) => {
-    const start = props.edu?.startDate
-    const end = props.edu?.endDate
+    const start = props.exp?.startDate
+    const end = props.exp?.endDate
     return (
-        <EduContainer className='italic font-[Ibarra_Real_Nova]'>
+        <ExpContainer className='italic font-[Ibarra_Real_Nova]'>
             {start ? formatResumeDate(start) : ""}
             {start && end ? " - " : ""}
             {end ? formatResumeDate(end) : ""}
-        </EduContainer>
+        </ExpContainer>
     )// Render any of the blocks when they are available. Dont leave the '-' hanging midway.
 }
 export default DateBlock

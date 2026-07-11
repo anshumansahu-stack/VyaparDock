@@ -81,12 +81,6 @@ const Stepper = () => {
     else if (e.key === 'ArrowLeft') {
       handlePrev()
     }
-    else if (e.key === 'Enter') {
-      if (currentIndex === FORM_STEPS.length - 1) {
-        e.preventDefault();
-        methods.handleSubmit(handleFinalSubmit)()
-      }
-    }
   }
 
   // Button navigation
@@ -95,11 +89,7 @@ const Stepper = () => {
       // Ignore arrow keys if the user is actively typing inside a text field/textarea
       const activeTag = document.activeElement?.tagName;
       if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') {
-        // Exception: Let 'Enter' still submit even if inside an input box
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          methods.handleSubmit(handleFinalSubmit)();
-        }
+        // Dont bother cursor movement inside box
         return;
       }
       // If not typing, navigate freely using arrow keys!

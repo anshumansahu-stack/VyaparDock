@@ -2,31 +2,31 @@ import React, {useContext} from 'react'
 import { DataContext } from '../../../DataContext'
 import Separator from '../../PageAuxiliaries/Separator'
 import TitleField from '../../PageAuxiliaries/TitleField'
-import EduBlock from './EduComps/EduBlock'
+import ExpBlock from './ExpComps/ExpBlock'
 import Bullet from '../../PageAuxiliaries/Bullet'
 
-const Education = () => {
+const Experience = () => {
   const { liveData, currentIndex } = useContext(DataContext)
-  const educationList = liveData?.education || []
+  const experienceList = liveData?.experiences || []
 
-  if (currentIndex < 1 && educationList.length === 0) return null; // If theres nothing to render then return null.
+  if (currentIndex < 1 && experienceList.length === 0) return null; // If theres nothing to render then return null.
   return (
     <div className='text-black flex flex-col items-start'>
-        <TitleField title='Education'/>
+        <TitleField title='Experience'/>
         <Separator/>
-        {educationList.map((edu, index) => { // edu is basically the block to be rendered, We check if its empty and then put things on the screen.
+        {experienceList.map((exp, index) => { // edu is basically the block to be rendered, We check if its empty and then put things on the screen.
           // Skip rendering if this specific row is empty
-          const hasContent = edu.organisation || edu.degree || edu.studyboard || edu.startDate || edu.endDate || edu.cgpa;
+          const hasContent = exp.jobtitle || exp.jobstate || exp.employer || exp.startDate || exp.endDate || exp.jobcity || exp.jobdescription;
           if (!hasContent) return <Bullet/>;
 
           // Render a distinct, separate block wrapper for every index item
           return <div className='flex w-full gap-2'>
             <Bullet/>
-            <EduBlock key={index} edu={edu} />
+            <ExpBlock key={index} exp={exp} />
           </div>
         })}
     </div>
   )
 }
 
-export default Education
+export default Experience

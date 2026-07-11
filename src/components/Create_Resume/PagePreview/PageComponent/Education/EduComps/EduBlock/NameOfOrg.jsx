@@ -1,27 +1,14 @@
-import React, {useContext} from 'react'
-import { DataContext } from '../../../../../DataContext'
-import EduDummyContainer from '../EduContainers/EduDummyContainer'
+import React from 'react'
+import EduDummyContainer from '../EduContainers/EduContainer'
+import EduContainer from '../EduContainers/EduContainer';
 
-const NameOfOrg = () => {
-    const {liveData}=useContext(DataContext)
-    const educationList = liveData?.education || [] // If theres any livedata then extract the education list
+const NameOfOrg = (props) => {
+  const orgName = typeof props.edu?.organisation === 'string' ? props.edu.organisation.trim() : '';
   return (
-    <>
-      {/* Map over the collection so every added block prints its organization name */}
-      {educationList.map((edu, index) => {
-        // Guard Check: Skip rendering if this specific row is empty
-        if (!edu.organisation) return (
-          <EduDummyContainer/>
-        );
-
-        return (
-          <div key={index} className='font-[LoraIbarra_Real_Nova] text-[20px] font-bold text-black'>
-            {edu.organisation}
-          </div>
-        )
-      })}
-    </>
-  )
+    <EduContainer className='font-[Ibarra_Real_Nova] font-bold'>
+      {orgName ? orgName : ""} 
+    </EduContainer>
+    )
 }
 
 export default NameOfOrg

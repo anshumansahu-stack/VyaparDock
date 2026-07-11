@@ -8,7 +8,7 @@ import { DataContext } from './DataContext'
 // Another div containing page Preview
 
 const CreateResume = () => {
-  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'areas_of_expertise', 'technical_proficiencies', 'projects']
+  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'projects', 'areas_of_expertise', 'technical_proficiencies']
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
@@ -23,7 +23,8 @@ const CreateResume = () => {
   } // For local reloads, globally backend is required
 
   const methods = useForm({
-    defaultValues: getCachedData() 
+    defaultValues: getCachedData(),
+    mode:'onChange'
   })// Default values loaded from recent cached data
 
   const liveData = methods.watch() //This will watch the livedata of the form

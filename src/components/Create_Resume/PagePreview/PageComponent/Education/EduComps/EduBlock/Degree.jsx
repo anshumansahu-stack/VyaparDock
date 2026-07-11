@@ -1,27 +1,13 @@
-import React, {useContext} from 'react'
-import { DataContext } from '../../../../../DataContext'
-import EduDummyContainer from '../EduContainers/EduDummyContainer'
+import React from 'react'
+import EduContainer from '../EduContainers/EduContainer'
 
-const Degree = () => {
-    const {liveData}=useContext(DataContext)
-    const educationList = liveData?.education || [] // If theres any livedata then extract the education list
+const Degree = (props) => {
+  const DegVal = typeof props.edu?.degree === 'string' ? props.edu.degree.trim() : '';
   return (
-    <>
-      {/* Map over the collection so every added block prints its organization name */}
-      {educationList.map((edu, index) => {
-        // Guard Check: Skip rendering if this specific row is empty
-        if (!edu.degree) return (
-          <EduDummyContainer/>
-        );
-
-        return (
-          <div key={index} className='font-[Ibarra_Real_Nova] text-[20px] italic text-black'>
-            {edu.degree}
-          </div>
-        )
-      })}
-    </>
-  )
+    <EduContainer className='font-[Ibarra_Real_Nova] italic'>
+      {DegVal ? DegVal : ""} 
+    </EduContainer>
+    )
 }
 
 export default Degree

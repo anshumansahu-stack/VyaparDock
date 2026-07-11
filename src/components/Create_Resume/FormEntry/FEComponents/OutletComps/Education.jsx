@@ -100,22 +100,22 @@ const Education = () => {
                 <FormSubDiv>
                   <FormLabel label="Organisation:"></FormLabel>
                   <TextEntry
+                    key={`${field.id}-organisation`}
                     item={`education.${index}.organisation`}
                     placeholder='Enter Organisation'
                     register={methods.register}
-                    errors={methods.formState.errors}
-                    touchedFields={methods.formState.touchedFields} 
+                    formState={methods.formState}
                     validation={{ required: "School or University name is required" }}
                   ></TextEntry>
                 </FormSubDiv>
                 <FormSubDiv className='items-end! min-h-18!'>
                   <FormLabel label="Start Date:"></FormLabel>
                   <DateEntry
+                    key={`${field.id}-startDate`}
                     item={`education.${index}.startDate`}
                     placeholder='dd-mm-yyyy'
                     register={methods.register}
-                    errors={methods.formState.errors}
-                    touchedFields={methods.formState.touchedFields} 
+                    formState={methods.formState}
                     validation={{
                       required: "Start date is required",
                       validate: (value) => {
@@ -133,12 +133,11 @@ const Education = () => {
                     <SuggestionEntry text='(Mention State if State Board)' />
                   </FormSubSubDiv>
                   <TextEntry
+                    key={`${field.id}-studyboard`}
                     item={`education.${index}.studyboard`}
                     placeholder='e.g., CBSE'
                     register={methods.register}
-                    errors={methods.formState.errors}
-                    touchedFields={methods.formState.touchedFields} 
-                    validation={{ required: "Board or Authority specification is required" }}
+                    formState={methods.formState}
                   ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
@@ -147,11 +146,11 @@ const Education = () => {
                 <FormSubDiv>
                   <FormLabel label="Degree:"></FormLabel>
                   <TextEntry
+                    key={`${field.id}-degree`}
                     item={`education.${index}.degree`}
                     placeholder='eg., 10th,Bachelors'
                     register={methods.register}
-                    errors={methods.formState.errors}
-                    touchedFields={methods.formState.touchedFields} 
+                    formState={methods.formState}
                     validation={{ required: "Degree qualification type is required" }}
                   ></TextEntry>
                 </FormSubDiv>
@@ -162,12 +161,12 @@ const Education = () => {
                   <FormSubDiv>
                     <FormLabel label="End Date:" ></FormLabel>
                     <DateEntry
+                      key={`${field.id}-endDate`}
                       item={`education.${index}.endDate`}
                       placeholder='dd-mm-yyyy'
                       register={methods.register}
                       disabled={isCurrentJob}
-                      errors={methods.formState.errors}
-                      touchedFields={methods.formState.touchedFields} 
+                      formState={methods.formState}
                       validation={{
                         required: "End date/Present selection is required",
                         validate: (value) => {
@@ -192,12 +191,11 @@ const Education = () => {
                     <SuggestionEntry text='(Percentage/9.5)=CGPA' />
                   </FormSubSubDiv>
                   <TextEntry
+                    key={`${field.id}-cgpa`}
                     item={`education.${index}.cgpa`}
                     placeholder='eg.,7.65'
                     register={methods.register}
-                    disabled={isCurrentJob}
-                    errors={methods.formState.errors}
-                    touchedFields={methods.formState.touchedFields} 
+                    formState={methods.formState}
                     validation={{
                       required: !isCurrentJob ? "CGPA/Marks metric input is required" : false,
 
@@ -219,10 +217,11 @@ const Education = () => {
       <AddNewButton
         title='Add New Education →'
         className='self-start'
+        type='button'
         onClick={
           // Auto error-trigger on new block prevention:
-          () => {
-            const nextIndex = fields.length; //Calculate the next index
+          (e) => {
+            e.preventDefault();
             append({
               organisation: '',
               startDate: '',
@@ -232,9 +231,6 @@ const Education = () => {
               cgpa: '',
               edudescription: ''
             });
-            // setTimeout(() => {
-            //   methods.clearErrors(`education.${nextIndex}`);
-            // }, 0)//clear all the errors in the next index
           }}></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}
     </MainForm>
