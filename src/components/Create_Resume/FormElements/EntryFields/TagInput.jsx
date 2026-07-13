@@ -1,81 +1,103 @@
 import React, { useState } from 'react'
+import { Controller } from 'react-hook-form' 
+import FormError from '../FormAuxiliaries/FormError'
 
 const TagInput = (props) => {
-  // Live watch the existing array values, fallback to an empty array
-  const tags = props.methods.watch(props.item) || []
-  const [inputValue, setInputValue] = useState('') //Initial state blank 
-
-  const handleKeyDown = (e) => {
-    // Intercept Comma, Enter is for submission and is applied to the window object
-    if (e.key === ',') {
-      e.preventDefault() // Stop character from printing inside input field
-      
-      const cleanValue = inputValue.trim().replace(/,$/, '') // Remove trailing comma if exists
-      
-      if (cleanValue) {
-        // Check if the user is attempting to add more than 5 elements
-        if (tags.length >= 5) {
-          alert("Maximum of 5 top skills allowed per project to optimize resume layout density.")
-          setInputValue('') // Wipe out the text field
-          return // Exit execution immediately
-        }
-
-        // Push the new chip directly into the React Hook Form data state registry array if unique
-        if (!tags.includes(cleanValue)) {
-          props.methods.setValue(props.item, [...tags, cleanValue], { shouldValidate: true })
-        }
-        // Since the tags data are created here locally and managed and added here itself, useState hook as a blankarray is enough.
-        // useContext is to talk through children elements, thats not required here.
-      }
-      
-      setInputValue('') // Reset text field blank
-    }
-  }
-
-  const removeTag = (tagToRemove) => {
-    const updatedTags = tags.filter(tag => tag !== tagToRemove) // Keep only those tags those are not intended to be removed
-    props.methods.setValue(props.item, updatedTags, { shouldValidate: true }) // shouldValidate: true means that the validation checks are to be mandatorily run on the newly updated fields, if any.
-  }
+  const [inputValue, setInputValue] = useState('') 
 
   return (
-    <div className="w-full flex flex-col gap-2">
-      {/* Outer Border Display Container */}
-      <div className={"w-full min-h-12.5 border border-solid border-white/40 p-2 rounded-md bg-transparent flex flex-wrap gap-2 items-center "+(props.childclassName || "")}>
+    <Controller
+      name={props.item}
+      control={props.methods.control}
+      rules={props.validation || {}}
+      render={({ field, fieldState }) => {
         
-        {/* Render Active Skill Chips List */}
-        {tags.map((tag, tagIndex) => (
-          <span 
-            key={tagIndex} 
-            className="flex items-center gap-1.5 bg-white/10 border border-solid border-white/20 text-white font-[Braah_One] text-md px-2.5 py-1 rounded-md transition-colors hover:bg-white/20"
-          >
-            {tag}
-            <button
-              type="button"
-              onClick={() => removeTag(tag)}
-              className="text-red-400 font-bold hover:text-red-300 text-xl focus:outline-none cursor-pointer"
-            >
-              ×
-            </button>
-          </span>
-        ))}
+        // Extract exact live data parameters out of the Controller proxy stream natively
+        const tags = field.value || []; 
+        
+        // Notebook Error Parsing Matrix — Streamlined and handled by the Controller out-of-the-box
+        const fieldError = fieldState.error;
+        const isTouched = fieldState.isTouched;
+        const hasGlobalErrors = props.methods.formState?.errors && Object.keys(props.methods.formState.errors).length > 0;
+        
+        // Your exact preferred truth table evaluation condition string
+        const shouldShowError = !!fieldError && (isTouched || props.methods.formState?.isSubmitting || hasGlobalErrors);
 
-        {/* Dynamic Inline Input Field Box — Hides or shows depending on cap limit */}
-        {tags.length < 5 ? (
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={tags.length === 0 ? props.placeholder : "Add more..."}
-            className="flex-1 bg-transparent text-white p-1 outline-none border-none placeholder:text-gray-400 min-w-30"
-          />
-        ) : (
-          <span className="text-gray-400 italic px-2">
-            (5 skill limit reached)
-          </span>
-        )}
-      </div>
-    </div>
+        const handleKeyDown = (e) => {
+          if (e.key === ',') {
+            e.preventDefault() 
+            const cleanValue = inputValue.trim().replace(/,$/, '') 
+
+            if (cleanValue) {
+              if (tags.length >= 5) {
+                alert("Maximum of 5 top skills allowed per project to optimize resume layout density.")
+                setInputValue('') 
+                return 
+              }
+
+              if (!tags.includes(cleanValue)) {
+                // Updates your parent context and localStorage backup synchronously
+                field.onChange([...tags, cleanValue]);
+              }
+            }
+            setInputValue('') 
+          }
+          else if (e.key === 'Backspace' && !inputValue && tags.length > 0) {
+            removeTag(tags[tags.length - 1])
+          }
+        }
+
+        const removeTag = (tagToRemove) => {
+          const updatedTags = tags.filter(tag => tag !== tagToRemove);
+          field.onChange(updatedTags); 
+        }
+
+        return (
+            <div className={`w-full min-h-12.5 border border-solid p-2 rounded-md flex flex-nowrap overflow-x-auto no-scrollbar gap-2 items-center transition-colors duration-200 ${props.className || ""} ${
+              !shouldShowError ? 'border-white bg-white/10' : 'border-red-600 bg-red-400/10'
+            }`}>
+
+              {/* Active Skill Chips  */}
+              {tags.map((tag, tagIndex) => (
+                <span
+                  key={tagIndex}
+                  className="flex items-center gap-1.5 bg-transparent border border-solid border-white/20 text-white shrink-0 font-[Braah_One] text-md px-2.5 py-1 rounded-md transition-colors hover:bg-white/10"
+                  title={tag}
+                >
+                  {/* Your clean text ellipsis truncation tag wrapper element */}
+                  <span className="max-w-[7ch] truncate block">
+                    {tag}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="text-red-400 font-bold hover:text-red-300 text-xl focus:outline-none cursor-pointer shrink-0 ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+
+              {/* Inline Input Box Container */}
+              {tags.length < 5 ? (
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={tags.length === 0 ? props.placeholder : "Add more..."}
+                  className="flex-1 bg-transparent text-white p-1 outline-none border-none placeholder:text-gray-400 min-w-30 shrink-0"
+                />
+              ) : (
+                <span className="text-gray-400 italic px-2 font-sans text-xs shrink-0">
+                  (5 skill limit reached)
+                </span>
+              )}
+            {shouldShowError && <FormError name={props.item} errors={props.methods.formState.errors} />}
+            </div>
+        );
+      }}
+    />
   )
 }
 

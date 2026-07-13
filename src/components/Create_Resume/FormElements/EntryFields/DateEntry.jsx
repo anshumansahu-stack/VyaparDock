@@ -4,10 +4,9 @@ import FormError from '../FormAuxiliaries/FormError';
 const DateEntry = (props) => {
   const fieldError = props.formState?.errors && props.item.split('.').reduce((obj, key) => obj?.[key], props.formState.errors);
   const isTouched = props.formState?.touchedFields && props.item.split('.').reduce((obj, key) => obj?.[key], props.formState.touchedFields);
-  const isSubmitted = props.formState?.isSubmitted;
+  const hasGlobalErrors = props.formState?.errors && Object.keys(props.formState.errors).length > 0; // Are any active errors loaded in the formstate dictionary?
 
-  // FIX APPLIED: Only show error if the field was touched OR the user tried to submit the whole form
-  const shouldShowError = !!fieldError && (isTouched || isSubmitted);
+  const shouldShowError = !!fieldError && (isTouched || hasGlobalErrors);
   return (
     <div className={'w-full flex flex-col ' + (props.className || "")}>
       <input

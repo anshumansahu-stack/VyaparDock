@@ -23,16 +23,74 @@ const CreateResume = () => {
   } // For local reloads, globally backend is required
 
   const handleResetAllData = () => {
-    // 1. Wipe out your background browser memory storage
+    //  Wipe out background browser memory storage
     localStorage.removeItem('vyapardock_resume_cache');
 
-    // 2. Clear out the live React Hook Form state memory cache. 
-    // Passing an empty object {} clears out every array matrix, checkbox, and text field instantly!
-    methods.reset({});
+    // Clear out the live React Hook Form state memory cache. 
+    // Passing an empty object {} clears out every array matrix, checkbox, and text field instantly
+    methods.reset({
+      firstname: '',
+      lastname: '',
+      currRole: '',
+      currOrg: '',
+      phone: '',
+      altphone: '',
+      email: '',
+      github: '',
+      linkedin: '',
+      city: '',
+      state: '',
+      country: '',
+      postalcode: '',
+      education: [],
+      experiences: [],
+      projects: [],
+      technicalskills: [],
+      responsibilities: [],
+      achievementsandcertifications: []
+    });
 
-    // 3. Reset the wizard step index back to the beginning page lane coordinate
+    // Reset the wizard step index back to the beginning page lane coordinate
     setCurrentIndex(0);
   };
+
+  const handleResetCurrentPage = () => {
+  const currentStepName = FORM_STEPS[currentIndex];
+  if (!currentStepName) return;
+
+  const confirmClear = window.confirm(`Are you sure you want to clear all inputs on this page?`);
+  if (!confirmClear) return;
+
+  const updatedData = { ...methods.getValues() };
+
+  // TARGETED RESET ACTION LAYER:
+  if (currentStepName === 'personal_details') {
+    // FIX APPLIED: Reset the specific top-level keys used in Personal Details
+    const personalKeys = ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode'];
+    personalKeys.forEach(key => updatedData[key] = '');
+  } else {
+    // FIX APPLIED: Map the Step Name to the actual Data Key used in your JSON
+    const stepToDataKey = {
+      'education': 'education',
+      'professional_experience': 'experiences', // Matches JSON
+      'projects': 'projects',
+      'technical_skills': 'technicalskills', // Matches JSON
+      'positions_of_responsibility': 'responsibilities', // Matches JSON
+      'achievements_and_certifications': 'achievementsandcertifications' // Matches JSON
+    };
+
+    const dataKey = stepToDataKey[currentStepName];
+    if (dataKey) {
+      updatedData[dataKey] = []; // Clear the array
+    }
+  }
+
+  // Force React Hook Form to update
+  methods.reset(updatedData);
+
+  // Sync to local storage
+  localStorage.setItem('vyapardock_resume_cache', JSON.stringify(updatedData));
+};
 
   const methods = useForm({
     defaultValues: getCachedData(),
@@ -76,7 +134,8 @@ const CreateResume = () => {
       setCurrentIndex,
       FORM_STEPS,
       totalSteps: FORM_STEPS.length,
-      handleResetAllData
+      handleResetAllData,
+      handleResetCurrentPage
     }}>
       <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-9/10 flex justify-between box-border p-5 gap-5">
         <FormEntry></FormEntry>

@@ -5,6 +5,7 @@ import JobDesc from './ExpBlock/JobDesc'
 import DateBlock from './ExpBlock/DateBlock'
 import AddressBlock from './ExpBlock/AddressBlock'
 
+// Did not divide any further subcomponents here because each component rendered in the same level has unique configurations.
 const ExpBlock = (props) => {
   return (
     <div className='flex flex-col w-full '>

@@ -5,12 +5,13 @@ import NextButton from './Buttons/NextButton'
 import PrevButton from './Buttons/PrevButton'
 import SubmitButton from './Buttons/SubmitButton'
 import ClearButton from './Buttons/ClearButton'
+import ClearCurrentButton from './Buttons/ClearCurrentButton'
 
 const Stepper = () => {
   const navigate = useNavigate()
   const location = useLocation() // Retrieves the current URL Information as an object.
 
-  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData} = useContext(DataContext)
+  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage} = useContext(DataContext)
 
   const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
 
@@ -31,21 +32,18 @@ const Stepper = () => {
       case 'personal_details':
         // Explicitly lists all your top-level primitive strings from PersonalDetails
         return ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode']
-      case 'areas_of_expertise':
-        // Targets your dynamic array tree block completely
-        return ['areasofexpertise']
-      case 'professional_experience':
-        return ['experiences']
       case 'education':
         return ['education']
+      case 'professional_experience':
+        return ['experiences']
+      case 'projects':
+        return ['projects']
       case 'technical_skills':
         return ['technicalskills']
       case 'responsibilities':
-        return ['technical_skills']
-      case 'technical_skills':
+        return ['responsibilities']
+      case 'achievements_and_certifications':
         return ['achievementsandcertifications']
-      case 'projects':
-        return ['projects']
       default:
         return []
     }
@@ -86,6 +84,9 @@ const Stepper = () => {
   } // similar functionality.
 
   const handleFinalSubmit = (formData) => {
+    const confirmSubmit = window.confirm("Are you sure you want to Submit all resume data?");
+    if(!confirmSubmit) return;
+
     alert("Form values submitted successfully! Freezing layout data views...")
     onSubmit(formData) // Triggers your parent state lock
   } //post an alert and submit form data.
@@ -123,17 +124,18 @@ const Stepper = () => {
   return (
     <div className='bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center items-center gap-3 p-2 relative'>
       
-      {/* Conditionally show Prev */}
+      {hasData && (
+           <ClearCurrentButton onClick={handleResetCurrentPage}/>
+      )}
+      
       {!isFirstStep && <PrevButton onClick={handlePrev} />}
 
-      {/* Toggle between Next and Submit */}
       {!isLastStep ? (
         <NextButton onClick={handleNext} />
       ) : (
-        <SubmitButton onClick={methods.handleSubmit(onSubmit)} />
+        <SubmitButton onClick={methods.handleSubmit(handleFinalSubmit)} />
       )}
 
-      {/* Absolute positioned Clear Button */}
       {hasData && (
            <ClearButton onClick={triggerResetPrompt} />
       )}

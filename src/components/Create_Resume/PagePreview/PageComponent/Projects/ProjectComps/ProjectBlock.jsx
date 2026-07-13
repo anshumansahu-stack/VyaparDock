@@ -3,7 +3,7 @@ import NameOfProject from './ProjectBlock/NameOfProject'
 import Skills from './ProjectBlock/Skills'
 import DateBlock from './ProjectBlock/DateBlock'
 import ProjDesc from './ProjectBlock/ProjDesc'
-import ProjectContainer from './ProjectContainer/ProjectContainer'
+import TextFieldContainer from '../../../PageAuxiliaries/TextFieldContainer'
 
 const ProjectBlock = (props) => {
   return (
@@ -15,8 +15,7 @@ const ProjectBlock = (props) => {
         </div>
         <div className='flex flex-col items-end justify-center'>
           <DateBlock proj={props.proj} />
-          <ProjectContainer/> 
-          {/* Alignment */}
+          <TextFieldContainer/> 
         </div>
       </div>
       <ProjDesc proj={props.proj} className='self-start' />

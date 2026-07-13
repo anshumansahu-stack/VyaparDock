@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProjectContainer = (props) => {
+const TextFieldContainer = (props) => {
     return (
         <div className={'min-h-5 text-[20px] text-black ' + (props.className || "")}>
             {props.children}
@@ -8,4 +8,4 @@ const ProjectContainer = (props) => {
     )
 }
 
-export default ProjectContainer
+export default TextFieldContainer

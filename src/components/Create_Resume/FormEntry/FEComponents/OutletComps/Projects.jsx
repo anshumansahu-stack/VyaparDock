@@ -65,12 +65,12 @@ const Projects = () => {
 
         // ⚡ FIX: Sync the mount initialization schema keys
         if (!currentProjects || currentProjects.length === 0) {
-            append({ 
-                projecttitle: '', 
-                startDate: '', 
-                endDate: '', 
-                projectdescription: '', 
-                skillstack: [] 
+            append({
+                projecttitle: '',
+                startDate: '',
+                endDate: '',
+                projectdescription: '',
+                skillstack: []
             });
         }
 
@@ -152,12 +152,12 @@ const Projects = () => {
 
                         <DescriptionContainer>
                             <FormLabel label="Project Description:" ></FormLabel>
-                            <TextAreaEntry 
-                            item={`projects.${index}.projectdescription`} 
-                            placeholder='Describe your project in 1-2 lines...' 
-                            register={methods.register} 
-                            className='h-30'
-                            formState={methods.formState}
+                            <TextAreaEntry
+                                item={`projects.${index}.projectdescription`}
+                                placeholder='Describe your project in 1-2 lines...'
+                                register={methods.register}
+                                className='h-30'
+                                formState={methods.formState}
                             ></TextAreaEntry>
                         </DescriptionContainer>
 
@@ -166,7 +166,8 @@ const Projects = () => {
 
                             <TagInput
                                 item={`projects.${index}.skillstack`}
-                                methods={methods}
+                                methods={methods} 
+                                validation={{ required: "Atleast One key is Mandatory!" }}
                                 placeholder='Type a tool (e.g. React) and press comma...'
                             />
                         </FormSubDiv>
@@ -175,19 +176,21 @@ const Projects = () => {
                 ); // Clean return closure
             })}
 
-            <AddNewButton 
-            title='Add New Project →' 
-            className='self-start' 
-            onClick={
-                (e) => {
-                    e.preventDefault();
-                    append({ 
-                    projecttitle: '', 
-                    startDate: '', 
-                    endDate: '', 
-                    projectdescription: '', 
-                    skillstack: [] })}}
-                    ></AddNewButton>
+            <AddNewButton
+                title='Add New Project →'
+                className='self-start'
+                onClick={
+                    (e) => {
+                        e.preventDefault();
+                        append({
+                            projecttitle: '',
+                            startDate: '',
+                            endDate: '',
+                            projectdescription: '',
+                            skillstack: []
+                        })
+                    }}
+            ></AddNewButton>
         </MainForm>
     )
 }

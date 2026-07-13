@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectContainer from '../ProjectContainer/ProjectContainer';
+import TextFieldContainer from '../../../../PageAuxiliaries/TextFieldContainer';
 
 const Degree = (props) => {
   const skills = props.proj?.skillstack;
@@ -9,9 +9,9 @@ const Degree = (props) => {
     ? skills.join(', ') 
     : '';
   return (
-    <ProjectContainer className='font-[Ibarra_Real_Nova] font-bols italic'>
+    <TextFieldContainer className='font-[Ibarra_Real_Nova] font-bold italic text-left'>
       {displaySkills ? displaySkills : ""} 
-    </ProjectContainer>
+    </TextFieldContainer>
     )
 }
 

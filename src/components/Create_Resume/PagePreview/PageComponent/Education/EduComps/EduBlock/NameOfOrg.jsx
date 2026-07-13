@@ -1,13 +1,12 @@
 import React from 'react'
-import EduDummyContainer from '../EduContainers/EduContainer'
-import EduContainer from '../EduContainers/EduContainer';
+import TextFieldContainer from '../../../../PageAuxiliaries/TextFieldContainer';
 
 const NameOfOrg = (props) => {
   const orgName = typeof props.edu?.organisation === 'string' ? props.edu.organisation.trim() : '';
   return (
-    <EduContainer className='font-[Ibarra_Real_Nova] font-bold'>
+    <TextFieldContainer className='font-[Ibarra_Real_Nova] font-bold'>
       {orgName ? orgName : ""} 
-    </EduContainer>
+    </TextFieldContainer>
     )
 }
 

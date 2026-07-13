@@ -68,14 +68,12 @@ const PositionsOfResponsibility = () => {
             append({
                 position: '',
                 startDate: '',
-                responstate: '',
                 organisation: '',
                 endDate: '',
-                responcity: '',
                 posdescription: ''
             });
         }
-    }, [fields.length, append, methods]);
+    }, [fields, append, methods]);
 
 
     // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
@@ -121,16 +119,6 @@ const PositionsOfResponsibility = () => {
                                         }}
                                     ></DateEntry>
                                 </FormSubDiv>
-                                <FormSubDiv>
-                                    <FormLabel label="State:" ></FormLabel>
-                                    <TextEntry
-                                        item={`responsibilities.${index}.responstate`}
-                                        placeholder='State'
-                                        register={methods.register}
-                                        formState={methods.formState}
-                                        validation={{ required: "State is required" }}
-                                    ></TextEntry>
-                                </FormSubDiv>
                             </FormDiv>
 
                             <FormDiv>
@@ -171,16 +159,6 @@ const PositionsOfResponsibility = () => {
                                     </FormSubDiv>
                                 </FormSubDiv>
 
-                                <FormSubDiv>
-                                    <FormLabel label="City:" ></FormLabel>
-                                    <TextEntry
-                                        item={`responsibilities.${index}.responcity`}
-                                        placeholder='City'
-                                        register={methods.register}
-                                        formState={methods.formState}
-                                        validation={{ required: "City is required" }}
-                                    ></TextEntry>
-                                </FormSubDiv>
                             </FormDiv>
                         </div>
 
@@ -189,6 +167,7 @@ const PositionsOfResponsibility = () => {
                             <TextAreaEntry
                                 item={`responsibilities.${index}.posdescription`}
                                 placeholder='Describe your position...'
+                                childclassName='h-30'
                                 register={methods.register}
                                 formState={methods.formState}
                             ></TextAreaEntry>
@@ -200,7 +179,7 @@ const PositionsOfResponsibility = () => {
             })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
 
             <AddNewButton
-                title='Add New Experience →'
+                title='Add New PoR →'
                 className='self-start'
                 type='button'
                 onClick={
@@ -209,10 +188,8 @@ const PositionsOfResponsibility = () => {
                         append({
                             position: '',
                             startDate: '',
-                            responstate: '',
                             organisation: '',
                             endDate: '',
-                            responcity: '',
                             posdescription: ''
                         })
                     }

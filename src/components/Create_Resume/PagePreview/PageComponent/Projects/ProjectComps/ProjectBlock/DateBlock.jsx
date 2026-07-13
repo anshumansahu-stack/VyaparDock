@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectContainer from '../ProjectContainer/ProjectContainer';
+import TextFieldContainer from '../../../../PageAuxiliaries/TextFieldContainer';
 
 const formatResumeDate = (dateString) => { // Converts YYYY-MM-DD to month-YYYY
     if (!dateString) return '';
@@ -25,11 +25,11 @@ const DateBlock = (props) => {
     const start = props.proj?.startDate
     const end = props.proj?.endDate
     return (
-        <ProjectContainer className='italic font-[Ibarra_Real_Nova]'>
+        <TextFieldContainer className='italic font-[Ibarra_Real_Nova]'>
             {start ? formatResumeDate(start) : ""}
             {start && end ? " - " : ""}
             {end ? formatResumeDate(end) : ""}
-        </ProjectContainer>
+        </TextFieldContainer>
     )// Render any of the blocks when they are available. Dont leave the '-' hanging midway.
 }
 export default DateBlock
