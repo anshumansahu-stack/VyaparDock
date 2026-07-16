@@ -1,12 +1,12 @@
 import React from 'react'
 import ButtonLayout from './ButtonLayout'
 
-const SubmitButton = (props) => {
+const EditData = (props) => {
   return (
     <ButtonLayout onClick={props.onClick}>
-      Submit
+       ← Edit Form Data
     </ButtonLayout>
   )
 }
 
-export default SubmitButton
+export default EditData

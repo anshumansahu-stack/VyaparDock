@@ -1,10 +1,11 @@
 import React from 'react'
+import ButtonLayout from './ButtonLayout'
 
 const ClearCurrentButton = (props) => {
   return (
-    <button onClick={props.onClick} className='font-[Braah_One] border border-orange-500 text-orange-500 px-3 py-0.5 w-35 rounded-md absolute left-5 '>
+    <ButtonLayout className='text-orange-500! border-orange-500! absolute left-5' onClick={props.onClick}>
       Clear This Page
-    </button>
+    </ButtonLayout>
   )
 }
 

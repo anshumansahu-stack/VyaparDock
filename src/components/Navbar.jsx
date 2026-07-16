@@ -1,9 +1,14 @@
 import React from 'react'
-
+// Conditionally rendered, everywhere except view_form
+import { useLocation } from 'react-router'
 import Navbutton from './buttons/Navbutton.jsx'
 
 const Navbar = () => {
 
+  const location = useLocation()// Current URL
+  if (location.pathname.endsWith('/view_form')) {
+    return null;
+  }
   return (
     <div className='bg-black/50 w-full min-h-18.25 flex flex-row justify-between items-end rounded-b-[15px]'>
       <p className=" font-['Freeman'] font-bold text-[43px] text-center text-indigo-100 pl-3">VyaparDock.</p>

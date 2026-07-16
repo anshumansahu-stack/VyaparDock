@@ -8,7 +8,7 @@ import { DataContext } from './DataContext'
 // Another div containing page Preview
 
 const CreateResume = () => {
-  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'projects', 'technical_skills', 'positions_of_responsibility', 'achievements_and_certifications']
+  const FORM_STEPS = ['personal_details', 'education', 'professional_experience', 'projects', 'technical_skills', 'positions_of_responsibility', 'achievements_and_certifications', 'view_form']
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
@@ -137,7 +137,7 @@ const CreateResume = () => {
       handleResetAllData,
       handleResetCurrentPage
     }}>
-      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-9/10 flex justify-between box-border p-5 gap-5">
+      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-full flex justify-center items-center box-border p-5 gap-5">
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>
       </div>

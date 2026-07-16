@@ -1,10 +1,11 @@
 import React from 'react'
+import ButtonLayout from './ButtonLayout'
 
 const ClearButton = (props) => {
   return (
-    <button onClick={props.onClick} className='font-[Braah_One] border border-red-500 text-red-500 px-3 py-0.5 w-28 rounded-md absolute right-5 '>
+    <ButtonLayout className='text-red-500! border-red-500! absolute right-5' onClick={props.onClick}>
       Clear Form
-    </button>
+    </ButtonLayout>
   )
 }
 

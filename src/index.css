@@ -13,3 +13,11 @@
     scrollbar-width: none;  /* Firefox */
   }
 }
+
+@media print {
+  /* Prevents individual sections from breaking into two pieces */
+  .papertoprint > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}

@@ -13,6 +13,7 @@ import Projects from './components/Create_Resume/FormEntry/FEComponents/OutletCo
 import TechnicalSkills from './components/Create_Resume/FormEntry/FEComponents/OutletComps/TechnicalSkills';
 import PositionsOfResponsibility from './components/Create_Resume/FormEntry/FEComponents/OutletComps/PositionsOfResponsibility';
 import AchievementsAndCertifications from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AchievementsAndCertifications';
+import Page from './components/Create_Resume/PagePreview/PageComponent/Page';
 
 const router = createBrowserRouter([
   {
@@ -30,51 +31,56 @@ const router = createBrowserRouter([
         <Navbar></Navbar>
         <CreateResume></CreateResume>
       </UniversalWrapper>,
-    children:[
+    children: [
       {
-        path:'personal_details',
+        path: 'personal_details',
         element:
-        <PersonalDetails/>
+          <PersonalDetails />
       },
       {
-        path:'education',
+        path: 'education',
         element:
-        <Education/>
+          <Education />
       },
       {
-        path:'professional_experience',
+        path: 'professional_experience',
         element:
-        <ProfessionalExperience/>
+          <ProfessionalExperience />
       },
       {
-        path:'technical_skills',
+        path: 'technical_skills',
         element:
-        <TechnicalSkills/>
+          <TechnicalSkills />
       },
       {
-        path:'projects',
+        path: 'projects',
         element:
-        <Projects/>
+          <Projects />
       },
       {
-        path:'positions_of_responsibility',
+        path: 'positions_of_responsibility',
         element:
-        <PositionsOfResponsibility/>
+          <PositionsOfResponsibility />
       },
       {
-        path:'achievements_and_certifications',
+        path: 'achievements_and_certifications',
         element:
-        <AchievementsAndCertifications/>
+          <AchievementsAndCertifications />
+      },
+      {
+        path: 'view_form',
+        element:
+          <Page />
       }
     ]
   },
   {
     path: "/*",
     element:
-    <UniversalWrapper>
-      <Navbar></Navbar>
-      <NotFound404></NotFound404>
-    </UniversalWrapper>
+      <UniversalWrapper>
+        <Navbar></Navbar>
+        <NotFound404></NotFound404>
+      </UniversalWrapper>
   },
 ])
 function App() {
