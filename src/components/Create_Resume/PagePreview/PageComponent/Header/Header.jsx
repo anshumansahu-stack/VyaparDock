@@ -12,7 +12,7 @@ import Organisation from './HeaderComponents/Organisation'
 
 const Header = () => {
     return (
-        <div className='flex justify-between w-full min-h-3.9 break-inside-avoid'>
+        <div className='flex justify-between w-full min-h-[15cqw] break-inside-avoid'>
             <ColumnContainer className='items-start'>
                 <Name className='justify-start'/>
                 <Role className='justify-start'/>
@@ -23,9 +23,9 @@ const Header = () => {
                 <Altphone className='justify-end'/>
                 <Email className='justify-end'/>
                 <Address className='justify-end'/>
-                <div className="flex justify-end gap-4 text-xs mt-1">
-                    <Github className='min-w-40! justify-end'/>
-                    <Linkedin className='min-w-40! justify-end'/>
+                <div className="flex justify-around gap-[2cqw] text-xs mt-1">
+                    <Github className='justify-end'/>
+                    <Linkedin className='justify-end'/>
                 </div>
             </ColumnContainer>
         </div>

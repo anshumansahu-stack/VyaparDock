@@ -5,7 +5,7 @@ const PosDesc = (props) => {
   const DescVal = typeof props.por?.posdescription === 'string' ? props.por.posdescription.trim() : ''; // Avoid react not an object error
   return (
     <TextFieldContainer 
-    className={'font-[Ibarra_Real_Nova] text-[17px]! text-left whitespace-pre-line leading-relaxed  ' + (props.className || '')}
+    className={'font-[Ibarra_Real_Nova] text-left whitespace-pre-line leading-relaxed  ' + (props.className || '')}
     >
       {DescVal ? DescVal : ""}
     </TextFieldContainer>

@@ -19,13 +19,13 @@ const AchievementsAndCertifications = () => {
   })
 
   return (
-    <MainForm onSubmit={methods.handleSubmit(onSubmit)} className='w-250!'>
+    <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
 
       <FormTitle title="Achievements and Certifications"></FormTitle>
 
       {fields.map((field, index) => {
         return ( // Main form logic
-          <ObjectContainer key={field.id} className='flex-row! w-full!'>
+          <ObjectContainer key={field.id} className='flex-row! w-full! place-content-around!'>
             <TextEntry
               item={`achievementsandcertifications.${index}.achtitle`}
               childclassName='min-h-full!'
@@ -37,14 +37,14 @@ const AchievementsAndCertifications = () => {
             ></TextEntry>
             <TextEntry
               item={`achievementsandcertifications.${index}.achdesc`}
-              className='min-w-1/2'
+              className='min-w-[55%]'
               childclassName='min-h-full! '
               placeholder='Describe your Achievement:'
               register={methods.register}
               formState={methods.formState} 
               validation={{ required: "Description is required!" }}
             />
-            <RemoveButton remove={remove} index={index} className='min-h-full! min-w-1/5 p-3! text-[17px]' />
+            <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
           </ObjectContainer>
         );
       })}

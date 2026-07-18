@@ -14,7 +14,7 @@ const Stepper = () => {
   const navigate = useNavigate()
   const location = useLocation() // Retrieves the current URL Information as an object.
 
-  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage } = useContext(DataContext)
+  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage, downloadResume } = useContext(DataContext)
 
   const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
 
@@ -139,25 +139,8 @@ const Stepper = () => {
     navigate('/create_resume/achievements_and_certifications')
   }
 
-  const downloadResume = () => {
-    const element = document.querySelector('.papertoprint');
-
-    if (!element) return;
-
-    const config = {
-      margin: 0,
-      filename: 'my_resume.pdf',
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      // ADD THIS PROPERTY:
-      pagebreak: { mode: 'css' }
-    };
-
-    html2pdf().set(config).from(element).save();
-  };
-
   return (
-    <div className={'bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center items-center p-2 relative ' + (isLastStep ? 'gap-50 print:hidden' : 'gap-3')}>
+    <div className={'bg-white w-full min-h-1/20 rounded-b-2xl flex justify-center items-center p-2 relative print:hidden ' + (isLastStep ? 'gap-50' : 'gap-3')}>
 
       {!isLastStep && hasData && (
         <ClearCurrentButton onClick={handleResetCurrentPage} />

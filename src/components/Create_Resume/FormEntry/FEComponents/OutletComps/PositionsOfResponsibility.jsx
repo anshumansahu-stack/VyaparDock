@@ -14,6 +14,7 @@ import AddNewButton from '../DynamicAdditionTools/AddNewButton'
 import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
 import DescriptionContainer from '../../../FormElements/Containers/DescriptionContainer'
+import TextEntryContainer from '../../../FormElements/Containers/TextEntryContainer'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -83,18 +84,18 @@ const PositionsOfResponsibility = () => {
     // map: iterates through the fields one item at a time. For every item it goes through, It stamps a complete copy of ObjectContainer with all input rows in it.
 
     return (
-        <MainForm onSubmit={methods.handleSubmit(onSubmit)} className='w-250!'>
+        <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
             {/* //FormProvider is imported here itself */}
             <FormTitle title="Positions of Responsibility"></FormTitle>
 
             {fields.map((field, index) => {
-
+                
                 //watch the checkbox for the render first, if rendered, check whether the value exists or is undefined, if undefined, set false else true.
                 const isCurrentJob = watchAllresponsibilities[index]?.isCurrent || false;
 
                 return ( // Main form logic
-                    <ObjectContainer key={field.id}>
-                        <div className='flex justify-between gap-15'>
+                    <ObjectContainer key={field.id} className=''>
+                        <TextEntryContainer>
                             <FormDiv>
                                 <FormSubDiv>
                                     <FormLabel label="Position:"></FormLabel>
@@ -160,7 +161,8 @@ const PositionsOfResponsibility = () => {
                                 </FormSubDiv>
 
                             </FormDiv>
-                        </div>
+
+                        </TextEntryContainer>
 
                         <DescriptionContainer>
                             <FormLabel label="Description:" ></FormLabel>
@@ -173,14 +175,13 @@ const PositionsOfResponsibility = () => {
                             ></TextAreaEntry>
                         </DescriptionContainer>
 
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
+                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]'/>}
                     </ObjectContainer>
                 ); // Clean return closure
             })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
 
             <AddNewButton
                 title='Add New PoR →'
-                className='self-start'
                 type='button'
                 onClick={
                     (e) => {

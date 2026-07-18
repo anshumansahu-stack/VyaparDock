@@ -1,8 +1,9 @@
 import React from 'react'
+import TextFieldContainer from './TextFieldContainer'
 
 const Bullet = () => {
   return (
-    <span>•</span>
+    <TextFieldContainer className='inline text-[3cqw]'>•</TextFieldContainer>
   )
 }
 

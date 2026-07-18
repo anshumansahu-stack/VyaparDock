@@ -29,14 +29,12 @@ const Projects = () => {
         const hasContent = proj.projecttitle || proj.projectdescription || proj.startDate || proj.endDate || (proj.skillstack && proj.skillstack.length > 0);
         if (!hasContent) return (
           <EmptyContainer key={index}>
-            <Bullet />
             <EmptyPlaceholder placeholder='-- Enter Project Details --' />
           </EmptyContainer>
         )
 
         // Render a distinct, separate block wrapper for every index item
         return <RenderingContainer>
-          <Bullet />
           <ProjectBlock key={index} proj={proj} />
         </RenderingContainer>
       })}

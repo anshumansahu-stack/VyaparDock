@@ -35,7 +35,6 @@ const Education = () => {
 
         // Render a distinct, separate block wrapper for every index item
         return <RenderingContainer>
-          <Bullet />
           <EduBlock key={index} edu={edu} />
         </RenderingContainer>
       })}

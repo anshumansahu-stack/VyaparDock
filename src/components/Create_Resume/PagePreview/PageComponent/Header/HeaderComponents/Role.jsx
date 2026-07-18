@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { DataContext } from '../../../../DataContext'
-import FieldContainer from '../HeaderContainers/FieldContainer'
+import TextFieldContainer from '../../../PageAuxiliaries/TextFieldContainer'
 
 const Role = (props) => {
   const { Data, setData, liveData } = useContext(DataContext)
   return (
-    <FieldContainer className={props.className || ""}>
+    <TextFieldContainer className={'font-[Lora] '+ props.className || ""}>
       {liveData.currRole}
-    </FieldContainer>
+    </TextFieldContainer>
   )
 }
 

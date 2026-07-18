@@ -9,7 +9,7 @@ const PagePreview = () => {
     return null;
   }
   return (
-    <div className="w-1/3 h-full text-center items-center relative gap-3 font-[Braah_One] text-[30px] text-white">
+    <div className="flex flex-col justify-center w-[30%] h-full text-center gap-3 font-[Braah_One] text-[30px] text-white">
         Preview:
         <Page></Page>
     </div>

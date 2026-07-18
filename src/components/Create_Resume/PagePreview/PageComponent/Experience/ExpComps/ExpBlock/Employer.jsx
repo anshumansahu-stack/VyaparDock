@@ -5,7 +5,7 @@ const Employer = (props) => {
   const EmpVal = typeof props.exp?.employer === 'string' ? props.exp.employer.trim() : '';
   return (
     <TextFieldContainer className='font-[Ibarra_Real_Nova] font-bold'>
-      {EmpVal ? EmpVal : ""} 
+      {EmpVal ? '• '+EmpVal : ""} 
     </TextFieldContainer>
     )
 }

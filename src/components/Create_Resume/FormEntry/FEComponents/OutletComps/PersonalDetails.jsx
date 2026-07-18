@@ -16,7 +16,7 @@ const PersonalDetails = () => {
     <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
       {/* //FormProvider is imported here itself */}
       <FormTitle title="Personal Details"></FormTitle>
-      <ObjectContainer className='flex-row justify-between! gap-15!'>
+      <ObjectContainer className='flex-row place-content-around!'>
         <FormDiv>
           <FormSubDiv>
             <FormLabel label="First name:"></FormLabel>

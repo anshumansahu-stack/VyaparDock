@@ -15,6 +15,7 @@ import RemoveButton from '../DynamicAdditionTools/RemoveButton'
 import IsCurrentCheckerButton from '../../../FormElements/FormAuxiliaries/IsCurrentCheckerButton'
 import TagInput from '../../../FormElements/EntryFields/TagInput'
 import DescriptionContainer from '../../../FormElements/Containers/DescriptionContainer'
+import TextEntryContainer from '../../../FormElements/Containers/TextEntryContainer'
 
 // Why did i use useWatch and useFieldArray right here, whilst the rest of the form logic is imported from datacontext from create_resume?
 // 
@@ -84,7 +85,7 @@ const Projects = () => {
     // map: iterates through the fields one item at a time. For every item it goes through, It stamps a complete copy of ObjectContainer with all input rows in it.
 
     return (
-        <MainForm onSubmit={methods.handleSubmit(onSubmit)} className='w-250!'>
+        <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
             {/* //FormProvider is imported here itself */}
             <FormTitle title="Projects"></FormTitle>
 
@@ -95,7 +96,7 @@ const Projects = () => {
 
                 return ( // Main form logic
                     <ObjectContainer key={field.id}>
-                        <div className='flex justify-between gap-15'>
+                        <TextEntryContainer>
                             <FormSubDiv className='flex-col! items-center justify-center'>
                                 <FormLabel label="Project Title:" className="justify-center!"></FormLabel>
                                 <TextEntry
@@ -145,10 +146,8 @@ const Projects = () => {
                                         />
                                     </FormSubDiv>
                                 </FormSubDiv>
-
-
                             </FormDiv>
-                        </div>
+                        </TextEntryContainer>
 
                         <DescriptionContainer>
                             <FormLabel label="Project Description:" ></FormLabel>
@@ -166,19 +165,18 @@ const Projects = () => {
 
                             <TagInput
                                 item={`projects.${index}.skillstack`}
-                                methods={methods} 
+                                methods={methods}
                                 validation={{ required: "Atleast One key is Mandatory!" }}
                                 placeholder='Type a tool (e.g. React) and press comma...'
                             />
                         </FormSubDiv>
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} />}
+                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[5vh]'/>}
                     </ObjectContainer>
                 ); // Clean return closure
             })}
 
             <AddNewButton
                 title='Add New Project →'
-                className='self-start'
                 onClick={
                     (e) => {
                         e.preventDefault();

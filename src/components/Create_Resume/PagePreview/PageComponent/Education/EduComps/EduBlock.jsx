@@ -7,12 +7,12 @@ import GradeBlock from './EduBlock/GradeBlock'
 
 const EduBlock = (props) => {
   return (
-    <div className='flex justify-between w-full pt-2'>
-      <div className='flex flex-col items-start justify-center'>
-        <div className='flex items-center gap-2'>
+    <div className='flex justify-between w-full pt-[0.5cqw]'>
+      <div className='flex flex-col items-start justify-center '>
+        <div className='flex items-center gap-[1cqw] min-h-0'>
           <NameOfOrg edu={props.edu}/>
         </div>
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center justify-end min-w-[10.7cqw] min-h-0 gap-[0.5cqw]'>
           <Degree edu={props.edu}/>
           <Board edu={props.edu}/>
         </div>

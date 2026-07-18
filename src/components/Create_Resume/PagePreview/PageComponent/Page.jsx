@@ -1,5 +1,4 @@
 import React from 'react'
-import { useLocation } from 'react-router'
 import Header from './Header/Header'
 import Education from './Education/Education'
 import Experience from './Experience/Experience'
@@ -9,10 +8,8 @@ import PositionsOfResponsibility from './PositionsOfResponsibility/PositionsOfRe
 import Achievements from './Achievements/Achievements'
 
 const Page = (props) => {
-  const location=useLocation()
-  const isLastIndex=location.pathname.endsWith('/view_form')
   return (
-    <div className={`papertoprint w-198.5 h-280.75 no-scrollbar print:min-h-0 print:h-fit print:overflow-visible overflow-hidden overflow-y-scroll print:p-0 p-5 flex flex-col gap-3 bg-white origin-top-left print:scale-100 print:origin-top-left ${!isLastIndex? 'absolute left-8.5 top-10 scale-[0.52]' :''}`}>
+    <div className={`@container papertoprint w-full no-scrollbar print:overflow-visible print:scale-100 print:origin-top-left print:h-full print:w-full overflow-hidden overflow-y-scroll p-5 flex flex-col bg-white origin-top-left ` + props.className}>
       <Header />
       <Education />
       <Experience />

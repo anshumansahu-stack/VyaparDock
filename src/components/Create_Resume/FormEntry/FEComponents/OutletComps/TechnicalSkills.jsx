@@ -19,13 +19,13 @@ const TechnicalSkills = () => {
   })
 
   return (
-    <MainForm onSubmit={methods.handleSubmit(onSubmit)} className='w-250!'>
+    <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
 
       <FormTitle title="Technical Skills"></FormTitle>
 
       {fields.map((field, index) => {
         return ( // Main form logic
-          <ObjectContainer key={field.id} className='flex-row! w-full!'>
+          <ObjectContainer key={field.id} className='flex-row! w-full! place-content-aaround!'>
             <TextEntry
               item={`technicalskills.${index}.category`}
               childclassName='min-h-full!'
@@ -38,11 +38,11 @@ const TechnicalSkills = () => {
             <TagInputNoLimit
               item={`technicalskills.${index}.skillList`}
               methods={methods}
-              className='min-w-1/2!'
+              className='min-w-[55%]!'
               validation={{ required: "Must contain atleast 1 item!" }}
               placeholder='Type a skill (e.g. React) and press comma...'
             />
-            <RemoveButton remove={remove} index={index} className='min-h-full! min-w-1/5 p-3! text-[17px]' />
+            <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
           </ObjectContainer>
         );
       })}

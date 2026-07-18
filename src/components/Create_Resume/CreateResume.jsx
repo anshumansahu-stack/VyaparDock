@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from "react-hook-form"
+import { useLocation } from 'react-router'
 import FormEntry from './FormEntry/FormEntry'
 import PagePreview from './PagePreview/PagePreview'
 import { DataContext } from './DataContext'
+import html2pdf from 'html2pdf.js'
 // Components:
 //One div containing Live resume score and form
 // Another div containing page Preview
@@ -55,42 +57,42 @@ const CreateResume = () => {
   };
 
   const handleResetCurrentPage = () => {
-  const currentStepName = FORM_STEPS[currentIndex];
-  if (!currentStepName) return;
+    const currentStepName = FORM_STEPS[currentIndex];
+    if (!currentStepName) return;
 
-  const confirmClear = window.confirm(`Are you sure you want to clear all inputs on this page?`);
-  if (!confirmClear) return;
+    const confirmClear = window.confirm(`Are you sure you want to clear all inputs on this page?`);
+    if (!confirmClear) return;
 
-  const updatedData = { ...methods.getValues() };
+    const updatedData = { ...methods.getValues() };
 
-  // TARGETED RESET ACTION LAYER:
-  if (currentStepName === 'personal_details') {
-    // FIX APPLIED: Reset the specific top-level keys used in Personal Details
-    const personalKeys = ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode'];
-    personalKeys.forEach(key => updatedData[key] = '');
-  } else {
-    // FIX APPLIED: Map the Step Name to the actual Data Key used in your JSON
-    const stepToDataKey = {
-      'education': 'education',
-      'professional_experience': 'experiences', // Matches JSON
-      'projects': 'projects',
-      'technical_skills': 'technicalskills', // Matches JSON
-      'positions_of_responsibility': 'responsibilities', // Matches JSON
-      'achievements_and_certifications': 'achievementsandcertifications' // Matches JSON
-    };
+    // TARGETED RESET ACTION LAYER:
+    if (currentStepName === 'personal_details') {
+      // FIX APPLIED: Reset the specific top-level keys used in Personal Details
+      const personalKeys = ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode'];
+      personalKeys.forEach(key => updatedData[key] = '');
+    } else {
+      // FIX APPLIED: Map the Step Name to the actual Data Key used in your JSON
+      const stepToDataKey = {
+        'education': 'education',
+        'professional_experience': 'experiences', // Matches JSON
+        'projects': 'projects',
+        'technical_skills': 'technicalskills', // Matches JSON
+        'positions_of_responsibility': 'responsibilities', // Matches JSON
+        'achievements_and_certifications': 'achievementsandcertifications' // Matches JSON
+      };
 
-    const dataKey = stepToDataKey[currentStepName];
-    if (dataKey) {
-      updatedData[dataKey] = []; // Clear the array
+      const dataKey = stepToDataKey[currentStepName];
+      if (dataKey) {
+        updatedData[dataKey] = []; // Clear the array
+      }
     }
-  }
 
-  // Force React Hook Form to update
-  methods.reset(updatedData);
+    // Force React Hook Form to update
+    methods.reset(updatedData);
 
-  // Sync to local storage
-  localStorage.setItem('vyapardock_resume_cache', JSON.stringify(updatedData));
-};
+    // Sync to local storage
+    localStorage.setItem('vyapardock_resume_cache', JSON.stringify(updatedData));
+  };
 
   const methods = useForm({
     defaultValues: getCachedData(),
@@ -123,6 +125,31 @@ const CreateResume = () => {
     localStorage.removeItem('vyapardock_resume_cache')
   }
 
+  const location = useLocation()
+  const isLastIndex = location.pathname.endsWith('/view_form')
+
+  const [isPrinting, setIsPrinting]=useState(false)
+  const downloadResume=async()=>{
+    const element = document.querySelector('.papertoprint');
+
+    if (!element) return;
+
+    setIsPrinting(true);
+
+    const config = { //print configuration
+      margin: 0,
+      filename: 'my_resume.pdf',
+      html2canvas: { scale: 2, useCORS: true, scrollX:0, scrollY:0, windowWidth:794 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      // ADD THIS PROPERTY:
+      pagebreak: { mode: 'css' }
+    };
+
+    await new Promise(r => setTimeout(r,100)); //wait some time for re render
+    html2pdf().set(config).from(element).save().then(()=>{
+      setIsPrinting(false)
+    })
+  }
   return (
     <DataContext.Provider value={{
       Data,
@@ -135,9 +162,12 @@ const CreateResume = () => {
       FORM_STEPS,
       totalSteps: FORM_STEPS.length,
       handleResetAllData,
-      handleResetCurrentPage
+      handleResetCurrentPage,
+      isPrinting,
+      setIsPrinting,
+      downloadResume
     }}>
-      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className="w-full h-full flex justify-center items-center box-border p-5 gap-5">
+      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className={"w-full box-border flex justify-center items-start my-[5vh] gap-5 " + (!isLastIndex? 'h-[80%] ' : 'h-full ')}>
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>
       </div>

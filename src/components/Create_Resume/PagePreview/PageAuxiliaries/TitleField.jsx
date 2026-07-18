@@ -1,8 +1,10 @@
 import React from 'react'
-
+import TextFieldContainer from './TextFieldContainer'
 const TitleField = (props) => {
   return (
-    <p className='uppercase font-[EB_Garamond] text-[20px] font-bold'>{props.title}</p>
+    <TextFieldContainer className={'uppercase font-[EB_Garamond] font-bold ' + (props.className || '')}>
+      {props.title}
+    </TextFieldContainer>
   )
 }
 

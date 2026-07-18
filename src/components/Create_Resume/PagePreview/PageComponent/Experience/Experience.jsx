@@ -35,7 +35,6 @@ const Experience = () => {
 
           // Render a distinct, separate block wrapper for every index item
           return <RenderingContainer>
-            <Bullet/>
             <ExpBlock key={index} exp={exp} />
           </RenderingContainer>
         })}

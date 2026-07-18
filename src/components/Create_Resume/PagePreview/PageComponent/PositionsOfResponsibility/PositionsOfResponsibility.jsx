@@ -35,7 +35,6 @@ const PositionsOfResponsibility = () => {
 
           // Render a distinct, separate block wrapper for every index item
           return <RenderingContainer>
-            <Bullet/>
             <PoRBlock key={index} por={por} />
           </RenderingContainer>
         })}
