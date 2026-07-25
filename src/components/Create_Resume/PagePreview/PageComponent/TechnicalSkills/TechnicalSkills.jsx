@@ -21,7 +21,7 @@ const TechnicalSkills = () => {
       <Separator />
       {technicalskillsList.map((tecSk, index) => { // edu is basically the block to be rendered, We check if its empty and then put things on the screen.
         // Skip rendering if this specific row is empty
-        const hasContent = tecSk.category || tecSk.skillList ;
+        const hasContent = tecSk.category || tecSk.skillList.length > 0 ;
         if (!hasContent) return (
           <EmptyContainer key={index}>
             <EmptyPlaceholder placeholder='-- Enter Skill --' />

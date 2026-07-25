@@ -7,7 +7,7 @@ const Address = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if ((liveData?.city && liveData.city.trim() !== '') | (liveData?.state && liveData.state.trim() !== '') | (liveData?.altphone && liveData.country.trim() !== '') | (liveData?.postalcode && liveData.postalcode.trim() !== '')) {
         return (
-            <TextFieldContainer className={'font-[Lora] '+props.className || ""}>
+            <TextFieldContainer className={'font-[Lora] h-[3cqw]! '+props.className || ""}>
                 <ImageContainer src={address} alt='Location Icon'/>
                 {liveData.city}
                 {liveData.city && liveData.state? ', ' : ''} 

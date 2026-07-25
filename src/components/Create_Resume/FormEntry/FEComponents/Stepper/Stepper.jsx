@@ -14,7 +14,7 @@ const Stepper = () => {
   const navigate = useNavigate()
   const location = useLocation() // Retrieves the current URL Information as an object.
 
-  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage, downloadResume } = useContext(DataContext)
+  const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage, downloadResume, completeFormValidation } = useContext(DataContext)
 
   const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
 
@@ -34,7 +34,6 @@ const Stepper = () => {
   const getFieldsForStep = (stepName) => { // For current step, get all the concerned fields
     switch (stepName) {
       case 'personal_details':
-        // Explicitly lists all your top-level primitive strings from PersonalDetails
         return ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode']
       case 'education':
         return ['education']
@@ -44,7 +43,7 @@ const Stepper = () => {
         return ['projects']
       case 'technical_skills':
         return ['technicalskills']
-      case 'responsibilities':
+      case 'positions_of_responsibility':
         return ['responsibilities']
       case 'achievements_and_certifications':
         return ['achievementsandcertifications']
@@ -54,7 +53,6 @@ const Stepper = () => {
   }
 
   const triggerResetPrompt = () => {
-    // A clean confirmation barrier protects users from accidentally nuking hours of resume typing work!
     const confirmClear = window.confirm("Are you sure you want to delete all resume data? This action cannot be undone.");
     if (confirmClear) {
       handleResetAllData();
@@ -62,28 +60,24 @@ const Stepper = () => {
     }
   };
 
-  const handleNext = async () => { //asynchronous function
-    // Get the validation targets for the active screen route
+  const handleNext = async () => {
     if (isLastStep) return;
 
     const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
 
-    // Instruct RHF to check only these fields. Returns true if they pass, false if they fail.
     const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
 
-    // If validation fails, alert and halt navigation so errors stay visible on the screen
     if (!isStepValid) {
       alert("Invalid entries detected!!")
       return
     }
 
-    // 4. Proceed to the next step route safely if valid
     if (!isSecondLastStep && currentIndex + 1 < FORM_STEPS.length - 1) {
       navigate(`/create_resume/${FORM_STEPS[currentIndex + 1]}`)
     }
   }
 
-  const handlePrev = () => { // If the current step has invalid fields, You are allowed to go back, No issue.
+  const handlePrev = () => { // If the current step has invalid fields, You are allowed to go back.
     if (isLastStep) return;
 
     if (!isFirstStep) {
@@ -91,28 +85,43 @@ const Stepper = () => {
     }
   } // similar functionality.
 
-  const handleFinalSubmit = (formData) => {
-    if (!isSecondLastStep) return;
+  const handleFinalSubmit = async (formData) => {
 
-    const confirmSubmit = window.confirm("Are you sure you want to Submit all resume data?");
-    if (!confirmSubmit) return;
+    const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
 
-    alert("Form values submitted successfully! Freezing layout data views...")
-    onSubmit(formData) // Triggers your parent state lock
-    navigate('/create_resume/view_form')
-  } //post an alert and submit form data.
+    const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
+
+    if (!isStepValid) {
+      alert("Invalid entries detected!!")
+      return
+    }// check current page first
+
+    const formValid = await completeFormValidation()
+
+    if (formValid === true) {
+      const confirmSubmit = window.confirm("Are you sure you want to Submit all resume data?");
+      if (!confirmSubmit) return;
+
+      alert("Form values submitted successfully!");
+      onSubmit(formData);
+      navigate('/create_resume/view_form');
+    }
+
+    else{
+      alert(`Please fix errors on these pages: ${formValid.join(', ')}`);
+    }
+  };
 
   const onKeyTap = (e) => {
     if (e.key === 'ArrowRight') {
-      handleNext()
+      handleNext();
+    } else if (e.key === 'ArrowLeft') {
+      handlePrev();
+    } else if (e.key === 'Enter') {
+      // 3. FIX APPLIED: Add the second argument here for the Enter key
+      methods.handleSubmit(handleFinalSubmit)();
     }
-    else if (e.key === 'ArrowLeft') {
-      handlePrev()
-    }
-    else if (e.key === 'Enter') {
-      methods.handleSubmit(handleFinalSubmit)()
-    }
-  }
+  };
 
   // Button navigation
   useEffect(() => {
@@ -151,7 +160,7 @@ const Stepper = () => {
       {!isLastStep && (!isSecondLastStep ? (
         <NextButton onClick={handleNext} />
       ) : (
-        <SubmitButton onClick={methods.handleSubmit(handleFinalSubmit)} />
+        <SubmitButton onClick={handleFinalSubmit} />
       ))}
 
       {!isLastStep && hasData && (

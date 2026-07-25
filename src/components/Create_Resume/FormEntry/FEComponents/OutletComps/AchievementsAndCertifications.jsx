@@ -54,7 +54,7 @@ const AchievementsAndCertifications = () => {
       onClick={
         (e) => {
           e.preventDefault()
-          append({ achtitle: '', achdesc: '' })
+          append({ achtitle: undefined, achdesc: undefined })
         }
         }></AddNewButton>
 

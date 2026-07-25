@@ -24,7 +24,7 @@ const PersonalDetails = () => {
             item='firstname' 
             placeholder='Enter First Name' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               required: "First name is required",
               minLength: { value: 2, message: "Must be at least 2 characters" }
@@ -37,7 +37,7 @@ const PersonalDetails = () => {
             item='currRole' 
             placeholder='Enter Current Role' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{ required: "Current professional title is required" }}
             ></TextEntry>
           </FormSubDiv>
@@ -47,7 +47,7 @@ const PersonalDetails = () => {
             item='phone' 
             placeholder='+91-1234567890' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               required: "Phone number is required",
               pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid phone format structure" }
@@ -60,7 +60,7 @@ const PersonalDetails = () => {
             item='email' 
             placeholder='abc@dmail.com' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               required: "Email is required",
               pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email format" }
@@ -73,7 +73,7 @@ const PersonalDetails = () => {
             item='state' 
             placeholder='State' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -82,7 +82,7 @@ const PersonalDetails = () => {
             item='postalcode' 
             placeholder='654321' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               pattern: { value: /^\d{4,10}$/, message: "Postal code must be 4 to 10 numerical digits" }
             }}
@@ -94,7 +94,7 @@ const PersonalDetails = () => {
             item='linkedin' 
             placeholder='linkedin.com/' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             ></TextEntry>
           </FormSubDiv>
         </FormDiv>
@@ -105,7 +105,7 @@ const PersonalDetails = () => {
             item='lastname' 
             placeholder='Enter Last Name' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
               validation={{ required: "Last name is required" }}></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -114,7 +114,7 @@ const PersonalDetails = () => {
             item='currOrg' 
             placeholder='Current Organisation' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               required: "Name of Current Organisation is required",
               minLength: { value: 2, message: "Must be at least 2 characters" }
@@ -127,7 +127,7 @@ const PersonalDetails = () => {
             item='altphone' 
             placeholder='+91-0987654321' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             validation={{
               pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid alternative phone format" }
             }}
@@ -139,7 +139,7 @@ const PersonalDetails = () => {
             item='city' 
             placeholder='City' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -148,7 +148,7 @@ const PersonalDetails = () => {
             item='country' 
             placeholder='Country' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             ></TextEntry>
           </FormSubDiv>
           <FormSubDiv>
@@ -157,7 +157,7 @@ const PersonalDetails = () => {
             item='github' 
             placeholder='Paste link here' 
             register={methods.register}
-            errors={methods.formState.errors}
+            formState={methods.formState}
             ></TextEntry>
           </FormSubDiv>
         </FormDiv>

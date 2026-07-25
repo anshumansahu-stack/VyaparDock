@@ -8,7 +8,7 @@ const Phone = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if (liveData?.phone && liveData.phone.trim() !== '') {
         return (
-            <TextFieldContainer className={'font-[Ibarra_Real_Nova] '+props.className || ""}>
+            <TextFieldContainer className={'font-[Lora] h-[3cqw]! '+props.className || ""}>
                 <ImageContainer src={call} alt="Phone icon"/> {liveData.phone}
             </TextFieldContainer>
         )

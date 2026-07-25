@@ -65,13 +65,13 @@ const ProfessionalExperience = () => {
 
     if (!currentExperiences || currentExperiences.length === 0) {
       append({
-        jobtitle: '',
-        startDate: '',
-        jobstate: '',
-        employer: '',
-        endDate: '',
-        jobcity: '',
-        jobdescription: ''
+        jobtitle: undefined,
+        startDate: undefined,
+        jobstate: undefined,
+        employer: undefined,
+        endDate: undefined,
+        jobcity: undefined,
+        jobdescription: undefined
       });
     }
   }, [fields, append, methods]);
@@ -206,13 +206,13 @@ const ProfessionalExperience = () => {
         (e) => {
           e.preventDefault(); //Prevent form submission trigger
           append({ 
-          jobtitle: '', 
-          startDate: '', 
-          jobstate: '', 
-          employer: '', 
-          endDate: '', 
-          jobcity: '', 
-          jobdescription: '' 
+          jobtitle: undefined, 
+          startDate: undefined, 
+          jobstate: undefined, 
+          employer: undefined, 
+          endDate: undefined, 
+          jobcity: undefined, 
+          jobdescription: undefined 
           })}
         }></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}

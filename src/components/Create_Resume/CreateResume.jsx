@@ -52,7 +52,7 @@ const CreateResume = () => {
       achievementsandcertifications: []
     });
 
-    // Reset the wizard step index back to the beginning page lane coordinate
+    // Reset the step index back to the beginning page
     setCurrentIndex(0);
   };
 
@@ -65,20 +65,17 @@ const CreateResume = () => {
 
     const updatedData = { ...methods.getValues() };
 
-    // TARGETED RESET ACTION LAYER:
     if (currentStepName === 'personal_details') {
-      // FIX APPLIED: Reset the specific top-level keys used in Personal Details
       const personalKeys = ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode'];
       personalKeys.forEach(key => updatedData[key] = '');
     } else {
-      // FIX APPLIED: Map the Step Name to the actual Data Key used in your JSON
       const stepToDataKey = {
         'education': 'education',
-        'professional_experience': 'experiences', // Matches JSON
+        'professional_experience': 'experiences',
         'projects': 'projects',
-        'technical_skills': 'technicalskills', // Matches JSON
-        'positions_of_responsibility': 'responsibilities', // Matches JSON
-        'achievements_and_certifications': 'achievementsandcertifications' // Matches JSON
+        'technical_skills': 'technicalskills',
+        'positions_of_responsibility': 'responsibilities',
+        'achievements_and_certifications': 'achievementsandcertifications'
       };
 
       const dataKey = stepToDataKey[currentStepName];
@@ -128,28 +125,158 @@ const CreateResume = () => {
   const location = useLocation()
   const isLastIndex = location.pathname.endsWith('/view_form')
 
-  const [isPrinting, setIsPrinting]=useState(false)
-  const downloadResume=async()=>{
-    const element = document.querySelector('.papertoprint');
+  const [isPrinting, setIsPrinting] = useState(false)
 
+  const downloadResume = async () => {
+    const element = document.querySelector('.papertoprint');
     if (!element) return;
+
+    element.scrollTop = 0;
 
     setIsPrinting(true);
 
-    const config = { //print configuration
-      margin: 0,
+    const config = {
+      margin: [5,0,0,0],
       filename: 'my_resume.pdf',
-      html2canvas: { scale: 2, useCORS: true, scrollX:0, scrollY:0, windowWidth:794 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true, 
+        scrollX: 0, 
+        scrollY: 0, 
+        windowWidth: 794 
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      // ADD THIS PROPERTY:
       pagebreak: { mode: 'css' }
     };
 
-    await new Promise(r => setTimeout(r,100)); //wait some time for re render
-    html2pdf().set(config).from(element).save().then(()=>{
-      setIsPrinting(false)
-    })
-  }
+    // Give React 300ms to strip the scroll bars and lay out the document flat in the DOM
+    await new Promise(r => setTimeout(r, 100)); 
+    
+    html2pdf().set(config).from(element).save().then(() => {
+      setIsPrinting(false);
+    });
+  };
+
+  const completeFormValidation = async () => {
+    const fieldsToValidate = [
+      'firstname', 'lastname', 'phone', 'email',
+      'education', 'experiences', 'projects',
+      'technicalskills', 'responsibilities', 'achievementsandcertifications'
+    ];
+
+    await methods.trigger(fieldsToValidate);// complete trigger
+
+    const activeErrors = methods.formState.errors;// find errors
+
+    const dataKeyToPageName = {
+      'firstname': 'Personal Details',
+      'lastname': 'Personal Details',
+      'phone': 'Personal Details',
+      'email': 'Personal Details',
+      'education': 'Education',
+      'experiences': 'Professional Experience',
+      'projects': 'Projects',
+      'technicalskills': 'Technical Skills',
+      'responsibilities': 'Positions of Responsibility',
+      'achievementsandcertifications': 'Achievements and Certifications'
+    };
+
+    const brokenPages = new Set(); // Set data structure to prevent duplicates like multiple errors in personal details
+
+    fieldsToValidate.forEach(key => {
+      // Standard React Hook Form validation errors registered by the DOM
+      if (activeErrors && activeErrors[key]) {
+        const pageName = dataKeyToPageName[key];
+        if (pageName) brokenPages.add(pageName);
+      }
+
+      // Deep Content check for un-rendered, blank, or ghost array data entries
+      const rawValue = methods.getValues(key);
+      if (Array.isArray(rawValue)) {
+        rawValue.forEach(item => {
+          if (item && typeof item === 'object') {
+
+            if (key === 'education') {
+              const isOrgBlank = !item.organisation || (typeof item.organisation === 'string' && !item.organisation.trim());
+              const isstDBlank = !item.startDate || (typeof item.startDate === 'string' && !item.startDate.trim());
+              const isStudyBoardBlank = !item.studyboard || (typeof item.studyboard === 'string' && !item.studyboard.trim());
+              const isDegreeBlank = !item.degree || (typeof item.degree === 'string' && !item.degree.trim());
+              const isendDateBlank = !item.endDate || (typeof item.endDate === 'string' && !item.endDate.trim());
+              const iscgpaBlank = !item.cgpa || (typeof item.cgpa === 'string' && !item.cgpa.trim());
+
+              if (isOrgBlank || isstDBlank || isStudyBoardBlank || isDegreeBlank || isendDateBlank || iscgpaBlank) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+            if (key === 'experiences') {
+              const isJobTitleBlank = !item.jobtitle || (typeof item.jobtitle === 'string' && !item.jobtitle.trim());
+              const isStartDateBlank = !item.startDate || (typeof item.startDate === 'string' && !item.startDate.trim());
+              const isJobStateBlank = !item.jobstate || (typeof item.jobstate === 'string' && !item.jobstate.trim());
+              const isEmployerBlank = !item.employer || (typeof item.employer === 'string' && !item.employer.trim());
+              const isEndDateBlank = !item.endDate || (typeof item.endDate === 'string' && !item.endDate.trim());
+              const isJobCityBlank = !item.jobcity || (typeof item.jobcity === 'string' && !item.jobcity.trim());
+              const isJobDescBlank = !item.jobdescription || (typeof item.jobdescription === 'string' && !item.jobdescription.trim());
+
+              if (isJobTitleBlank || isStartDateBlank || isJobStateBlank || isEmployerBlank || isEndDateBlank || isJobCityBlank || isJobDescBlank) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+            if (key === 'projects') {
+              const isProjTitleBlank = !item.projecttitle || (typeof item.projecttitle === 'string' && !item.projecttitle.trim());
+              const isStartDateBlank = !item.startDate || (typeof item.startDate === 'string' && !item.startDate.trim());
+              const isEndDateBlank = !item.endDate || (typeof item.endDate === 'string' && !item.endDate.trim());
+              const isProjDescBlank = !item.projectdescription || (typeof item.projectdescription === 'string' && !item.projectdescription.trim());
+              const isSkillStackEmpty = !item.skillstack || item.skillstack.length === 0;
+
+              if (isProjTitleBlank || isStartDateBlank || isEndDateBlank || isProjDescBlank || isSkillStackEmpty) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+            if (key === 'technicalskills') {
+              const isCategoryBlank = !item.category || (typeof item.category === 'string' && !item.category.trim());
+              const isSkillListEmpty = !item.skillList || item.skillList.length === 0;
+              if (isCategoryBlank || isSkillListEmpty) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+            if (key === 'responsibilities') {
+              const isPositionBlank = !item.position || (typeof item.position === 'string' && !item.position.trim());
+              const isStartDateBlank = !item.startDate || (typeof item.startDate === 'string' && !item.startDate.trim());
+              const isOrganisationBlank = !item.organisation || (typeof item.organisation === 'string' && !item.organisation.trim());
+              const isEndDateBlank = !item.endDate || (typeof item.endDate === 'string' && !item.endDate.trim());
+              const isPosDescBlank = !item.posdescription || (typeof item.posdescription === 'string' && !item.posdescription.trim());
+
+              if (isPositionBlank || isStartDateBlank || isOrganisationBlank || isEndDateBlank || isPosDescBlank) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+            if (key === 'achievementsandcertifications') {
+              const isAchTitleBlank = !item.achtitle || (typeof item.achtitle === 'string' && !item.achtitle.trim());
+              const isAchDescBlank = !item.achdesc || (typeof item.achdesc === 'string' && !item.achdesc.trim());
+
+              if (isAchTitleBlank || isAchDescBlank) {
+                brokenPages.add(dataKeyToPageName[key]);
+              }
+            }
+
+          }
+        });
+      }
+    });
+
+    const invalidPagesList = Array.from(brokenPages);
+
+    if (invalidPagesList.length === 0) {
+      return true;
+    } else {
+      return invalidPagesList;
+    }
+  };
   return (
     <DataContext.Provider value={{
       Data,
@@ -165,9 +292,10 @@ const CreateResume = () => {
       handleResetCurrentPage,
       isPrinting,
       setIsPrinting,
-      downloadResume
+      downloadResume,
+      completeFormValidation
     }}>
-      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className={"w-full box-border flex justify-center items-start my-[5vh] gap-5 " + (!isLastIndex? 'h-[80%] ' : 'h-full ')}>
+      <div style={{ background: 'linear-gradient(to left, #2c5364, #203a43, #0f2027)' }} className={"w-full box-border flex justify-center items-start my-[5vh] gap-[2.75%] " + (!isLastIndex ? 'h-[80%] ' : 'h-full ')}>
         <FormEntry></FormEntry>
         <PagePreview></PagePreview>
       </div>

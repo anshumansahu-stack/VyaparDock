@@ -67,12 +67,12 @@ const Education = () => {
 
     if (!currentEducation || currentEducation.length === 0) {
       append({
-        organisation: '',
-        startDate: '',
-        studyboard: '',
-        degree: '',
-        endDate: '',
-        cgpa: ''
+        organisation: undefined,
+        startDate: undefined,
+        studyboard: undefined,
+        degree: undefined,
+        endDate: undefined,
+        cgpa: undefined
       });
     }
   }, [fields, append, methods]);
@@ -223,13 +223,13 @@ const Education = () => {
           (e) => {
             e.preventDefault();
             append({
-              organisation: '',
-              startDate: '',
-              studyboard: '',
-              degree: '',
-              endDate: '',
-              cgpa: '',
-              edudescription: ''
+              organisation: undefined,
+              startDate: undefined,
+              studyboard: undefined,
+              degree: undefined,
+              endDate: undefined,
+              cgpa: undefined,
+              edudescription: undefined
             });
           }}></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}

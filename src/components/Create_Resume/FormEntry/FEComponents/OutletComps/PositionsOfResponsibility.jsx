@@ -67,11 +67,11 @@ const PositionsOfResponsibility = () => {
 
         if (!currentResponsibilities || currentResponsibilities.length === 0) {
             append({
-                position: '',
-                startDate: '',
-                organisation: '',
-                endDate: '',
-                posdescription: ''
+                position: undefined,
+                startDate: undefined,
+                organisation: undefined,
+                endDate: undefined,
+                posdescription: undefined
             });
         }
     }, [fields, append, methods]);
@@ -94,7 +94,7 @@ const PositionsOfResponsibility = () => {
                 const isCurrentJob = watchAllresponsibilities[index]?.isCurrent || false;
 
                 return ( // Main form logic
-                    <ObjectContainer key={field.id} className=''>
+                    <ObjectContainer key={field.id}>
                         <TextEntryContainer>
                             <FormDiv>
                                 <FormSubDiv>
@@ -187,11 +187,11 @@ const PositionsOfResponsibility = () => {
                     (e) => {
                         e.preventDefault(); //Prevent form submission trigger
                         append({
-                            position: '',
-                            startDate: '',
-                            organisation: '',
-                            endDate: '',
-                            posdescription: ''
+                            position: undefined,
+                            startDate: undefined,
+                            organisation: undefined,
+                            endDate: undefined,
+                            posdescription: undefined
                         })
                     }
                 }></AddNewButton>

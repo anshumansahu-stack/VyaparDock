@@ -25,13 +25,13 @@ const TechnicalSkills = () => {
 
       {fields.map((field, index) => {
         return ( // Main form logic
-          <ObjectContainer key={field.id} className='flex-row! w-full! place-content-aaround!'>
+          <ObjectContainer key={field.id} className='flex-row! w-full! place-content-around!'>
             <TextEntry
               item={`technicalskills.${index}.category`}
               childclassName='min-h-full!'
               placeholder='Enter Tech Stack Category:'
               register={methods.register}
-              formState={methods.formState} 
+              formState={methods.formState}
               validation={{ required: "Category is required!" }}
               className='min-w-1/4!'
             ></TextEntry>
@@ -39,7 +39,9 @@ const TechnicalSkills = () => {
               item={`technicalskills.${index}.skillList`}
               methods={methods}
               className='min-w-[55%]!'
-              validation={{ required: "Must contain atleast 1 item!" }}
+              validation={{
+                validate: (value) => (Array.isArray(value) && value.length > 0) || "Must contain at least 1 item!"
+              }} // value is the actual data that is in my array, while Array is a global Object. The Array.length>1 is hence always true. value.length>0 refers to the total number of entries that are entered in the field.
               placeholder='Type a skill (e.g. React) and press comma...'
             />
             <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
@@ -47,13 +49,13 @@ const TechnicalSkills = () => {
         );
       })}
 
-      <AddNewButton 
-      title='Add New Tech Stack →' 
-      onClick={
-        (e) => {
-          e.preventDefault()
-          append({ category: '', skillList: '' })
-        }
+      <AddNewButton
+        title='Add New Tech Stack →'
+        onClick={
+          (e) => {
+            e.preventDefault()
+            append({ category: undefined, skillList: [] })
+          }
         }></AddNewButton>
 
     </MainForm>

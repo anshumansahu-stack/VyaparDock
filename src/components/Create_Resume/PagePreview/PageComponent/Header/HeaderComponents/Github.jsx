@@ -7,7 +7,7 @@ const Github = (props) => {
     const { Data, setData, liveData } = useContext(DataContext)
     if (liveData?.github && liveData.github.trim() !== '') {
         return (
-            <TextFieldContainer className={'font-[Lora] '+props.className || ""}>
+            <TextFieldContainer className={'font-[Lora] h-[3cqw]! '+props.className || ""}>
                 <ImageContainer src={github} alt="github icon"/> <a href={liveData?.github ? liveData.github : "#"}
                     target="_blank"
                     rel="noreferrer">GitHub</a>

@@ -67,10 +67,10 @@ const Projects = () => {
         // ⚡ FIX: Sync the mount initialization schema keys
         if (!currentProjects || currentProjects.length === 0) {
             append({
-                projecttitle: '',
-                startDate: '',
-                endDate: '',
-                projectdescription: '',
+                projecttitle: undefined,
+                startDate: undefined,
+                endDate: undefined,
+                projectdescription: undefined,
                 skillstack: []
             });
         }
@@ -181,10 +181,10 @@ const Projects = () => {
                     (e) => {
                         e.preventDefault();
                         append({
-                            projecttitle: '',
-                            startDate: '',
-                            endDate: '',
-                            projectdescription: '',
+                            projecttitle: undefined,
+                            startDate: undefined,
+                            endDate: undefined,
+                            projectdescription: undefined,
                             skillstack: []
                         })
                     }}

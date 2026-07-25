@@ -29,7 +29,7 @@ const DateEntry = (props) => {
           if (!e.target.value) e.target.type = "text";
         }} // Flips to a date picker on focus
       />
-      {shouldShowError && <FormError name={props.item} errors={props.errors} />}
+      {shouldShowError && <FormError name={props.item} errors={props.formState.errors} />}
     </div>
   )
 }
