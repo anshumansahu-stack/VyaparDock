@@ -14,6 +14,7 @@ import TechnicalSkills from './components/Create_Resume/FormEntry/FEComponents/O
 import PositionsOfResponsibility from './components/Create_Resume/FormEntry/FEComponents/OutletComps/PositionsOfResponsibility';
 import AchievementsAndCertifications from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AchievementsAndCertifications';
 import Page from './components/Create_Resume/PagePreview/PageComponent/Page';
+import ResumeOMeter from './components/Resume_o_meter/ResumeOMeter';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
           <Page />
       }
     ]
+  },
+  {
+    path:'/resume_o_meter',
+    element: 
+    <UniversalWrapper>
+      <Navbar/>
+      <ResumeOMeter/>
+    </UniversalWrapper>
   },
   {
     path: "/*",
