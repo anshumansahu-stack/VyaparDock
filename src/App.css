@@ -22,7 +22,7 @@
   text-decoration: none;
 }
 
-.bg-personal-details {
+.bg-blue-grad {
   background: #0f0c29;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
