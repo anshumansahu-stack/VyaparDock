@@ -19,7 +19,6 @@ const DateEntry = (props) => {
         {...props.register(props.item, props.validation || {})}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        touchedFields={props.touchedFields}
         onFocus={(e) => {
           if (props.disabled) return;
           e.target.type = "date";

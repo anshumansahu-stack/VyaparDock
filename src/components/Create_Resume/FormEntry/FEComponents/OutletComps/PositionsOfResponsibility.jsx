@@ -89,7 +89,7 @@ const PositionsOfResponsibility = () => {
             <FormTitle title="Positions of Responsibility"></FormTitle>
 
             {fields.map((field, index) => {
-                
+
                 //watch the checkbox for the render first, if rendered, check whether the value exists or is undefined, if undefined, set false else true.
                 const isCurrentJob = watchAllresponsibilities[index]?.isCurrent || false;
 
@@ -104,7 +104,14 @@ const PositionsOfResponsibility = () => {
                                         placeholder='Enter Position'
                                         register={methods.register}
                                         formState={methods.formState}
-                                        validation={{ required: "Position is required" }}
+                                        validation={{
+                                            required: "Position is required",
+                                            maxLength: { value: 100, message: "Must be under 100 characters" },
+                                            pattern: {
+                                                value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                                                message: "Contains invalid characters"
+                                            }
+                                        }}
                                     ></TextEntry>
                                 </FormSubDiv>
                                 <FormSubDiv className='items-end! min-h-18!'>
@@ -130,17 +137,22 @@ const PositionsOfResponsibility = () => {
                                         placeholder='eg., JP Morgan'
                                         register={methods.register}
                                         formState={methods.formState}
-                                        validation={{ required: "Organisation name is required" }} // ADDED: Validation
+                                        validation={{
+                                            required: "Organisation name is required",
+                                            maxLength: { value: 100, message: "Must be under 100 characters" },
+                                            pattern: {
+                                                value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                                                message: "Contains invalid characters"
+                                            }
+                                        }}
                                     ></TextEntry>
                                 </FormSubDiv>
 
                                 <FormSubDiv className='flex-col'>
-                                    {/* FIXED: Passed required attributes so the checkbox registers */}
                                     <IsCurrentCheckerButton item={`responsibilities.${index}.isCurrent`} register={methods.register} />
 
                                     <FormSubDiv>
                                         <FormLabel label="End Date:" ></FormLabel>
-                                        {/* FIXED: Linked disabled={isCurrentJob} , if is current job is true then the value will be disabled else it will not be disabled. */}
                                         <DateEntry
                                             item={`responsibilities.${index}.endDate`}
                                             placeholder='dd-mm-yyyy'
@@ -172,13 +184,18 @@ const PositionsOfResponsibility = () => {
                                 childclassName='h-30'
                                 register={methods.register}
                                 formState={methods.formState}
+                                validation={{
+                                    required: "Position description is required",
+                                    minLength: { value: 20, message: "Please provide more detail (at least 20 characters)" },
+                                    maxLength: { value: 1000, message: "Must be under 1000 characters" }
+                                }}
                             ></TextAreaEntry>
                         </DescriptionContainer>
 
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]'/>}
+                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
                     </ObjectContainer>
-                ); // Clean return closure
-            })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
+                ); 
+            })} 
 
             <AddNewButton
                 title='Add New PoR →'

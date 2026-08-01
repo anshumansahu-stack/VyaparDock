@@ -32,7 +32,7 @@ const ProfessionalExperience = () => {
   // useEffect runs again to evaluate the entire card layout.
   // This process keeps going on again and again that disabling the enddate is not achieved. 
   // useWatch() hook fixes the same.
- 
+
   const watchAllExperiences = useWatch({ // handling nested states
     control: methods.control,
     name: "experiences"
@@ -46,7 +46,7 @@ const ProfessionalExperience = () => {
     // Loop through your form entries in memory
     watchAllExperiences.forEach((exp, index) => {
       if (!methods.getValues(`experiences.${index}`)) return; // If no indices found then return
-      
+
       if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
         if (methods.getValues(`experiences.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
           methods.setValue(`experiences.${index}.endDate`, "Present");
@@ -99,35 +99,49 @@ const ProfessionalExperience = () => {
               <FormDiv>
                 <FormSubDiv>
                   <FormLabel label="Job Title:"></FormLabel>
-                  <TextEntry 
-                  item={`experiences.${index}.jobtitle`} 
-                  placeholder='Enter Job Title' 
-                  register={methods.register}
-                  formState={methods.formState} 
-                  validation={{ required: "Job title is required" }} 
+                  <TextEntry
+                    item={`experiences.${index}.jobtitle`}
+                    placeholder='Enter Job Title'
+                    register={methods.register}
+                    formState={methods.formState}
+                    validation={{
+                      required: "Job title is required",
+                      maxLength: { value: 100, message: "Must be under 100 characters" },
+                      pattern: {
+                        value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                        message: "Contains invalid characters"
+                      }
+                    }}// Permissive on digits and punctuation as job titles need them occassionally.
                   ></TextEntry>
                 </FormSubDiv>
                 <FormSubDiv className='items-end! min-h-18!'>
                   <FormLabel label="Start Date:"></FormLabel>
-                  <DateEntry 
-                  item={`experiences.${index}.startDate`} 
-                  placeholder='dd-mm-yyyy' 
-                  register={methods.register}
-                  formState={methods.formState}
-                  validation={{ 
+                  <DateEntry
+                    item={`experiences.${index}.startDate`}
+                    placeholder='dd-mm-yyyy'
+                    register={methods.register}
+                    formState={methods.formState}
+                    validation={{
                       required: "Start date is required",
                       validate: (val) => new Date(val) <= new Date() || "Date cannot be in future"
-                  }} 
+                    }}
                   ></DateEntry>
                 </FormSubDiv>
                 <FormSubDiv>
                   <FormLabel label="State:" ></FormLabel>
-                  <TextEntry 
-                  item={`experiences.${index}.jobstate`} 
-                  placeholder='State' 
-                  register={methods.register}
-                  formState={methods.formState}
-                  validation={{ required: "State is required" }} 
+                  <TextEntry
+                    item={`experiences.${index}.jobstate`}
+                    placeholder='State'
+                    register={methods.register}
+                    formState={methods.formState}
+                    validation={{
+                      required: "State is required",
+                      maxLength: { value: 56, message: "Must be under 56 characters" },
+                      pattern: {
+                        value: /^[\p{L}\s.'-]+$/u,
+                        message: "Only letters, spaces, and basic punctuation allowed"
+                      }
+                    }}
                   ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
@@ -135,49 +149,61 @@ const ProfessionalExperience = () => {
               <FormDiv>
                 <FormSubDiv>
                   <FormLabel label="Employer:"></FormLabel>
-                  <TextEntry 
-                  item={`experiences.${index}.employer`} 
-                  placeholder='eg., JP Morgan' 
-                  register={methods.register}
-                  formState={methods.formState}
-                  validation={{ required: "Employer name is required" }} // ADDED: Validation
+                  <TextEntry
+                    item={`experiences.${index}.employer`}
+                    placeholder='eg., JP Morgan'
+                    register={methods.register}
+                    formState={methods.formState}
+                    validation={{
+                      required: "Employer name is required",
+                      maxLength: { value: 100, message: "Must be under 100 characters" },
+                      pattern: {
+                        value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                        message: "Contains invalid characters"
+                      }
+                    }}
                   ></TextEntry>
                 </FormSubDiv>
 
                 <FormSubDiv className='flex-col'>
-                  {/* FIXED: Passed required attributes so the checkbox registers */}
                   <IsCurrentCheckerButton item={`experiences.${index}.isCurrent`} register={methods.register} />
 
                   <FormSubDiv>
                     <FormLabel label="End Date:" ></FormLabel>
-                    {/* FIXED: Linked disabled={isCurrentJob} , if is current job is true then the value will be disabled else it will not be disabled. */}
-                    <DateEntry 
-                    item={`experiences.${index}.endDate`} 
-                    placeholder='dd-mm-yyyy' 
-                    register={methods.register} 
-                    disabled={isCurrentJob} 
-                    formState={methods.formState}
-                    validation={{
-                      required: !isCurrentJob ? "End date is required" : false,
-                      validate: (value) => {
-                        if (isCurrentJob || value === "Present" || !value) return true;
-                        const start = methods.getValues(`experiences.${index}.startDate`);
-                        if (!start) return true;
-                        return new Date(value) > new Date(start) || "Must be after start date";
-                      }
-                    }}
+                    <DateEntry
+                      item={`experiences.${index}.endDate`}
+                      placeholder='dd-mm-yyyy'
+                      register={methods.register}
+                      disabled={isCurrentJob}
+                      formState={methods.formState}
+                      validation={{
+                        required: !isCurrentJob ? "End date is required" : false,
+                        validate: (value) => {
+                          if (isCurrentJob || value === "Present" || !value) return true;
+                          const start = methods.getValues(`experiences.${index}.startDate`);
+                          if (!start) return true;
+                          return new Date(value) > new Date(start) || "Must be after start date";
+                        }
+                      }}
                     />
                   </FormSubDiv>
                 </FormSubDiv>
 
                 <FormSubDiv>
                   <FormLabel label="City:" ></FormLabel>
-                  <TextEntry 
-                  item={`experiences.${index}.jobcity`} 
-                  placeholder='City' 
-                  register={methods.register}
-                  formState={methods.formState}
-                  validation={{ required: "City is required" }}
+                  <TextEntry
+                    item={`experiences.${index}.jobcity`}
+                    placeholder='City'
+                    register={methods.register}
+                    formState={methods.formState}
+                    validation={{
+                      required: "City is required",
+                      maxLength: { value: 58, message: "Must be under 58 characters" },
+                      pattern: {
+                        value: /^[\p{L}\s.'-]+$/u,
+                        message: "Only letters, spaces, and basic punctuation allowed"
+                      }
+                    }}
                   ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
@@ -185,35 +211,41 @@ const ProfessionalExperience = () => {
 
             <DescriptionContainer>
               <FormLabel label="Job Description:" ></FormLabel>
-              <TextAreaEntry 
-              item={`experiences.${index}.jobdescription`} 
-              childclassName='h-30'
-              placeholder='Describe your job achievements...' 
-              register={methods.register}
-              formState={methods.formState}
+              <TextAreaEntry
+                item={`experiences.${index}.jobdescription`}
+                childclassName='h-30'
+                placeholder='Describe your job achievements...'
+                register={methods.register}
+                formState={methods.formState}
+                validation={{
+                  required: "Job description is required",
+                  minLength: { value: 20, message: "Please provide more detail (at least 20 characters)" },
+                  maxLength: { value: 1000, message: "Must be under 1000 characters" }
+                }}
               ></TextAreaEntry>
             </DescriptionContainer>
-            
-            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]'/>}
+
+            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}
 
-      <AddNewButton 
-      title='Add New Experience →' 
-      type='button'
-      onClick={
-        (e) => {
-          e.preventDefault(); //Prevent form submission trigger
-          append({ 
-          jobtitle: undefined, 
-          startDate: undefined, 
-          jobstate: undefined, 
-          employer: undefined, 
-          endDate: undefined, 
-          jobcity: undefined, 
-          jobdescription: undefined 
-          })}
+      <AddNewButton
+        title='Add New Experience →'
+        type='button'
+        onClick={
+          (e) => {
+            e.preventDefault(); //Prevent form submission trigger
+            append({
+              jobtitle: undefined,
+              startDate: undefined,
+              jobstate: undefined,
+              employer: undefined,
+              endDate: undefined,
+              jobcity: undefined,
+              jobdescription: undefined
+            })
+          }
         }></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}
     </MainForm>

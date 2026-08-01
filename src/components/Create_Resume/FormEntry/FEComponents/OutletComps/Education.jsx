@@ -106,7 +106,15 @@ const Education = () => {
                     placeholder='Enter Organisation'
                     register={methods.register}
                     formState={methods.formState}
-                    validation={{ required: "School or University name is required" }}
+                    validation={{
+                      required: "School or University name is required",
+                      minLength: { value: 2, message: "Must be at least 2 characters" },
+                      maxLength: { value: 100, message: "Must be under 100 characters" },
+                      pattern: {
+                        value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                        message: "Contains invalid characters"
+                      }
+                    }}
                   ></TextEntry>
                 </FormSubDiv>
                 <FormSubDiv className='items-end! min-h-18!'>
@@ -139,6 +147,13 @@ const Education = () => {
                     placeholder='e.g., CBSE'
                     register={methods.register}
                     formState={methods.formState}
+                    validation={{
+                      maxLength: { value: 60, message: "Must be under 60 characters" },
+                      pattern: {
+                        value: /^[\p{L}0-9\s.,'-]+$/u,
+                        message: "Only letters, numbers, and basic punctuation allowed"
+                      }
+                    }}// Allowed optional because bachelors degree wont need a board. numbers allowed because some regional affiliation codes do have numbers.
                   ></TextEntry>
                 </FormSubDiv>
               </FormDiv>
@@ -152,7 +167,14 @@ const Education = () => {
                     placeholder='eg., 10th,Bachelors'
                     register={methods.register}
                     formState={methods.formState}
-                    validation={{ required: "Degree qualification type is required" }}
+                    validation={{
+                      required: "Degree qualification type is required",
+                      maxLength: { value: 60, message: "Must be under 60 characters" },
+                      pattern: {
+                        value: /^[\p{L}0-9\s.,'()-]+$/u,
+                        message: "Only letters, numbers, and basic punctuation allowed"
+                      }
+                    }}//10th", "B.Tech (Hons)", "M.Sc. Data Science" values like these are accepted.
                   ></TextEntry>
                 </FormSubDiv>
 
@@ -210,7 +232,7 @@ const Education = () => {
               </FormDiv>
             </TextEntryContainer>
 
-            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]'/>}
+            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}

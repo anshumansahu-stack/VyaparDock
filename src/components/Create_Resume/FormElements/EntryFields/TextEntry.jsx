@@ -14,7 +14,6 @@ const TextEntry = (props) => {
         } ${props.childclassName || ""}`}
         type="text"
         {...props.register(props.item, props.validation || {})} 
-        touchedFields={props.touchedFields}
         placeholder={props.placeholder}
       />
       {shouldShowError && <FormError name={props.item} errors={props.formState.errors} />}

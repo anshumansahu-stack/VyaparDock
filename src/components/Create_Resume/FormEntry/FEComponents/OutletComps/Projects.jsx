@@ -64,7 +64,6 @@ const Projects = () => {
     useEffect(() => { //Initiation UseEffect
         const currentProjects = methods.getValues("projects"); // Temp variable for avoiding Strictmode.
 
-        // ⚡ FIX: Sync the mount initialization schema keys
         if (!currentProjects || currentProjects.length === 0) {
             append({
                 projecttitle: undefined,
@@ -105,7 +104,14 @@ const Projects = () => {
                                     register={methods.register}
                                     childclassName='min-w-70! min-h-30!'
                                     formState={methods.formState} // Insulation
-                                    validation={{ required: "Project title is required" }}
+                                    validation={{
+                                        required: "Project title is required",
+                                        maxLength: { value: 100, message: "Must be under 100 characters" },
+                                        pattern: {
+                                            value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                                            message: "Contains invalid characters"
+                                        }
+                                    }}
                                 ></TextEntry>
                             </FormSubDiv>
                             <FormDiv>
@@ -157,6 +163,10 @@ const Projects = () => {
                                 register={methods.register}
                                 className='h-30'
                                 formState={methods.formState}
+                                validation={{
+                                    minLength: { value: 10, message: "Please provide at least a short description" },
+                                    maxLength: { value: 500, message: "Must be under 500 characters" }
+                                }}
                             ></TextAreaEntry>
                         </DescriptionContainer>
 
@@ -170,7 +180,7 @@ const Projects = () => {
                                 placeholder='Type a tool (e.g. React) and press comma...'
                             />
                         </FormSubDiv>
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[5vh]'/>}
+                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[5vh]' />}
                     </ObjectContainer>
                 ); // Clean return closure
             })}

@@ -31,8 +31,15 @@ const AchievementsAndCertifications = () => {
               childclassName='min-h-full!'
               placeholder='Enter Achievement:'
               register={methods.register}
-              formState={methods.formState} 
-              validation={{ required: "Achievement is required!" }}
+              formState={methods.formState}
+              validation={{
+                required: "Achievement is required!",
+                maxLength: { value: 150, message: "Must be under 150 characters" },
+                pattern: {
+                  value: /^[\p{L}0-9\s.,'&/()-]+$/u,
+                  message: "Contains invalid characters"
+                }
+              }}
               className='min-w-1/4!'
             ></TextEntry>
             <TextEntry
@@ -41,21 +48,25 @@ const AchievementsAndCertifications = () => {
               childclassName='min-h-full! '
               placeholder='Describe your Achievement:'
               register={methods.register}
-              formState={methods.formState} 
-              validation={{ required: "Description is required!" }}
+              formState={methods.formState}
+              validation={{
+                required: "Description is required!",
+                minLength: { value: 10, message: "Please provide more detail (at least 10 characters)" },
+                maxLength: { value: 300, message: "Must be under 300 characters" }
+              }}
             />
             <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
           </ObjectContainer>
         );
       })}
 
-      <AddNewButton 
-      title='Add New Tech Stack →' 
-      onClick={
-        (e) => {
-          e.preventDefault()
-          append({ achtitle: undefined, achdesc: undefined })
-        }
+      <AddNewButton
+        title='Add New Tech Stack →'
+        onClick={
+          (e) => {
+            e.preventDefault()
+            append({ achtitle: undefined, achdesc: undefined })
+          }
         }></AddNewButton>
 
     </MainForm>
