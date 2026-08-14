@@ -18,7 +18,7 @@ const Navbar = () => {
           <Navbutton name="Hall of Recruits" path='/hall_of_recruits'></Navbutton>
           <Navbutton name="Resume-o-meter" path='/resume_o_meter'></Navbutton>
         </div>
-        <div className=' p-2 w-50 flex flex-row justify-between'>
+        <div className='px-2 w-50 flex flex-row justify-between'>
           <Navbutton name="Login" path='/login'></Navbutton>
           <Navbutton name="Sign Up" path='/sign_up'></Navbutton>
         </div>

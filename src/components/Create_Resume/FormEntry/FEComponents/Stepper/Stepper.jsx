@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import Swal from 'sweetalert2'
 import { useNavigate, useLocation } from 'react-router'
 import { DataContext } from '../../../DataContext'
 import NextButton from './Buttons/NextButton'
@@ -68,7 +69,17 @@ const Stepper = () => {
     const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
 
     if (!isStepValid) {
-      alert("Invalid entries detected!!")
+      Swal.fire({
+        title: '<strong>Whoops!</strong>',
+        text: 'Invalid entries detected.',
+        icon: 'error',
+        color: 'white',
+        customClass: {
+          popup: 'bg-moonwalker'
+        },
+        confirmButtonText: 'Got it!',
+        confirmButtonColor: '#e11d48', // Tailwind red-600
+      });
       return
     }
 
@@ -87,38 +98,81 @@ const Stepper = () => {
 
   const handleFinalSubmit = async (formData) => {
 
+    if (event) event.preventDefault();
+
     const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
-
-    const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
-
-    if (!isStepValid) {
-      alert("Invalid entries detected!!")
-      return
-    }// check current page first
 
     const formValid = await completeFormValidation()
 
     if (formValid === true) {
-      const confirmSubmit = window.confirm("Are you sure you want to Submit all resume data?");
-      if (!confirmSubmit) return;
+      const confirmSubmit = await Swal.fire({
+        title: "<strong>Confirm Submission</strong>",
+        icon: "info",
+        color: 'white',
+        customClass: {
+          popup: 'bg-moonwalker'
+        },
+        html: `
+    Are you sure you want to submit all form data?
+  `,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: `
+    <b>Sure!</b>
+  `,
+        confirmButtonAriaLabel: "Confirm Changes and submit your form",
+        cancelButtonText: `
+    <b>⟵ Edit Form</b>
+  `,
+        cancelButtonAriaLabel: "Go back and make changes to your form"
+      });
+      if (!confirmSubmit.isConfirmed) return;
 
-      alert("Form values submitted successfully!");
+      await Swal.fire({
+        title: "<strong>Yippee!</strong>",
+        html: `All Form Values Submitted Successfully.`,
+        icon: "success",
+        color: 'white',
+        customClass: {
+          popup: 'bg-moonwalker'
+        },
+        confirmButtonText: `
+    <b>Preview Full Resume ⟶</b>
+  `,
+
+      });
       onSubmit(formData);
       navigate('/create_resume/view_form');
     }
 
-    else{
-      alert(`Please fix errors on these pages: ${formValid.join(', ')}`);
+    else {
+      await Swal.fire({
+        icon: 'question',
+        title: '<strong>You think you smart, huh?</strong>',
+        color: 'white',
+        customClass: {
+          popup: 'bg-moonwalker'
+        },
+        html: `Please fix errors on these pages: ${formValid.join(', ')}.`,
+        confirmButtonText: `
+    <b>⟵ Edit Form</b>
+  `,
+
+      })
+      console.log(formValid)
+      const firstErrorSite=formValid[0].toLowerCase().replaceAll(' ','_')
+      navigate(`/create_resume/${firstErrorSite}`)
+      // known: doesn't re-trigger field errors on jump-back, low priority since URL tampering is rare
     }
   };
 
   const onKeyTap = (e) => {
+    e.preventDefault();
     if (e.key === 'ArrowRight') {
       handleNext();
     } else if (e.key === 'ArrowLeft') {
       handlePrev();
     } else if (e.key === 'Enter') {
-      // 3. FIX APPLIED: Add the second argument here for the Enter key
       methods.handleSubmit(handleFinalSubmit)();
     }
   };

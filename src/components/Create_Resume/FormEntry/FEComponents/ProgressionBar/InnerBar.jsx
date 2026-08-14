@@ -7,13 +7,13 @@ const InnerBar = () => {
   const percentage = totalSteps > 0 ? (currentIndex / (currSteps)) * 100 : 0 
   let className=''
   if(currentIndex<=(currSteps/3)){
-    className='bg-red-600 h-full'
+    className='bg-red-600 h-full transition-all'
   }
   else if(currentIndex>(currSteps/3) && currentIndex<=(2*currSteps/3)){
-    className='bg-amber-300 h-full'
+    className='bg-amber-300 h-full transition-all'
   }
   else{
-    className='bg-green-600 h-full'
+    className='bg-green-600 h-full transition-all'
   }
   return (
     <div 

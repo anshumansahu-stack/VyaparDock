@@ -5,6 +5,8 @@ import FormEntry from './FormEntry/FormEntry'
 import PagePreview from './PagePreview/PagePreview'
 import { DataContext } from './DataContext'
 import html2pdf from 'html2pdf.js'
+import Swal from 'sweetalert2'
+import { ToastContainer, toast } from 'react-toastify';
 // Components:
 //One div containing Live resume score and form
 // Another div containing page Preview
@@ -14,10 +16,35 @@ const CreateResume = () => {
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
-  const getCachedData = () => {
+  const getCachedData = async () => {
     try {
       const saved = localStorage.getItem('vyapardock_resume_cache')
-      return saved ? JSON.parse(saved) : {}
+      const parsedData = saved ? JSON.parse(saved) : {}
+      if (parsedData != {}) {
+        const loadConfirmation=await Swal.fire({
+          title: "<strong>Hey, Ive got somethin!</strong>",
+          text: "Load Previous Resume progress save?",
+          color: 'white',
+          customClass: {
+            popup: 'bg-moonwalker'
+          },
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: `
+    <b>⟵ Load Form</b>
+  `,
+          cancelButtonText: `
+    <b> Start new ⟶</b>
+  `,
+        });
+        if(!loadConfirmation.isConfirmed){
+          return {}
+        }
+        else{
+          return parsedData
+        }
+      }
+      return parsedData
     } catch (e) {
       console.error("Cache parsing anomaly, falling back to empty:", e)
       return {}
@@ -136,22 +163,22 @@ const CreateResume = () => {
     setIsPrinting(true);
 
     const config = {
-      margin: [5,0,0,0],
+      margin: [5, 0, 0, 0],
       filename: 'my_resume.pdf',
-      html2canvas: { 
-        scale: 2, 
-        useCORS: true, 
-        scrollX: 0, 
-        scrollY: 0, 
-        windowWidth: 794 
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 794
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: 'css' }
     };
 
     // Give React 300ms to strip the scroll bars and lay out the document flat in the DOM
-    await new Promise(r => setTimeout(r, 100)); 
-    
+    await new Promise(r => setTimeout(r, 100));
+
     html2pdf().set(config).from(element).save().then(() => {
       setIsPrinting(false);
     });
@@ -167,6 +194,8 @@ const CreateResume = () => {
     await methods.trigger(fieldsToValidate);// complete trigger
 
     const activeErrors = methods.formState.errors;// find errors
+
+    const personalValidationFields = ['firstname', 'lastname', 'phone', 'email']// Check this whenever you create a new field
 
     const dataKeyToPageName = {
       'firstname': 'Personal Details',
@@ -185,6 +214,7 @@ const CreateResume = () => {
 
     fieldsToValidate.forEach(key => {
       // Standard React Hook Form validation errors registered by the DOM
+      console.log('key', key)
       if (activeErrors && activeErrors[key]) {
         const pageName = dataKeyToPageName[key];
         if (pageName) brokenPages.add(pageName);
@@ -192,7 +222,8 @@ const CreateResume = () => {
 
       // Deep Content check for un-rendered, blank, or ghost array data entries
       const rawValue = methods.getValues(key);
-      if (Array.isArray(rawValue)) {
+      console.log('rawValue payload:', rawValue)
+      if (Array.isArray(rawValue)) { //checks whether the rawValue is an array or not, using Array object in javascript
         rawValue.forEach(item => {
           if (item && typeof item === 'object') {
 
@@ -267,6 +298,15 @@ const CreateResume = () => {
           }
         });
       }
+      if (typeof rawValue === 'string') {
+        if (personalValidationFields.indexOf(key) != -1) {
+          const isPFFieldBlank = !rawValue || (typeof rawValue === 'string' && !rawValue.trim());
+          if (isPFFieldBlank) {
+            brokenPages.add(dataKeyToPageName[key])
+          }
+        }
+      }
+      console.log('brokenpages:', brokenPages)
     });
 
     const invalidPagesList = Array.from(brokenPages);
