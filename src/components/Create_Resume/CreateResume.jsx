@@ -6,7 +6,7 @@ import PagePreview from './PagePreview/PagePreview'
 import { DataContext } from './DataContext'
 import html2pdf from 'html2pdf.js'
 import Swal from 'sweetalert2'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 // Components:
 //One div containing Live resume score and form
 // Another div containing page Preview
@@ -16,40 +16,17 @@ const CreateResume = () => {
 
   const [Data, setData] = useState({}) // These will be passed down as context.
 
-  const getCachedData = async () => {
-    try {
-      const saved = localStorage.getItem('vyapardock_resume_cache')
-      const parsedData = saved ? JSON.parse(saved) : {}
-      if (parsedData != {}) {
-        const loadConfirmation=await Swal.fire({
-          title: "<strong>Hey, Ive got somethin!</strong>",
-          text: "Load Previous Resume progress save?",
-          color: 'white',
-          customClass: {
-            popup: 'bg-moonwalker'
-          },
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: `
-    <b>⟵ Load Form</b>
-  `,
-          cancelButtonText: `
-    <b> Start new ⟶</b>
-  `,
-        });
-        if(!loadConfirmation.isConfirmed){
-          return {}
-        }
-        else{
-          return parsedData
-        }
+  const checkObjectEmpty = (cacheObject) => {
+    for (const key in cacheObject) {
+      if (Array.isArray(cacheObject[key]) && cacheObject[key].length != 0) {
+        return false;
       }
-      return parsedData
-    } catch (e) {
-      console.error("Cache parsing anomaly, falling back to empty:", e)
-      return {}
+      if (typeof cacheObject[key] === 'string' && cacheObject[key].trim() != '') {
+        return false;
+      }
     }
-  } // For local reloads, globally backend is required
+    return true;
+  }
 
   const handleResetAllData = () => {
     //  Wipe out background browser memory storage
@@ -81,14 +58,83 @@ const CreateResume = () => {
 
     // Reset the step index back to the beginning page
     setCurrentIndex(0);
+    toast.info("All form fields reset to default.");
   };
 
-  const handleResetCurrentPage = () => {
+  const getCachedData = async () => {
+    try {
+      const saved = localStorage.getItem('vyapardock_resume_cache')
+      const parsedData = saved ? JSON.parse(saved) : {}
+      if (!checkObjectEmpty(parsedData)) { //not empty
+        const loadConfirmation = await Swal.fire({
+          title: "<strong>Hey, Ive got somethin!</strong>",
+          text: "Load Previous Resume progress save?",
+          color: 'white',
+          customClass: {
+            popup: 'bg-moonwalker'
+          },
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: `
+    <b>⟵ Load Form</b>
+  `,
+          cancelButtonText: `
+    <b> Start new ⟶</b>
+  `,
+        })
+        if (loadConfirmation.isConfirmed) {
+          toast.success("Progress restored successfully! 🎉");
+          return parsedData
+        }
+        if (loadConfirmation.dismiss === Swal.DismissReason.cancel) { // **
+          const confirmClear = await Swal.fire({
+            title: "<strong>Are you sure?</strong>",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            color: 'white',
+            customClass: {
+              popup: 'bg-moonwalker'
+            },
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, Ill go from here"
+          })
+          if (confirmClear.isConfirmed) {
+            handleResetAllData()
+            return {}
+          }
+          return parsedData
+        }
+        return parsedData // If clicked outside the box/ pressed esc
+      }
+      return {} // debug
+    } catch (e) {
+      toast.error("Failed to parse local storage.");
+      return {}
+    }
+  } // For local reloads, globally backend is required
+
+  const handleResetCurrentPage = async () => {
     const currentStepName = FORM_STEPS[currentIndex];
     if (!currentStepName) return;
 
-    const confirmClear = window.confirm(`Are you sure you want to clear all inputs on this page?`);
-    if (!confirmClear) return;
+    const confirmClear = await Swal.fire({
+      title: "<strong>Are you sure you want to clear this page?</strong>",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      color: 'white',
+      customClass: {
+        popup: 'bg-moonwalker'
+      },
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Nope, It was a mistake."
+    })
+    if (!confirmClear.isConfirmed) return;
 
     const updatedData = { ...methods.getValues() };
 
@@ -116,10 +162,12 @@ const CreateResume = () => {
 
     // Sync to local storage
     localStorage.setItem('vyapardock_resume_cache', JSON.stringify(updatedData));
+
+    toast.info("Form reset to default.");
   };
 
   const methods = useForm({
-    defaultValues: getCachedData(),
+    defaultValues: getCachedData, // This is an async function now, and invoking it like getCachedData() will return a promise thatll crash the code.
     mode: 'onChange'
   })// Default values loaded from recent cached data
 
@@ -176,12 +224,13 @@ const CreateResume = () => {
       pagebreak: { mode: 'css' }
     };
 
-    // Give React 300ms to strip the scroll bars and lay out the document flat in the DOM
+    // Give React 100ms to strip the scroll bars and lay out the document flat in the DOM
     await new Promise(r => setTimeout(r, 100));
 
     html2pdf().set(config).from(element).save().then(() => {
       setIsPrinting(false);
     });
+    toast.success("Resume saved to local.")
   };
 
   const completeFormValidation = async () => {

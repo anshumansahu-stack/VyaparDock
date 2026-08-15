@@ -53,9 +53,22 @@ const Stepper = () => {
     }
   }
 
-  const triggerResetPrompt = () => {
-    const confirmClear = window.confirm("Are you sure you want to delete all resume data? This action cannot be undone.");
-    if (confirmClear) {
+  const triggerResetPrompt = async () => {
+    const confirmClear = await Swal.fire({
+      title: "<strong>Are you sure you want to clear the form?</strong>",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      color: 'white',
+      customClass: {
+        popup: 'bg-moonwalker'
+      },
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Clear the form",
+      cancelButtonText: "Nope, It was a mistake."
+    })
+    if (confirmClear.isConfirmed) {
       handleResetAllData();
       navigate('/create_resume/personal_details'); // Redirect back to page 1 automatically
     }
@@ -160,7 +173,7 @@ const Stepper = () => {
 
       })
       console.log(formValid)
-      const firstErrorSite=formValid[0].toLowerCase().replaceAll(' ','_')
+      const firstErrorSite = formValid[0].toLowerCase().replaceAll(' ', '_')
       navigate(`/create_resume/${firstErrorSite}`)
       // known: doesn't re-trigger field errors on jump-back, low priority since URL tampering is rare
     }

@@ -15,6 +15,8 @@ import PositionsOfResponsibility from './components/Create_Resume/FormEntry/FECo
 import AchievementsAndCertifications from './components/Create_Resume/FormEntry/FEComponents/OutletComps/AchievementsAndCertifications';
 import Page from './components/Create_Resume/PagePreview/PageComponent/Page';
 import ResumeOMeter from './components/Resume_o_meter/ResumeOMeter';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -76,12 +78,12 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path:'/resume_o_meter',
-    element: 
-    <UniversalWrapper>
-      <Navbar/>
-      <ResumeOMeter/>
-    </UniversalWrapper>
+    path: '/resume_o_meter',
+    element:
+      <UniversalWrapper>
+        <Navbar />
+        <ResumeOMeter />
+      </UniversalWrapper>
   },
   {
     path: "/*",
@@ -95,7 +97,21 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        toastClassName="!bg-moonwalker !text-white !rounded-2xl !border !border-gray-800 shadow-xl"
+      /></>
   )
 }
 
