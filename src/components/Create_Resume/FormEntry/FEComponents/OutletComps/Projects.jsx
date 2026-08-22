@@ -40,8 +40,6 @@ const Projects = () => {
     }) || [];
     //Just in case there is novalue being recorded by experiences, the initial value will be an empty array.
 
-    // const watchAllExperiences = methods.watch("experiences") || []; 
-    // Basically start watching the experiences field array.
 
     useEffect(() => {
         // Loop through your form entries in memory
@@ -50,6 +48,7 @@ const Projects = () => {
 
             if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
                 if (methods.getValues(`projects.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+                    methods.clearErrors(`projects.${index}.endDate`); // Clear any residual errors
                     methods.setValue(`projects.${index}.endDate`, "Present");
                 }
             } else {
@@ -76,6 +75,14 @@ const Projects = () => {
 
     }, [fields, append, methods]);
 
+    const handleRemove = (index) => {
+        methods.setValue(`projects.${index}.projecttitle`, '');
+        methods.setValue(`projects.${index}.startDate`, '');
+        methods.setValue(`projects.${index}.endDate`, '');
+        methods.setValue(`projects.${index}.projectdescription`, '');
+        methods.setValue(`projects.${index}.skillstack`, []);
+        methods.setValue(`projects.${index}.isCurrent`, false);
+    };
 
     // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
     // Result: A completely blank form renders in the UI, We dont want that. We use useEffect to avoid that, as follows:
@@ -103,7 +110,8 @@ const Projects = () => {
                                     placeholder='Enter Project Title'
                                     register={methods.register}
                                     childclassName='min-w-70! min-h-30!'
-                                    formState={methods.formState} // Insulation
+                                    formState={methods.formState}
+                                    control={methods.control}
                                     validation={{
                                         required: "Project title is required",
                                         maxLength: { value: 100, message: "Must be under 100 characters" },
@@ -122,6 +130,7 @@ const Projects = () => {
                                         placeholder='dd-mm-yyyy'
                                         register={methods.register}
                                         formState={methods.formState}
+                                        control={methods.control}
                                         validation={{
                                             required: "Start date is required",
                                             validate: (val) => new Date(val) <= new Date() || "Date cannot be in future"
@@ -140,6 +149,7 @@ const Projects = () => {
                                             register={methods.register}
                                             disabled={isCurrentJob}
                                             formState={methods.formState}
+                                            control={methods.control}
                                             validation={{
                                                 required: !isCurrentJob ? "End date is required" : false,
                                                 validate: (value) => {
@@ -163,6 +173,7 @@ const Projects = () => {
                                 register={methods.register}
                                 className='h-30'
                                 formState={methods.formState}
+                                control={methods.control}
                                 validation={{
                                     minLength: { value: 10, message: "Please provide at least a short description" },
                                     maxLength: { value: 500, message: "Must be under 500 characters" }
@@ -180,7 +191,7 @@ const Projects = () => {
                                 placeholder='Type a tool (e.g. React) and press comma...'
                             />
                         </FormSubDiv>
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[5vh]' />}
+                        {fields.length > 1 && <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='p-0! h-[5vh]' />}
                     </ObjectContainer>
                 ); // Clean return closure
             })}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import FormError from '../FormAuxiliaries/FormError'
+import { toast } from 'react-toastify'
 
 const TagInputNoLimit = (props) => {
   const [inputValue, setInputValue] = useState('')
@@ -23,17 +24,22 @@ const TagInputNoLimit = (props) => {
 
         const isValidTag = (tag) => {
           return tag.length <= 25 && /^[\p{L}0-9\s+#./-]+$/u.test(tag)
+        } // Tag length should be less than 25 and should have the shown regex config.
+
+        const removeTag = (tagToRemove) => {
+          const updatedTags = tags.filter(tag => tag !== tagToRemove);
+          field.onChange(updatedTags);
         }
 
         const handleKeyDown = (e) => {
-          if (e.key === ',') {
+          if (e.key === ',' || e.key==='Enter') {
             e.preventDefault()
             const cleanValue = inputValue.trim().replace(/,$/, '')
 
             if (cleanValue) { //Empty tags are auto filtered
 
               if (!isValidTag(cleanValue)) {
-                alert("Invalid entry — max 25 characters, letters/numbers/basic symbols only.")
+                toast.error("Invalid entry — max 25 characters, letters/numbers/basic symbols only.") // need to replace this by swal.
                 setInputValue('')
                 return
               }
@@ -49,11 +55,6 @@ const TagInputNoLimit = (props) => {
           }
         }
 
-        const removeTag = (tagToRemove) => {
-          const updatedTags = tags.filter(tag => tag !== tagToRemove);
-          field.onChange(updatedTags);
-        }
-
         const handlePaste = (e) => {
           e.preventDefault()
           const pastedText = e.clipboardData.getData('text')
@@ -64,7 +65,7 @@ const TagInputNoLimit = (props) => {
           for (const tag of pastedTags) {
             if (!isValidTag(tag)) {
               if (!invalidalert) {
-                alert("Some invalid entries were not pasted due to the character cap.")
+                toast.error("Some invalid skills are not pasted due to maximum character cap or the tag was invalid or empty.")
                 invalidalert = true
               }
               continue

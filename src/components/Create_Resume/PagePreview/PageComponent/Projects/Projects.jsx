@@ -19,7 +19,7 @@ const Projects = () => {
   )
   const stepIndex = FORM_STEPS.indexOf('projects')
 
-  if (currentIndex < stepIndex && !hasRealContent) return null; // If theres nothing to render then return null.
+  if (currentIndex != stepIndex && !hasRealContent) return null; // If theres nothing to render then return null.
   return (
     <MainPrintingDiv>
       <TitleField title='Projects' />

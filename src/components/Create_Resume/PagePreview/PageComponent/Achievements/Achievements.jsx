@@ -14,7 +14,7 @@ const Achievements = () => {
 
   const stepIndex = FORM_STEPS.indexOf('achievements_and_certifications')
 
-  if (currentIndex < stepIndex && achievementsList.length === 0) return null; // If theres nothing to render then return null.
+  if (currentIndex != stepIndex && achievementsList.length === 0) return null; // If theres nothing to render then return null.
   return (
     <MainPrintingDiv>
       <TitleField title='Achievements' />

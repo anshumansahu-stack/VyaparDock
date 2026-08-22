@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import FormError from '../FormAuxiliaries/FormError'
+import { toast } from 'react-toastify'
 
 const TagInput = (props) => {
   const [inputValue, setInputValue] = useState('')
@@ -15,32 +16,35 @@ const TagInput = (props) => {
         // Extract exact live data parameters out of the Controller proxy stream natively
         const tags = field.value || [];
 
-        // Notebook Error Parsing Matrix — Streamlined and handled by the Controller out-of-the-box
+        // Error Handling Logic- fieldState Version
         const fieldError = fieldState.error;
         const isTouched = fieldState.isTouched;
         const hasGlobalErrors = props.methods.formState?.errors && Object.keys(props.methods.formState.errors).length > 0;
-
-        // Your exact preferred truth table evaluation condition string
         const shouldShowError = !!fieldError && (isTouched || props.methods.formState?.isSubmitting || hasGlobalErrors);
 
         const isValidTag = (tag) => {
           return tag.length <= 25 && /^[\p{L}0-9\s+#./-]+$/u.test(tag)
         }
 
+        const removeTag = (tagToRemove) => {
+          const updatedTags = tags.filter(tag => tag !== tagToRemove);
+          field.onChange(updatedTags);
+        }
+
         const handleKeyDown = (e) => {
-          if (e.key === ',') {
+          if (e.key === ',' || e.key ==='Enter') {
             e.preventDefault()
             const cleanValue = inputValue.trim().replace(/,$/, '')
 
             if (cleanValue) {
               if (tags.length >= 5) {
-                alert("Maximum of 5 top skills allowed per project to optimize resume layout density.")
+                toast.info("Maximum of 5 top skills allowed per project to optimize resume layout density.")
                 setInputValue('')
                 return
               }
 
               if (!isValidTag(cleanValue)) {
-                alert("Invalid skill entry — max 25 characters, letters/numbers/basic symbols only.")
+                toast.error('Invalid skill entry — max 25 characters, letters/numbers/basic symbols only.')
                 setInputValue('')
                 return
               }
@@ -57,11 +61,6 @@ const TagInput = (props) => {
           }
         }
 
-        const removeTag = (tagToRemove) => {
-          const updatedTags = tags.filter(tag => tag !== tagToRemove);
-          field.onChange(updatedTags);
-        }
-
         const handlePaste = (e) => {
           e.preventDefault()
           const pastedText = e.clipboardData.getData('text')
@@ -71,12 +70,12 @@ const TagInput = (props) => {
           let currentTags = [...tags]
           for (const tag of pastedTags) {
             if (currentTags.length >= 5) {
-              alert("Maximum of 5 top skills allowed per project to optimize resume layout density.")
+              toast.info("Maximum of 5 top skills allowed per project to optimize resume layout density.")
               break
             }
             if (!isValidTag(tag)) {
               if (!invalidalert) {
-                alert("Some invalid skills are not pasted due to maximum character cap breach, or the tag was empty.");
+                toast.error("Some invalid skills are not pasted due to maximum character cap or the tag was invalid or empty.");
                 invalidalert = true;
               }
               continue

@@ -19,7 +19,7 @@ const PositionsOfResponsibility = () => {
 
   const stepIndex = FORM_STEPS.indexOf('positions_of_responsibility')
   
-   if (currentIndex < stepIndex && !hasRealContent) return null; // If theres nothing to render and we are behind the current Index then return null.
+   if (currentIndex != stepIndex && !hasRealContent) return null; // If theres nothing to render and we are behind the current Index then return null.
   return (
     <MainPrintingDiv>
         <TitleField title='Positions of Responsibility'/>

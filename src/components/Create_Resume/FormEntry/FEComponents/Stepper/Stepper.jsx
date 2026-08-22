@@ -13,26 +13,26 @@ import html2pdf from 'html2pdf.js'
 
 const Stepper = () => {
   const navigate = useNavigate()
-  const location = useLocation() // Retrieves the current URL Information as an object.
+  const location = useLocation()
 
   const { methods, onSubmit, currentIndex, setCurrentIndex, FORM_STEPS, handleResetAllData, handleResetCurrentPage, downloadResume, completeFormValidation } = useContext(DataContext)
 
-  const currentPath = location.pathname.split('/').pop() // Take the last element out of the domain URL. Thats essentially the current form URL.
+  const currentPath = location.pathname.split('/').pop()
 
   useEffect(() => {
     const calculatedIndex = FORM_STEPS.indexOf(currentPath)
-    if (calculatedIndex !== -1) { // Guard clause, when partially rendered indexof() returns -1. Helps prevent infinite render-calculate loop cycle.
+    if (calculatedIndex !== -1) {
       setCurrentIndex(calculatedIndex)
     }
   }, [currentPath, setCurrentIndex])
 
-  const isFirstStep = currentIndex === 0 // Truth value of is the current index at index 1.
-  const isSecondLastStep = currentIndex === FORM_STEPS.length - 2 // same but at last second.
+  const isFirstStep = currentIndex === 0
+  const isSecondLastStep = currentIndex === FORM_STEPS.length - 2
   const isLastStep = currentIndex === FORM_STEPS.length - 1
 
   const hasData = Object.keys(methods.watch()).length > 0
 
-  const getFieldsForStep = (stepName) => { // For current step, get all the concerned fields
+  const getFieldsForStep = (stepName) => {
     switch (stepName) {
       case 'personal_details':
         return ['firstname', 'lastname', 'currRole', 'currOrg', 'phone', 'altphone', 'email', 'github', 'linkedin', 'city', 'state', 'country', 'postalcode']
@@ -61,7 +61,9 @@ const Stepper = () => {
       showCancelButton: true,
       color: 'white',
       customClass: {
-        popup: 'bg-moonwalker'
+        popup: 'bg-moonwalker',
+        title: 'font-[Freeman] !text-[43px]',
+        htmlContainer: 'font-[Braah_One]'
       },
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -70,16 +72,12 @@ const Stepper = () => {
     })
     if (confirmClear.isConfirmed) {
       handleResetAllData();
-      navigate('/create_resume/personal_details'); // Redirect back to page 1 automatically
+      navigate('/create_resume/personal_details');
     }
   };
 
-  const handleNext = async () => {
-    if (isLastStep) return;
-
-    const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
-
-    const isStepValid = await methods.trigger(fieldsToValidate) // This is an asynchronous operation
+  const validateThisPage = async (fieldsToValidate) => {
+    const isStepValid = await methods.trigger(fieldsToValidate)
 
     if (!isStepValid) {
       Swal.fire({
@@ -88,12 +86,24 @@ const Stepper = () => {
         icon: 'error',
         color: 'white',
         customClass: {
-          popup: 'bg-moonwalker'
+          popup: 'bg-moonwalker',
+          title: 'font-[Freeman] !text-[43px]',
+          htmlContainer: 'font-[Braah_One]'
         },
         confirmButtonText: 'Got it!',
-        confirmButtonColor: '#e11d48', // Tailwind red-600
+        confirmButtonColor: '#e11d48',
       });
-      return
+    }
+    return isStepValid
+  }
+
+  const handleNext = async () => {
+    if (isLastStep) return;
+
+    const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
+    const nextPage= await validateThisPage(fieldsToValidate)
+    if(!nextPage){
+      return;
     }
 
     if (!isSecondLastStep && currentIndex + 1 < FORM_STEPS.length - 1) {
@@ -101,19 +111,24 @@ const Stepper = () => {
     }
   }
 
-  const handlePrev = () => { // If the current step has invalid fields, You are allowed to go back.
+  const handlePrev = () => {
     if (isLastStep) return;
 
     if (!isFirstStep) {
       navigate(`/create_resume/${FORM_STEPS[currentIndex - 1]}`)
     }
-  } // similar functionality.
+  }
 
   const handleFinalSubmit = async (formData) => {
 
     if (event) event.preventDefault();
 
     const fieldsToValidate = getFieldsForStep(FORM_STEPS[currentIndex])
+
+    const nextStep= await validateThisPage(fieldsToValidate)
+    if(!nextStep){
+      return;
+    }
 
     const formValid = await completeFormValidation()
 
@@ -123,7 +138,9 @@ const Stepper = () => {
         icon: "info",
         color: 'white',
         customClass: {
-          popup: 'bg-moonwalker'
+          popup: 'bg-moonwalker',
+          title: 'font-[Freeman] !text-[43px]',
+          htmlContainer: 'font-[Braah_One]'
         },
         html: `
     Are you sure you want to submit all form data?
@@ -147,7 +164,9 @@ const Stepper = () => {
         icon: "success",
         color: 'white',
         customClass: {
-          popup: 'bg-moonwalker'
+          popup: 'bg-moonwalker',
+          title: 'font-[Freeman] !text-[43px]',
+          htmlContainer: 'font-[Braah_One]'
         },
         confirmButtonText: `
     <b>Preview Full Resume ⟶</b>
@@ -164,7 +183,9 @@ const Stepper = () => {
         title: '<strong>You think you smart, huh?</strong>',
         color: 'white',
         customClass: {
-          popup: 'bg-moonwalker'
+          popup: 'bg-moonwalker',
+          title: 'font-[Freeman] !text-[43px]',
+          htmlContainer: 'font-[Braah_One]'
         },
         html: `Please fix errors on these pages: ${formValid.join(', ')}.`,
         confirmButtonText: `
@@ -175,7 +196,6 @@ const Stepper = () => {
       console.log(formValid)
       const firstErrorSite = formValid[0].toLowerCase().replaceAll(' ', '_')
       navigate(`/create_resume/${firstErrorSite}`)
-      // known: doesn't re-trigger field errors on jump-back, low priority since URL tampering is rare
     }
   };
 
@@ -186,30 +206,23 @@ const Stepper = () => {
     } else if (e.key === 'ArrowLeft') {
       handlePrev();
     } else if (e.key === 'Enter') {
-      methods.handleSubmit(handleFinalSubmit)();
+      handleFinalSubmit();
     }
   };
 
-  // Button navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Ignore arrow keys if the user is actively typing inside a text field/textarea
       const activeTag = document.activeElement?.tagName;
       if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') {
-        // Dont bother cursor movement inside box
         return;
       }
-      // If not typing, navigate freely using arrow keys!
       onKeyTap(e)
     }
 
-    // Attach to window
     window.addEventListener('keydown', handleKeyDown)
 
-    // CRITICAL CLEANUP: Removes listener when component unmounts to prevent memory leaks
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [currentIndex, isSecondLastStep, isFirstStep, methods, FORM_STEPS]) // Rebinds securely when step updates, added FORM_STEPS array so that handleNext doesnt freeze if(in future updates) FORM_STEPS becomes dynamic
-  // Main Logic
+  }, [currentIndex, isSecondLastStep, isFirstStep, methods, FORM_STEPS])
 
   const handleEdit = () => {
     navigate('/create_resume/achievements_and_certifications')

@@ -51,6 +51,7 @@ const PositionsOfResponsibility = () => {
 
             if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
                 if (methods.getValues(`responsibilities.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+                    methods.clearErrors(`projects.${index}.endDate`); // Clear any residual errors
                     methods.setValue(`responsibilities.${index}.endDate`, "Present");
                 }
             } else {
@@ -76,6 +77,13 @@ const PositionsOfResponsibility = () => {
         }
     }, [fields, append, methods]);
 
+    const handleRemove = (index) => {
+        methods.setValue(`responsibilities.${index}.position`, '');
+        methods.setValue(`responsibilities.${index}.startDate`, '');
+        methods.setValue(`responsibilities.${index}.endDate`, '');
+        methods.setValue(`responsibilities.${index}.organisation`, '');
+        methods.setValue(`responsibilities.${index}.posdescription`, '');
+    };
 
     // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
     // Result: A completely blank form renders in the UI, We dont want that. We use useEffect to avoid that, as follows:
@@ -104,6 +112,7 @@ const PositionsOfResponsibility = () => {
                                         placeholder='Enter Position'
                                         register={methods.register}
                                         formState={methods.formState}
+                                        control={methods.control}
                                         validation={{
                                             required: "Position is required",
                                             maxLength: { value: 100, message: "Must be under 100 characters" },
@@ -121,6 +130,7 @@ const PositionsOfResponsibility = () => {
                                         placeholder='dd-mm-yyyy'
                                         register={methods.register}
                                         formState={methods.formState}
+                                        control={methods.control}
                                         validation={{
                                             required: "Start date is required",
                                             validate: (val) => new Date(val) <= new Date() || "Date cannot be in future"
@@ -137,6 +147,7 @@ const PositionsOfResponsibility = () => {
                                         placeholder='eg., JP Morgan'
                                         register={methods.register}
                                         formState={methods.formState}
+                                        control={methods.control}
                                         validation={{
                                             required: "Organisation name is required",
                                             maxLength: { value: 100, message: "Must be under 100 characters" },
@@ -159,6 +170,7 @@ const PositionsOfResponsibility = () => {
                                             register={methods.register}
                                             disabled={isCurrentJob}
                                             formState={methods.formState}
+                                            control={methods.control}
                                             validation={{
                                                 required: !isCurrentJob ? "End date is required" : false,
                                                 validate: (value) => {
@@ -184,6 +196,7 @@ const PositionsOfResponsibility = () => {
                                 childclassName='h-30'
                                 register={methods.register}
                                 formState={methods.formState}
+                                control={methods.control}
                                 validation={{
                                     required: "Position description is required",
                                     minLength: { value: 20, message: "Please provide more detail (at least 20 characters)" },
@@ -192,7 +205,7 @@ const PositionsOfResponsibility = () => {
                             ></TextAreaEntry>
                         </DescriptionContainer>
 
-                        {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
+                        {fields.length > 1 && <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='p-0! h-[6vh]' />}
                     </ObjectContainer>
                 ); 
             })} 

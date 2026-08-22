@@ -51,6 +51,7 @@ const Education = () => {
 
       if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
         if (methods.getValues(`education.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+          methods.clearErrors(`projects.${index}.endDate`); // Clear any residual errors
           methods.setValue(`education.${index}.endDate`, "Present");
         }
       } else {
@@ -76,6 +77,15 @@ const Education = () => {
       });
     }
   }, [fields, append, methods]);
+
+  const handleRemove = (index) => {
+        methods.setValue(`education.${index}.organisation`, '');
+        methods.setValue(`education.${index}.startDate`, '');
+        methods.setValue(`education.${index}.endDate`, '');
+        methods.setValue(`education.${index}.degree`, '');
+        methods.setValue(`education.${index}.studyboard`, '');
+        methods.setValue(`education.${index}.cgpa`, '');
+    };
 
 
   // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
@@ -106,6 +116,7 @@ const Education = () => {
                     placeholder='Enter Organisation'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "School or University name is required",
                       minLength: { value: 2, message: "Must be at least 2 characters" },
@@ -125,6 +136,7 @@ const Education = () => {
                     placeholder='dd-mm-yyyy'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "Start date is required",
                       validate: (value) => {
@@ -147,6 +159,7 @@ const Education = () => {
                     placeholder='e.g., CBSE'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       maxLength: { value: 60, message: "Must be under 60 characters" },
                       pattern: {
@@ -167,6 +180,7 @@ const Education = () => {
                     placeholder='eg., 10th,Bachelors'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "Degree qualification type is required",
                       maxLength: { value: 60, message: "Must be under 60 characters" },
@@ -190,6 +204,7 @@ const Education = () => {
                       register={methods.register}
                       disabled={isCurrentJob}
                       formState={methods.formState}
+                      control={methods.control}
                       validation={{
                         required: "End date/Present selection is required",
                         validate: (value) => {
@@ -219,6 +234,7 @@ const Education = () => {
                     placeholder='eg.,7.65'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: !isCurrentJob ? "CGPA/Marks metric input is required" : false,
 
@@ -232,7 +248,7 @@ const Education = () => {
               </FormDiv>
             </TextEntryContainer>
 
-            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
+            {fields.length > 1 && <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='p-0! h-[6vh]' />}
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}

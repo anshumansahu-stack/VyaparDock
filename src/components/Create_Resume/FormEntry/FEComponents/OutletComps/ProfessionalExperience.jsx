@@ -49,6 +49,7 @@ const ProfessionalExperience = () => {
 
       if (exp?.isCurrent) { //isCurrent is the item boolean for the checkbox
         if (methods.getValues(`experiences.${index}.endDate`) !== "Present") { //Avoiding infinite render loops, when its anything other than Present basically.
+          methods.clearErrors(`projects.${index}.endDate`); // Clear any residual errors
           methods.setValue(`experiences.${index}.endDate`, "Present");
         }
       } else {
@@ -75,6 +76,16 @@ const ProfessionalExperience = () => {
       });
     }
   }, [fields, append, methods]);
+
+  const handleRemove = (index) => {
+        methods.setValue(`experiences.${index}.jobtitle`, '');
+        methods.setValue(`experiences.${index}.startDate`, '');
+        methods.setValue(`experiences.${index}.endDate`, '');
+        methods.setValue(`experiences.${index}.jobstate`, '');
+        methods.setValue(`experiences.${index}.employer`, '');
+        methods.setValue(`experiences.${index}.jobcity`, '');
+        methods.setValue(`experiences.${index}.jobdescription`, '');
+    };
 
 
   // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
@@ -104,6 +115,7 @@ const ProfessionalExperience = () => {
                     placeholder='Enter Job Title'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "Job title is required",
                       maxLength: { value: 100, message: "Must be under 100 characters" },
@@ -121,6 +133,7 @@ const ProfessionalExperience = () => {
                     placeholder='dd-mm-yyyy'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "Start date is required",
                       validate: (val) => new Date(val) <= new Date() || "Date cannot be in future"
@@ -134,6 +147,7 @@ const ProfessionalExperience = () => {
                     placeholder='State'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "State is required",
                       maxLength: { value: 56, message: "Must be under 56 characters" },
@@ -154,6 +168,7 @@ const ProfessionalExperience = () => {
                     placeholder='eg., JP Morgan'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "Employer name is required",
                       maxLength: { value: 100, message: "Must be under 100 characters" },
@@ -176,6 +191,7 @@ const ProfessionalExperience = () => {
                       register={methods.register}
                       disabled={isCurrentJob}
                       formState={methods.formState}
+                      control={methods.control}
                       validation={{
                         required: !isCurrentJob ? "End date is required" : false,
                         validate: (value) => {
@@ -196,6 +212,7 @@ const ProfessionalExperience = () => {
                     placeholder='City'
                     register={methods.register}
                     formState={methods.formState}
+                    control={methods.control}
                     validation={{
                       required: "City is required",
                       maxLength: { value: 58, message: "Must be under 58 characters" },
@@ -217,6 +234,7 @@ const ProfessionalExperience = () => {
                 placeholder='Describe your job achievements...'
                 register={methods.register}
                 formState={methods.formState}
+                control={methods.control}
                 validation={{
                   required: "Job description is required",
                   minLength: { value: 20, message: "Please provide more detail (at least 20 characters)" },
@@ -225,7 +243,7 @@ const ProfessionalExperience = () => {
               ></TextAreaEntry>
             </DescriptionContainer>
 
-            {fields.length > 1 && <RemoveButton remove={remove} index={index} className='p-0! h-[6vh]' />}
+            {fields.length > 1 && <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='p-0! h-[6vh]' />}
           </ObjectContainer>
         ); // Clean return closure
       })} {/* Clean loop closure (No loose parenthesis or dangling braces) */}

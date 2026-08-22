@@ -14,7 +14,7 @@ const TechnicalSkills = () => {
 
   const stepIndex = FORM_STEPS.indexOf('technical_skills')
 
-  if (currentIndex < stepIndex && technicalskillsList.length === 0) return null; // If theres nothing to render then return null.
+  if (currentIndex != stepIndex && technicalskillsList.length === 0) return null; // If theres nothing to render then return null.
   return (
     <MainPrintingDiv>
       <TitleField title='Technical Skills' />

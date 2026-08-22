@@ -18,6 +18,11 @@ const TechnicalSkills = () => {
     name: "technicalskills"
   })
 
+  const handleRemove = (index) => {
+        methods.setValue(`technicalskills.${index}.category`, '');
+        methods.setValue(`technicalskills.${index}.skillList`, []);
+    };
+
   return (
     <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
 
@@ -31,6 +36,7 @@ const TechnicalSkills = () => {
               childclassName='min-h-full!'
               placeholder='Enter Tech Stack Category:'
               register={methods.register}
+              control={methods.control}
               formState={methods.formState}
               validation={{ required: "Category is required!" }}
               className='min-w-1/4!'
@@ -44,7 +50,7 @@ const TechnicalSkills = () => {
               }} // value is the actual data that is in my array, while Array is a global Object. The Array.length>1 is hence always true. value.length>0 refers to the total number of entries that are entered in the field.
               placeholder='Type a skill (e.g. React) and press comma...'
             />
-            <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
+            <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='min-h-full! text-[17px]' />
           </ObjectContainer>
         );
       })}

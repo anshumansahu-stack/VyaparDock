@@ -18,7 +18,7 @@ const Education = () => {
   )
 
   const stepIndex = FORM_STEPS.indexOf('education')
-  if (currentIndex < stepIndex && !hasRealContent) return null; // If theres nothing to render and we are in the page previous then return null.
+  if (currentIndex != stepIndex && !hasRealContent) return null; // If theres nothing to render and we are in the page previous then return null.
   return (
     <MainPrintingDiv>
       <TitleField title='Education' />

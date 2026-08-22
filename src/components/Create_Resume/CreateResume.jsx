@@ -71,7 +71,9 @@ const CreateResume = () => {
           text: "Load Previous Resume progress save?",
           color: 'white',
           customClass: {
-            popup: 'bg-moonwalker'
+            popup: 'bg-moonwalker',
+            title: 'font-[Freeman] !text-[43px]',
+            htmlContainer: 'font-[Braah_One]'
           },
           icon: "info",
           showCancelButton: true,
@@ -83,7 +85,7 @@ const CreateResume = () => {
   `,
         })
         if (loadConfirmation.isConfirmed) {
-          toast.success("Progress restored successfully! 🎉");
+          toast.success("Progress restored successfully. 🎉");
           return parsedData
         }
         if (loadConfirmation.dismiss === Swal.DismissReason.cancel) { // **
@@ -93,7 +95,9 @@ const CreateResume = () => {
             icon: "warning",
             color: 'white',
             customClass: {
-              popup: 'bg-moonwalker'
+              popup: 'bg-moonwalker',
+              title: 'font-[Freeman] !text-[43px]',
+              htmlContainer: 'font-[Braah_One]'
             },
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -127,7 +131,9 @@ const CreateResume = () => {
       showCancelButton: true,
       color: 'white',
       customClass: {
-        popup: 'bg-moonwalker'
+        popup: 'bg-moonwalker',
+        title: 'font-[Freeman] !text-[43px]',
+        htmlContainer: 'font-[Braah_One]'
       },
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -230,7 +236,7 @@ const CreateResume = () => {
     html2pdf().set(config).from(element).save().then(() => {
       setIsPrinting(false);
     });
-    toast.success("Resume saved to local.")
+    toast.success("Resume saved to local. 🎉")
   };
 
   const completeFormValidation = async () => {

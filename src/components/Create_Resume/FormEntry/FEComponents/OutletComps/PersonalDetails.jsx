@@ -25,6 +25,7 @@ const PersonalDetails = () => {
               placeholder='Enter First Name'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "First name is required",
                 minLength: { value: 2, message: "Must be at least 2 characters" },
@@ -43,6 +44,7 @@ const PersonalDetails = () => {
               placeholder='Enter Current Role'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Current professional title is required",
                 minLength: { value: 2, message: "Must be at least 2 characters" },
@@ -61,6 +63,7 @@ const PersonalDetails = () => {
               placeholder='+91-1234567890'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Phone number is required",
                 pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid phone format structure" }
@@ -74,6 +77,7 @@ const PersonalDetails = () => {
               placeholder='abc@dmail.com'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Email is required",
                 pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email format" }
@@ -87,6 +91,7 @@ const PersonalDetails = () => {
               placeholder='State'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 maxLength: { value: 56, message: "Must be under 56 characters" },// Name of the longest state/Province is 56 letters
                 pattern: {
@@ -103,6 +108,7 @@ const PersonalDetails = () => {
               placeholder='654321'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 pattern: {
                   value: /^[A-Za-z0-9][A-Za-z0-9\s-]{2,9}[A-Za-z0-9]$/,
@@ -118,6 +124,7 @@ const PersonalDetails = () => {
               placeholder='linkedin.com/'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 pattern: {
                   value: /^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub)\/[A-Za-z0-9\-_%]+\/?$/,
@@ -135,6 +142,7 @@ const PersonalDetails = () => {
               placeholder='Enter Last Name'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Last name is required",
                 maxLength: { value: 50, message: "Must be under 50 characters" },
@@ -152,6 +160,7 @@ const PersonalDetails = () => {
               placeholder='Current Organisation'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Name of Current Organisation is required",
                 minLength: { value: 2, message: "Must be at least 2 characters" },
@@ -170,6 +179,7 @@ const PersonalDetails = () => {
               placeholder='+91-0987654321'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 pattern: { value: /^\+?[0-9\s\-]{10,15}$/, message: "Invalid alternative phone format" }
               }}
@@ -182,6 +192,7 @@ const PersonalDetails = () => {
               placeholder='City'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 maxLength: { value: 58, message: "Must be under 58 characters" },
                 pattern: {
@@ -198,6 +209,7 @@ const PersonalDetails = () => {
               placeholder='Country'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 maxLength: { value: 56, message: "Must be under 56 characters" },
                 pattern: {
@@ -214,6 +226,7 @@ const PersonalDetails = () => {
               placeholder='Paste link here'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 pattern: {
                   value: /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})\/?$/,

@@ -18,6 +18,11 @@ const AchievementsAndCertifications = () => {
     name: "achievementsandcertifications"
   })
 
+  const handleRemove = (index) => {
+        methods.setValue(`achievementsandcertifications.${index}.achtitle`, '');
+        methods.setValue(`achievementsandcertifications.${index}.achdesc`, '');
+    };
+
   return (
     <MainForm onSubmit={methods.handleSubmit(onSubmit)}>
 
@@ -32,6 +37,7 @@ const AchievementsAndCertifications = () => {
               placeholder='Enter Achievement:'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Achievement is required!",
                 maxLength: { value: 150, message: "Must be under 150 characters" },
@@ -49,13 +55,14 @@ const AchievementsAndCertifications = () => {
               placeholder='Describe your Achievement:'
               register={methods.register}
               formState={methods.formState}
+              control={methods.control}
               validation={{
                 required: "Description is required!",
                 minLength: { value: 10, message: "Please provide more detail (at least 10 characters)" },
                 maxLength: { value: 300, message: "Must be under 300 characters" }
               }}
             />
-            <RemoveButton remove={remove} index={index} className='min-h-full! text-[17px]' />
+            <RemoveButton handleRemove={handleRemove} remove={remove} index={index} className='min-h-full! text-[17px]' />
           </ObjectContainer>
         );
       })}

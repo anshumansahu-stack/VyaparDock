@@ -110,7 +110,7 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
-        toastClassName="!bg-moonwalker !text-white !rounded-2xl !border !border-gray-800 shadow-xl"
+        toastClassName="!bg-moonwalker !text-white !rounded-2xl !border !border-gray-800 !font-[Braah_One] !text-[2.2vh] shadow-xl"
       /></>
   )
 }
