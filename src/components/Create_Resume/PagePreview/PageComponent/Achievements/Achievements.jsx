@@ -29,8 +29,8 @@ const Achievements = () => {
         )
 
         // Render a distinct, separate block wrapper for every index item
-        return <RenderingContainer>
-          <AchEntry key={index} achLi={achLi} />
+        return <RenderingContainer key={index}>
+          <AchEntry achLi={achLi} />
         </RenderingContainer>
       })}
     </MainPrintingDiv>

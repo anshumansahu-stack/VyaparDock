@@ -29,8 +29,8 @@ const TechnicalSkills = () => {
         )
 
         // Render a distinct, separate block wrapper for every index item
-        return <RenderingContainer>
-          <SkillBlock key={index} tecSk={tecSk} />
+        return <RenderingContainer key={index}>
+          <SkillBlock tecSk={tecSk} />
         </RenderingContainer>
       })}
     </MainPrintingDiv>

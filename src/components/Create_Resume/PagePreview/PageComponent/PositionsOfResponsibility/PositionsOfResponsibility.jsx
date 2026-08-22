@@ -34,8 +34,8 @@ const PositionsOfResponsibility = () => {
           </EmptyContainer>)
 
           // Render a distinct, separate block wrapper for every index item
-          return <RenderingContainer>
-            <PoRBlock key={index} por={por} />
+          return <RenderingContainer key={index}>
+            <PoRBlock por={por} />
           </RenderingContainer>
         })}
     </MainPrintingDiv>

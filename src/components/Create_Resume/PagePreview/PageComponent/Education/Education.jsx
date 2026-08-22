@@ -34,8 +34,8 @@ const Education = () => {
         )
 
         // Render a distinct, separate block wrapper for every index item
-        return <RenderingContainer>
-          <EduBlock key={index} edu={edu} />
+        return <RenderingContainer key={index}>
+          <EduBlock edu={edu} />
         </RenderingContainer>
       })}
     </MainPrintingDiv>

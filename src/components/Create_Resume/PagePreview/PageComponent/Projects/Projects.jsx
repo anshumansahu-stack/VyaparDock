@@ -34,8 +34,8 @@ const Projects = () => {
         )
 
         // Render a distinct, separate block wrapper for every index item
-        return <RenderingContainer>
-          <ProjectBlock key={index} proj={proj} />
+        return <RenderingContainer key={index}>
+          <ProjectBlock proj={proj} />
         </RenderingContainer>
       })}
     </MainPrintingDiv>

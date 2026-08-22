@@ -34,8 +34,8 @@ const Experience = () => {
           </EmptyContainer>)
 
           // Render a distinct, separate block wrapper for every index item
-          return <RenderingContainer>
-            <ExpBlock key={index} exp={exp} />
+          return <RenderingContainer key={index}>
+            <ExpBlock exp={exp} />
           </RenderingContainer>
         })}
     </MainPrintingDiv>
