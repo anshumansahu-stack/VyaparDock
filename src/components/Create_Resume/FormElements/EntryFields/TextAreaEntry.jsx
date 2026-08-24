@@ -90,7 +90,7 @@ const TextAreaEntry = (props) => {
           if (!field.value || field.value === "") {
             field.onChange("– ");
           }
-        };
+        }; // known: focus-triggered bullet counts toward minLength, causes immediate error on empty focus — intentional for now
 
         return (
           <div className={'w-full flex flex-col ' + (props.className || "")}>

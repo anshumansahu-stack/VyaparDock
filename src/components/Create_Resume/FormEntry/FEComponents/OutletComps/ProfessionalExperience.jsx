@@ -78,14 +78,14 @@ const ProfessionalExperience = () => {
   }, [fields, append, methods]);
 
   const handleRemove = (index) => {
-        methods.setValue(`experiences.${index}.jobtitle`, '');
-        methods.setValue(`experiences.${index}.startDate`, '');
-        methods.setValue(`experiences.${index}.endDate`, '');
-        methods.setValue(`experiences.${index}.jobstate`, '');
-        methods.setValue(`experiences.${index}.employer`, '');
-        methods.setValue(`experiences.${index}.jobcity`, '');
-        methods.setValue(`experiences.${index}.jobdescription`, '');
-    };
+    methods.resetField(`experiences.${index}.jobtitle`);
+    methods.resetField(`experiences.${index}.startDate`);
+    methods.resetField(`experiences.${index}.jobstate`);
+    methods.resetField(`experiences.${index}.employer`);
+    methods.resetField(`experiences.${index}.endDate`);
+    methods.resetField(`experiences.${index}.jobcity`);
+    methods.resetField(`experiences.${index}.jobdescription`);
+};
 
 
   // fields tracks my active form blocks in the add experience. The problem is when it loads, its an empty list.
@@ -254,6 +254,7 @@ const ProfessionalExperience = () => {
         onClick={
           (e) => {
             e.preventDefault(); //Prevent form submission trigger
+            console.log('before adding new', methods.getValues('experiences'))
             append({
               jobtitle: undefined,
               startDate: undefined,
@@ -263,6 +264,7 @@ const ProfessionalExperience = () => {
               jobcity: undefined,
               jobdescription: undefined
             })
+            console.log('after adding new', methods.getValues('experiences'))
           }
         }></AddNewButton>
       {/* The above onclick will add to the experience section in particular. For any other form the fields will be different. So it needs to be as an attribute passed as props and not at the object level. */}

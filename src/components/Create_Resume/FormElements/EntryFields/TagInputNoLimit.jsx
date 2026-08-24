@@ -31,10 +31,8 @@ const TagInputNoLimit = (props) => {
           field.onChange(updatedTags);
         }
 
-        const handleKeyDown = (e) => {
-          if (e.key === ',' || e.key==='Enter') {
-            e.preventDefault()
-            const cleanValue = inputValue.trim().replace(/,$/, '')
+        const processInput=()=>{
+          const cleanValue = inputValue.trim().replace(/,$/, '')
 
             if (cleanValue) { //Empty tags are auto filtered
 
@@ -49,10 +47,19 @@ const TagInputNoLimit = (props) => {
               }
             }
             setInputValue('')
+        }
+
+        const handleKeyDown = (e) => {
+          if (e.key === ',' || e.key==='Enter') {
+            e.preventDefault()
+            processInput()
           }
           else if (e.key === 'Backspace' && !inputValue && tags.length > 0) {
             removeTag(tags[tags.length - 1])
           }
+        }
+        const handleBlur=()=>{
+          processInput();
         }
 
         const handlePaste = (e) => {
@@ -107,6 +114,7 @@ const TagInputNoLimit = (props) => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
+              onBlur={handleBlur}
               placeholder={tags.length === 0 ? props.placeholder : "Add more..."}
               className="flex-1 bg-transparent text-white p-1 outline-none border-none placeholder:text-gray-400 min-w-30 shrink-0"
             />

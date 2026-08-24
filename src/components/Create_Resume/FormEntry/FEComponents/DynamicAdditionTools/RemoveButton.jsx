@@ -5,7 +5,7 @@ const RemoveButton = (props) => {
         <button 
         onClick={(e) => {
             e.preventDefault()
-            console.log('handleRemove is:', props.handleRemove);
+            console.log('handleRemove is:',props.handleRemove)
             props.handleRemove(props.index)
             props.remove(props.index)
         }} 
